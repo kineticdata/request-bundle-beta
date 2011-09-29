@@ -1,0 +1,31 @@
+<%
+    List<SubmissionList> submissionLists = new ArrayList();
+
+    String baseQualification = 
+        "'"+Submission.FIELD_CATALOG_NAME+"' = \""+customerSurvey.getCategory()+"\" AND"+
+        "'"+Submission.FIELD_SUBMITTER+"' = \""+context.getUserName()+"\"";
+
+    String activeRequestQualification = baseQualification + " AND " +
+        "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+        "'"+Submission.FIELD_SUBMIT_TYPE+"' = $NULL$";
+    Submission[] activeRequests = Submission.find(context, activeRequestQualification);
+    submissionLists.add(new SubmissionList("Active Requests", activeRequests);
+
+    String completeRequestQualification = baseQualification + " AND " +
+        "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Closed\" AND " +
+        "'"+Submission.FIELD_SUBMIT_TYPE+"' = $NULL$";
+    Submission[] completeRequests = Submission.find(context, completeRequestQualification);
+    submissionLists.add(new SubmissionList("Completed Requests", completeRequests);
+
+    String activeApprovalQualification = baseQualification + " AND " +
+        "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+        "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
+    Submission[] activeApprovals = Submission.find(context, activeApprovalQualification);
+    submissionLists.add(new SubmissionList("Active Approvals", activeApprovals);
+
+    String completeApprovalQualification = baseQualification + " AND " +
+        "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Closed\" AND " +
+        "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
+    Submission[] activeRequests = Submission.find(context, completeApprovalQualification);
+    submissionLists.add(new SubmissionList("Completed Approvals", activeRequests);
+%>

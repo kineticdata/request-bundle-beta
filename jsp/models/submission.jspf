@@ -1,7 +1,61 @@
 <%!
-  public static class Submission {
-      public String toJson() {
-          return "Submission!";
-      }
-  }
+    public static class Submission {
+        public static final String FORM_NAME = "";
+        public static final String FIELD_CATALOG_NAME = "";
+        public static final String FIELD_CREATE_DATE = "";
+        public static final String FIELD_ID = "";
+        public static final String FIELD_REQUEST_ID = "";
+        public static final String FIELD_SUBMIT_TYPE = "";
+        public static final String FIELD_SUBMITTER = "";
+        public static final String FIELD_TEMPLATE_ID = "";
+        public static final String FIELD_TEMPLATE_NAME = "";
+
+        // Represents the status of the Submission.
+        public static final String FIELD_STATUS = "7";
+        // Represents the status of the Request including task workflow (This is
+        // a Enumeration field that allows values of 'Open' or 'Closed' and is
+        // typically set by the KineticRequest_Submission_Close handler).
+        public static final String FIELD_REQUEST_STATUS = "";
+        // Represents the state of the Request (This is a free text field that
+        // is intended to communicate the overall progress of the Request.  This
+        // value is typically set by the KineticRequest_Submission_UpdateStatus
+        // task handler).
+        public static final String FIELD_VALIDATION_STATUS = "";
+
+        public static final String[] FIELD_IDS = new String[] {
+            FIELD_CATALOG_NAME, FIELD_CREATE_DATE, FIELD_ID, FIELD_REQUEST_ID,
+            FIELD_SUBMIT_TYPE, FIELD_SUBMITTER, FIELD_TEMPLATE_ID, FIELD_TEMPLATE_NAME,
+            FIELD_STATUS, FIELD_REQUEST_STATUS, FIELD_VALIDATION_STATUS};
+
+        public static Submission[] find(HelperContext context, String qualification) {
+            Submission[] results = new Submission[0];
+
+            SimpleEntry[] entries = Base.find(context, FORM_NAME, qualification, FIELD_IDS);
+            if (entries != null && entries.length > 0) {
+                results = new Submission[entries.length];
+                for(int i=0;i<results.length;i++) {
+                    results[i] = new Submission(entries[i]);
+                }
+            }
+
+            return results;
+        }
+
+        private SimpleEntry entry = null;
+
+        public Submission(SimpleEntry entry) {
+            this.entry = entry;
+        }
+
+        public String getCatalogName() {return entry.getEntryFieldValue(FIELD_CATALOG_NAME);}
+        public String getCreateDate() {return entry.getEntryFieldValue(FIELD_CREATE_DATE);}
+        public String getFieldId() {return entry.getEntryFieldValue(FIELD_ID);}
+        public String getRequestId() {return entry.getEntryFieldValue(FIELD_REQUEST_ID);}
+        public String getSubmitType() {return entry.getEntryFieldValue(FIELD_SUBMIT_TYPE);}
+        public String getTemplateId() {return entry.getEntryFieldValue(FIELD_TEMPLATE_ID);}
+        public String getTemplateName() {return entry.getEntryFieldValue(FIELD_TEMPLATE_NAME);}
+        public String getStatus() {return entry.getEntryFieldValue(FIELD_STATUS);}
+        public String getRequestStatus() {return entry.getEntryFieldValue(FIELD_REQUEST_STATUS);}
+        public String getValiationStatus() {return entry.getEntryFieldValue(FIELD_VALIDATION_STATUS);}
+    }
 %>

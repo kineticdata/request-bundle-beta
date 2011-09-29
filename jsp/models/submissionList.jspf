@@ -1,0 +1,21 @@
+<%!
+    public static class SubmissionList {
+        public static SubmissionList retrieve(HelperContext context, String name, String qualification) {
+            return new SubmissionList(name, Submission.find(contxt, qualification);)
+        }
+
+        private String name;
+        private Submission[] submissions;
+        public SubmissionList(String name, Submission[] submissions) {
+            this.name = name;
+            this.submissions = submissions;
+        }
+
+        public String getName() {return name;}
+        public Submission[] getSubmissions() {return submissions;}
+
+        public boolean hasSubmissions() {
+            return submissions != null && submissions.length > 0;
+        }
+    }
+%>
