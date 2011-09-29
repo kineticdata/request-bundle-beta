@@ -49,7 +49,7 @@
 
         public String getCatalogName() {return entry.getEntryFieldValue(FIELD_CATALOG_NAME);}
         public String getCreateDate() {return entry.getEntryFieldValue(FIELD_CREATE_DATE);}
-        public String getFieldId() {return entry.getEntryFieldValue(FIELD_ID);}
+        public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
         public String getRequestId() {return entry.getEntryFieldValue(FIELD_REQUEST_ID);}
         public String getSubmitType() {return entry.getEntryFieldValue(FIELD_SUBMIT_TYPE);}
         public String getTemplateId() {return entry.getEntryFieldValue(FIELD_TEMPLATE_ID);}
@@ -57,5 +57,9 @@
         public String getStatus() {return entry.getEntryFieldValue(FIELD_STATUS);}
         public String getRequestStatus() {return entry.getEntryFieldValue(FIELD_REQUEST_STATUS);}
         public String getValiationStatus() {return entry.getEntryFieldValue(FIELD_VALIDATION_STATUS);}
+
+        public String getDisplayUrl() {
+            return "DisplayPage?csrv="+getId();
+        }
     }
 %>

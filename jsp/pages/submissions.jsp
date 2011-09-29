@@ -22,15 +22,23 @@
     <body>
         <h3>Submissions</h3>
         <div>
+            <%-- For each of the submission lists defined in
+                 submissions/submissionLists.jspf --%>
             <% for (SubmissionList submissionList : submissionLists) { %>
-            <div><%= submissionList.getName() %>  (<%= submissionList.getCount(context) %>)</div>
-            <% if (submissionLists[0] == submissionList) { %>
-            <div style="padding-left: 2em;">
-                <% for (Submission submission : submissionList.getSubmissions(context)) { %>
-                <div><%= submission.getRequestId() %></div>
+                <%-- Render the submission list name and count. --%>
+                <div><%= submissionList.getName() %>  (<%= submissionList.getCount(context) %>)</div>
+
+                <%-- If this is the first list of submissions --%>
+                <% if (submissionLists[0] == submissionList) { %>
+                <%-- Render a list of submission ids that link to the request. --%>
+                <div style="padding-left: 2em;">
+                    <% for (Submission submission : submissionList.getSubmissions(context)) { %>
+                    <div>
+                        <a href="<%= submission.getDisplayUrl() %>"><%= submission.getRequestId() %></a>
+                    </div>
+                    <% } %>
+                </div>
                 <% } %>
-            </div>
-            <% } %>
             <% } %>
         </div>
     </body>
