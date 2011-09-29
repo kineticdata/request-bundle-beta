@@ -1,0 +1,46 @@
+== Config
+Directory with three configuration files: configCSS.jspf, config.js, and config.jspf.
+These files are used to set variables and other configuration values that allow
+the theme to be copied and reconfigured quickly.
+
+The config.css and config.js files typically split into two sections, a variable
+configuration section and a section of code intended to overwrite or extend the
+behavior of the base theme.
+
+== CSS
+Directory where the custom theme CSS files are located.
+
+== Images
+Directory where the custom theme image files are stored.
+
+== JS
+Directory where the custom theme javascript files are stored.
+
+== JSP
+Callbacks: JSP that render content for AJAX requests (not server side catalog pages).
+Helpers*: JSP code used for helper functions (such as date manipulation or other Java heavy segments).
+Includes*: Fragments used in the page JSPs (such as collections of header content).
+ - Include an kineticInitialize.jspf
+ - Include a themeInitialize.jspf
+ - Include a models.jspf
+Models*:
+Page Fragments*: Reusable code fragments that are shared between pages (and potentially callbacks).
+Pages: JSP pages representing service catalog pages.
+ - Should include subdirectories (named the same as the jsp pages) for page pieces.
+
+* Indicates directories that should only have jspf.
+
+Directory where the custom theme JSP files are stored.  This directory typically
+includes an 'includes' and a 'partials' subdirectory.  These JSP files can be
+used to define a single location for header (IE javascript and css links)
+information, reusable HTML blocks, or other pieces of display information that
+are used throughout the full JSP pages.
+
+The JSP partials should start and end with a "BEGIN" and "END" HTML comment (at
+least for sample themes) to make picking them out easier.
+
+== Resources
+Directory used to store CSS, images, and javascript libraries that are not
+customized as part of the theme.  This could include css templates (such as
+company templates or the YUI reset CSS), image libraries, or javascript
+libraries (such as YUI, jQuery, or others).

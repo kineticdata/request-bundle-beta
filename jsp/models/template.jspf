@@ -1,0 +1,54 @@
+<%!
+    public static class Template {
+        public static final String FORM_NAME = "KS_RQT_SurveyTemplateAttrInst_Category_join";
+
+        public static final String FIELD_ANONYMOUS_URL = "700002489";
+        public static final String FIELD_CATEGORY = "700401900";
+        public static final String FIELD_CATEGORY_SORT_ORDER = "536870914";
+        public static final String FIELD_CATELOG = "600000500";
+        public static final String FIELD_ID = "179";
+        public static final String FIELD_NAME = "700001000";
+        public static final String FIELD_PRIORITY = "700061010";
+        public static final String[] FIELD_IDS = new String[]{
+            FIELD_ID, FIELD_CATEGORY, FIELD_NAME, FIELD_ANONYMOUS_URL};
+
+        private SimpleEntry entry = null;
+        private Template[] templates = null;
+
+        public static Template[] findByCatalogName(HelperContext context, String catalogName) {
+            Template[] results = new Template[0];
+
+            String qualification = "'"+FIELD_CATELOG+"' = \""+catalogName+"\"";
+
+            SimpleEntry[] entries = Base.find(context, FORM_NAME, qualification, FIELD_IDS);
+            if (entries != null && entries.length > 0) {
+                results = new Template[entries.length];
+                for(int i=0;i<results.length;i++) {
+                    results[i] = new Template(entries[i]);
+                }
+            }
+            
+            return results;
+        }
+
+        public Template(SimpleEntry entry) {
+            this.entry = entry;
+        }
+
+        public String getAnonymousUrl() {return entry.getEntryFieldValue(FIELD_ANONYMOUS_URL);}
+        public String getCategory() {return entry.getEntryFieldValue(FIELD_CATEGORY);}
+        public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
+        public String getName() {return entry.getEntryFieldValue(FIELD_NAME);}
+
+        public String toJson() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("{");
+            builder.append("anonymousUrl: '").append(getAnonymousUrl()).append("'").append(",");
+            builder.append("category: '").append(getCategory()).append("'").append(",");
+            builder.append("id: '").append(getId()).append("'").append(",");
+            builder.append("name: '").append(getName()).append("'");
+            builder.append("}");
+            return builder.toString();
+        }
+    }
+%>

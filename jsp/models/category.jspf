@@ -1,0 +1,22 @@
+<%!
+    public static class Category extends Base {
+        public static final String FORM_NAME = "KS_SRV_Category";
+        public static final String FIELD_APPLICATION = "700036000";
+        public static final String FIELD_ID = "179";
+        public static final String FIELD_NAME = "600000500";
+        public static final String FIELD_STATUS = "7";
+        public static final String[] FIELD_IDS = new String[]{FIELD_ID, FIELD_NAME};
+        public static final String[] SORT_FIELD_IDS = new String[]{FIELD_NAME};
+
+        public static final String DEFAULT_QUALIFICATION =
+            "'"+FIELD_APPLICATION+"'=\"Kinetic Request\" AND '"+FIELD_STATUS+"' = \"Active\"";
+
+        public String getFormName() { return FORM_NAME; }
+        public String getDefaultQualification() {return DEFAULT_QUALIFICATION;}
+        public String[] getFieldIds() { return FIELD_IDS; }
+        public String[] getSortFieldIds() { return SORT_FIELD_IDS; }
+
+        public String getId() {return attributes.get(FIELD_ID);}
+        public String getName() {return attributes.get(FIELD_NAME);}
+    }
+%>

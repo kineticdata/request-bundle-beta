@@ -1,0 +1,54 @@
+<%!
+    public static class Catalog {
+        public static final String FORM_NAME = "KS_SRV_Category";
+        public static final String FIELD_APPLICATION = "700036000";
+        public static final String FIELD_ID = "179";
+        public static final String FIELD_NAME = "600000500";
+        public static final String FIELD_STATUS = "7";
+        public static final String[] FIELD_IDS = new String[] {
+            FIELD_ID, FIELD_NAME
+        };
+        
+        private SimpleEntry entry = null;
+        private Template[] templates = null;
+        
+        public Catalog(SimpleEntry entry) {
+            this.entry = entry;
+        }
+
+        public static Catalog findByName(HelperContext context, String name) {
+            Catalog catalog = null;
+
+            String qualification =
+                "'"+FIELD_APPLICATION+"'=\"Kinetic Request\" AND "+
+                "'"+FIELD_STATUS+"' = \"Active\" AND "+
+                "'"+FIELD_NAME+"' = \""+name+"\"";
+
+            SimpleEntry entry = Base.findSingle(context, FORM_NAME, qualification, FIELD_IDS);
+            if (entry != null) {
+                catalog = new Catalog(entry);
+            }
+
+            return catalog;
+        }
+
+        public Template[] getTemplates(HelperContext context) {
+            if (templates == null) {
+                templates = Template.findByCatalogName(context, getName());
+            }
+            return templates;
+        }
+
+        public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
+        public String getName() {return entry.getEntryFieldValue(FIELD_NAME);}
+
+        public String toJson() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("{");
+            builder.append("id: '").append(getId()).append("'").append(",");
+            builder.append("name: '").append(getName()).append("'");
+            builder.append("}");
+            return builder.toString();
+        }
+    }
+%>

@@ -1,0 +1,15 @@
+<!-- START initiaize.jsp -->
+<%
+    // Set Attributes
+    //  * com.kd.themes.root
+    //  *
+    //  *
+    //  *
+
+%>
+
+<!--[if IE 6]>
+<link rel="stylesheet" type="text/css" href="<%=request.getAttribute("com.kd.themes.root") + "/css/theme.ie6.css"%>" />
+<![endif]-->
+
+<!-- END initiaize.jsp -->

@@ -1,0 +1,130 @@
+<%@page import="com.remedy.arsys.api.ARException"%>
+<%@page import="com.kd.arsHelpers.*"%>
+<%@page import="java.util.*"%>
+<%!
+    public abstract static class Base {
+        protected Map<String,String> attributes = new LinkedHashMap();
+
+        public abstract String getFormName();
+        //public abstract String getDefaultQualification();
+        public abstract String[] getFieldIds();
+        public abstract String[] getSortFieldIds();
+
+        public static Base[] find(Class modelClass, HelperContext context) {
+            return find(modelClass, context, null);
+        }
+
+
+        public static SimpleEntry[] find(HelperContext context, String formName, String qualification, String[] fieldIds) {
+            // Declare the result
+            SimpleEntry[] results = new SimpleEntry[0];
+
+            // Build the helper
+            ArsPrecisionHelper helper = null;
+            try {
+                helper = new ArsPrecisionHelper(context);
+            } catch (ARException e) {
+                throw new RuntimeException("Unable to initialize an ArsHelper instance.", e);
+            }
+
+            // Retrieve the entry records
+            SimpleEntry[] entries = new SimpleEntry[0];
+            try {
+                entries = helper.getSimpleEntryList(formName, qualification, fieldIds);
+            } catch (Exception e) {
+                throw new RuntimeException("There was a problem retrieving the "+formName+" records.", e);
+            }
+
+            // If there were results
+            if (entries != null && entries.length > 0) {
+                results = entries;
+            }
+
+            // Return the result
+            return results;
+        }
+
+        public static SimpleEntry findSingle(HelperContext context, String formName, String qualification, String[] fieldIds) {
+            SimpleEntry result = null;
+
+            SimpleEntry[] entries = find(context, formName, qualification, fieldIds);
+
+            if (entries.length > 1) {
+                throw new RuntimeException("Multiple results matched the "+formName+" find single query: "+qualification);
+            } else if (entries.length == 1) {
+                result = entries[0];
+            }
+
+            return result;
+        }
+
+        public static Base[] find(Class modelClass, HelperContext context, String qualification) {
+            // Retrieve the model and model classes
+            Base model = instantiateModel(modelClass);
+
+            // Retrieve the configuration information
+            String formName = model.getFormName();
+            String[] fieldIds = model.getFieldIds();
+            String[] sortFieldIds = model.getSortFieldIds();
+
+            // Build the helper
+            ArsPrecisionHelper helper = null;
+            try {
+                helper = new ArsPrecisionHelper(context);
+            } catch (ARException e) {
+                throw new RuntimeException("Unable to initialize an ArsHelper instance.", e);
+            }
+
+            // Set the qualification
+            String defaultQualification = null;//model.getDefaultQualification();
+            if (qualification == null) {
+                if (defaultQualification == null) {
+                    qualification = "1==1";
+                } else {
+                    qualification = defaultQualification;
+                }
+            } else {
+                if (defaultQualification != null) {
+                    qualification = "("+defaultQualification+") AND ("+qualification+")";
+                }
+            }
+
+            // Retrieve the entry records
+            SimpleEntry[] entries = new SimpleEntry[0];
+            try {
+                if (sortFieldIds.length > 0) {
+                    entries = helper.getSimpleEntryList(formName, qualification, fieldIds, sortFieldIds);
+                } else {
+                    entries = helper.getSimpleEntryList(formName, qualification, fieldIds);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("There was a problem retrieving the "+modelClass.getName()+" records.", e);
+            }
+
+            // Transform
+            Base[] models = (Base[])java.lang.reflect.Array.newInstance(modelClass, entries.length);
+            for (int i=0;i<models.length;i++) {
+                models[i] = instantiateModel(modelClass);
+                models[i].setAttributes(entries[i]);
+            }
+            return models;
+        }
+
+        protected void setAttributes(SimpleEntry entry) {
+            String[] fieldIds = getFieldIds();
+            for (String fieldId : fieldIds) {
+                attributes.put(fieldId, entry.getEntryFieldValue(fieldId));
+            }
+        }
+
+        private static Base instantiateModel(Class modelClass) {
+            Base model = null;
+            try {
+                model = (Base)modelClass.newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException("There was a problem initializing a new "+modelClass.getName()+" instance.", e);
+            }
+            return model;
+        }
+    }
+%>

@@ -1,0 +1,7 @@
+<%!
+  public static class Template {
+      public String toJson() {
+          return "Submission!";
+      }
+  }
+%>
