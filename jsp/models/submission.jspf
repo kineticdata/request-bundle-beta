@@ -1,26 +1,26 @@
 <%!
     public static class Submission {
-        public static final String FORM_NAME = "";
-        public static final String FIELD_CATALOG_NAME = "";
-        public static final String FIELD_CREATE_DATE = "";
-        public static final String FIELD_ID = "";
-        public static final String FIELD_REQUEST_ID = "";
-        public static final String FIELD_SUBMIT_TYPE = "";
-        public static final String FIELD_SUBMITTER = "";
-        public static final String FIELD_TEMPLATE_ID = "";
-        public static final String FIELD_TEMPLATE_NAME = "";
+        public static final String FORM_NAME = "KS_SRV_CustomerSurvey_base";
+        public static final String FIELD_CATALOG_NAME = "600000500";
+        public static final String FIELD_CREATE_DATE = "3";
+        public static final String FIELD_ID = "179";
+        public static final String FIELD_REQUEST_ID = "1";
+        public static final String FIELD_SUBMIT_TYPE = "700088475";
+        public static final String FIELD_SUBMITTER = "2";
+        public static final String FIELD_TEMPLATE_ID = "700000800";
+        public static final String FIELD_TEMPLATE_NAME = "700001000";
 
         // Represents the status of the Submission.
         public static final String FIELD_STATUS = "7";
         // Represents the status of the Request including task workflow (This is
         // a Enumeration field that allows values of 'Open' or 'Closed' and is
         // typically set by the KineticRequest_Submission_Close handler).
-        public static final String FIELD_REQUEST_STATUS = "";
+        public static final String FIELD_REQUEST_STATUS = "700089541";
         // Represents the state of the Request (This is a free text field that
         // is intended to communicate the overall progress of the Request.  This
         // value is typically set by the KineticRequest_Submission_UpdateStatus
         // task handler).
-        public static final String FIELD_VALIDATION_STATUS = "";
+        public static final String FIELD_VALIDATION_STATUS = "700002400";
 
         public static final String[] FIELD_IDS = new String[] {
             FIELD_CATALOG_NAME, FIELD_CREATE_DATE, FIELD_ID, FIELD_REQUEST_ID,

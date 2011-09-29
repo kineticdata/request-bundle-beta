@@ -1,18 +1,35 @@
 <%!
     public static class SubmissionList {
-        public static SubmissionList retrieve(HelperContext context, String name, String qualification) {
-            return new SubmissionList(name, Submission.find(contxt, qualification);)
-        }
-
         private String name;
-        private Submission[] submissions;
-        public SubmissionList(String name, Submission[] submissions) {
+        private String qualification;
+        private Integer count;
+
+        private Submission[] submissions = null;
+
+        public SubmissionList(String name, String qualification) {
             this.name = name;
-            this.submissions = submissions;
+            this.qualification = qualification;
         }
 
         public String getName() {return name;}
-        public Submission[] getSubmissions() {return submissions;}
+        public String getQualification() {return qualification;}
+
+        public Integer getCount(HelperContext context) {
+            if (submissions != null) {
+                count = submissions.length;
+            } else if (count == null) {
+                count = Base.count(context, Submission.FORM_NAME, qualification);
+            }
+            
+            return count;
+        }
+
+        public Submission[] getSubmissions(HelperContext context) {
+            if (submissions == null) {
+                submissions = Submission.find(context, qualification);
+            }
+            return submissions;
+        }
 
         public boolean hasSubmissions() {
             return submissions != null && submissions.length > 0;

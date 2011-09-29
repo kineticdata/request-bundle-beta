@@ -45,5 +45,28 @@
 
             return result;
         }
+
+        public static Integer count(HelperContext context, String formName, String qualification) {
+            // Declare the result
+            Integer result = null;
+
+            // Build the helper
+            ArsPrecisionHelper helper = null;
+            try {
+                helper = new ArsPrecisionHelper(context);
+            } catch (ARException e) {
+                throw new RuntimeException("Unable to initialize an ArsHelper instance.", e);
+            }
+
+            // Retrieve the entry records
+            try {
+                result = helper.getEntryCount(formName, qualification);
+            } catch (Exception e) {
+                throw new RuntimeException("There was a problem retrieving the " + formName + " records.", e);
+            }
+
+            // Return the result
+            return result;
+        }
     }
 %>

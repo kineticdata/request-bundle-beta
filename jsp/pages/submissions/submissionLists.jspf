@@ -1,0 +1,36 @@
+<%!
+    public SubmissionList[] getSubmissionLists(HelperContext context, String catalogName) {
+        List<SubmissionList> submissionLists = new ArrayList();
+
+        String baseQualification =
+            "'"+Submission.FIELD_CATALOG_NAME+"' = \""+catalogName+"\" AND"+
+            "'"+Submission.FIELD_SUBMITTER+"' = \""+context.getUserName()+"\"";
+
+        String parkedRequestQualification = baseQualification + " AND " +
+            "'"+Submission.FIELD_STATUS+"' = \"In Progress\" AND " +
+            "'"+Submission.FIELD_SUBMIT_TYPE+"' = $NULL$";
+        submissionLists.add(new SubmissionList("Parked Requests", parkedRequestQualification));
+
+        String activeRequestQualification = baseQualification + " AND " +
+            "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+            "'"+Submission.FIELD_SUBMIT_TYPE+"' = $NULL$";
+        submissionLists.add(new SubmissionList("Active Requests", activeRequestQualification));
+
+        String completeRequestQualification = baseQualification + " AND " +
+            "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Closed\" AND " +
+            "'"+Submission.FIELD_SUBMIT_TYPE+"' = $NULL$";
+        submissionLists.add(new SubmissionList("Completed Requests", completeRequestQualification));
+
+        String activeApprovalQualification = baseQualification + " AND " +
+            "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+            "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
+        submissionLists.add(new SubmissionList("Active Approvals", activeApprovalQualification));
+
+        String completeApprovalQualification = baseQualification + " AND " +
+            "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Closed\" AND " +
+            "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
+        submissionLists.add(new SubmissionList("Completed Approvals", completeApprovalQualification));
+
+        return submissionLists.toArray(new SubmissionList[submissionLists.size()]);
+    }
+%>
