@@ -6,7 +6,6 @@
 <%
     HelperContext context = UserContext.getArContext();
     Catalog catalog = Catalog.findByName(context, customerSurvey.getCategory());
-    Template[] templates = catalog.getTemplates(context);
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -34,9 +33,25 @@
             <%= catalog.toJson() %>
         </div>
 
-        <h3>Templates</h3>
+        <h3>Categories</h3>
         <div>
-            <% for (Template template : templates) { %>
+            <% for (Category category : catalog.getCategories(context)) { %>
+            <div><%= category.getName() %> (<%= category.getId()%>)</div>
+            <div style="padding-left: 2em;">
+                <% if (category.hasTemplates()) { %>
+                <% for (Template template : category.getTemplates()) { %>
+                <div><%= template.getName() %></div>
+                <% } %>
+                <% } else { %>
+                <div>No Templates</div>
+                <% } %>
+            </div>
+            <% } %>
+        </div>
+
+        <h3>All Templates</h3>
+        <div>
+            <% for (Template template : catalog.getTemplates(context)) { %>
             <div><%= template.toJson() %></div>
             <% } %>
         </div>

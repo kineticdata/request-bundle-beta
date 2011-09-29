@@ -1,5 +1,5 @@
 <%!
-  public static class Template {
+  public static class Submission {
       public String toJson() {
           return "Submission!";
       }

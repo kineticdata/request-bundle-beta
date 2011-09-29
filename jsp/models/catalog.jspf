@@ -10,8 +10,10 @@
         };
         
         private SimpleEntry entry = null;
+        private Category[] categories = null;
         private Template[] templates = null;
-        
+        private Map<String,Category> categoriesMap = new LinkedHashMap();
+
         public Catalog(SimpleEntry entry) {
             this.entry = entry;
         }
@@ -30,6 +32,22 @@
             }
 
             return catalog;
+        }
+
+        public Category[] getCategories(HelperContext context) {
+            if (categories == null) {
+                categories = Category.findByCatalogName(context, getName());
+                for (Category category : categories) {
+                    categoriesMap.put(category.getName(), category);
+                }
+
+                Template[] templates = getTemplates(context);
+                for (Template template : templates) {
+                    Category category = categoriesMap.get(template.getCategory());
+                    category.addTemplate(template);
+                }
+            }
+            return categories;
         }
 
         public Template[] getTemplates(HelperContext context) {

@@ -1,22 +1,53 @@
 <%!
-    public static class Category extends Base {
-        public static final String FORM_NAME = "KS_SRV_Category";
-        public static final String FIELD_APPLICATION = "700036000";
+    public static class Category {
+        public static final String FORM_NAME = "KS_RQT_ServiceItemCategory";
+        public static final String FIELD_DESCRIPTION = "700401901";
         public static final String FIELD_ID = "179";
-        public static final String FIELD_NAME = "600000500";
+        public static final String FIELD_IMAGE_TAG = "700401930";
+        public static final String FIELD_NAME = "700401900";
+        public static final String FIELD_NUMBER_OF_ITEMS = "700401940";
+
+        public static final String FIELD_CATELOG= "600000500";
+        public static final String FIELD_SORT_ORDER = "700061010";
         public static final String FIELD_STATUS = "7";
-        public static final String[] FIELD_IDS = new String[]{FIELD_ID, FIELD_NAME};
-        public static final String[] SORT_FIELD_IDS = new String[]{FIELD_NAME};
+        public static final String[] FIELD_IDS = new String[]{
+            FIELD_DESCRIPTION, FIELD_ID, FIELD_IMAGE_TAG, FIELD_NAME, FIELD_NUMBER_OF_ITEMS};
 
-        public static final String DEFAULT_QUALIFICATION =
-            "'"+FIELD_APPLICATION+"'=\"Kinetic Request\" AND '"+FIELD_STATUS+"' = \"Active\"";
+        private SimpleEntry entry = null;
+        private List<Template> templates = new ArrayList();
 
-        public String getFormName() { return FORM_NAME; }
-        public String getDefaultQualification() {return DEFAULT_QUALIFICATION;}
-        public String[] getFieldIds() { return FIELD_IDS; }
-        public String[] getSortFieldIds() { return SORT_FIELD_IDS; }
+        public Category(SimpleEntry entry) {
+            this.entry = entry;
+        }
+        
+        public static Category[] findByCatalogName(HelperContext context, String catalogName) {
+            Category[] results = new Category[0];
 
-        public String getId() {return attributes.get(FIELD_ID);}
-        public String getName() {return attributes.get(FIELD_NAME);}
+            String qualification = "'"+FIELD_CATELOG+"' = \""+catalogName+"\"";
+
+            SimpleEntry[] entries = Base.find(context, FORM_NAME, qualification, FIELD_IDS);
+            if (entries != null && entries.length > 0) {
+                results = new Category[entries.length];
+                for(int i=0;i<results.length;i++) {
+                    results[i] = new Category(entries[i]);
+                }
+            }
+
+            return results;
+        }
+
+        public void addTemplate(Template template) {
+            templates.add(template);
+        }
+        public Template[] getTemplates() {
+            return templates.toArray(new Template[templates.size()]);
+        }
+        public boolean hasTemplates() {
+            return templates.size() > 0;
+        }
+
+        public String getDescription() { return entry.getEntryFieldValue(FIELD_DESCRIPTION); }
+        public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
+        public String getName() {return entry.getEntryFieldValue(FIELD_NAME);}
     }
 %>
