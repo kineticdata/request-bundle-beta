@@ -1,0 +1,27 @@
+<!-- START jsp/includes/theme.jspf -->
+<%!
+    public static String getThemeRoot(HttpServletRequest request) {
+        String requestUri = request.getRequestURI();
+        int startOfThemeName = requestUri.indexOf("/themes/")+"/themes/".length();
+        int endOfThemeName = requestUri.indexOf("/", startOfThemeName);
+        String themeRoot = requestUri.substring(0, endOfThemeName);
+
+        return themeRoot;
+    }
+%>
+<%
+    request.setAttribute("com.kd.themes.root", getThemeRoot(request));
+
+    // Set Attributes
+    //  * com.kd.themes.root
+    //  *
+    //  *
+    //  *
+
+%>
+
+<!--[if IE 6]>
+<link rel="stylesheet" type="text/css" href="<%=request.getAttribute("com.kd.themes.root") + "/css/theme.ie6.css"%>" />
+<![endif]-->
+
+<!-- END jsp/includes/theme.jspf -->
