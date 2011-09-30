@@ -10,7 +10,10 @@
 Please log in.
 <%
     } else {
-        SubmissionList[] submissionLists = getSubmissionLists(context, catalogName);
+        HelperContext context = UserContext.getArContext();
+        String catalogName = request.getParameter("catalogName");
+        String nameDigest = request.getParameter("nameDigest");
+        SubmissionList submissionList = getSubmissionListByNameDigest(context, catalogName, nameDigest);
 %>
 <div>
     <% for (Submission submission : submissionList.getSubmissions(context)) { %>

@@ -33,4 +33,16 @@
 
         return submissionLists.toArray(new SubmissionList[submissionLists.size()]);
     }
+
+    public SubmissionList getSubmissionListByNameDigest(HelperContext context, String catalogName, String nameDigest) {
+        SubmissionList submissionList = null;
+        SubmissionList[] submissionLists = getSubmissionLists(context, catalogName);
+        for (SubmissionList list : submissionLists) {
+            if (list.getNameDigest().equals(nameDigest)) {
+                submissionList = list;
+                break;
+            }
+        }
+        return submissionList;
+    }
 %>

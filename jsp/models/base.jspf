@@ -1,8 +1,11 @@
-<%@page import="com.remedy.arsys.api.ARException"%>
+<%@page import="com.remedy.arsys.api.*"%>
 <%@page import="com.kd.arsHelpers.*"%>
 <%@page import="java.util.*"%>
 <%!
     public abstract static class Base {
+        private static HelperContext defaultHelperContext = null;
+        private static Map<String,Field[]> formFields = new HashMap();
+
         public static SimpleEntry[] find(HelperContext context, String formName, String qualification, String[] fieldIds) {
             // Declare the result
             SimpleEntry[] results = new SimpleEntry[0];
@@ -48,25 +51,75 @@
 
         public static Integer count(HelperContext context, String formName, String qualification) {
             // Declare the result
-            Integer result = null;
+            Integer result = new Integer(0);
 
-            // Build the helper
-            ArsPrecisionHelper helper = null;
-            try {
-                helper = new ArsPrecisionHelper(context);
-            } catch (ARException e) {
-                throw new RuntimeException("Unable to initialize an ArsHelper instance.", e);
+            // If the list of fields does not exist in the formFields cache
+            Field[] fields = new Field[0];
+            if (!formFields.containsKey(formName)) {
+                // Build up the fieldListCriteria
+                FieldListCriteria fieldListCriteria = new FieldListCriteria(
+                    new NameID(new NameID(formName)),
+                    new Timestamp(0),
+                    FieldType.AR_DATA_FIELD);
+                FieldCriteria fieldCriteria = new com.remedy.arsys.api.FieldCriteria();
+                fieldCriteria.setRetrieveAll(true);
+                fieldCriteria.setPropertiesToRetrieve(
+                    fieldCriteria.getPropertiesToRetrieve() &
+                    ~FieldCriteria.CHANGE_DIARY &
+                    ~FieldCriteria.HELP_TEXT);
+
+                if (defaultHelperContext != null) {
+                    System.out.println("Using Default Helper Context");
+                    // Retrieve the fields
+                    try {
+                        fields = FieldFactory.findObjects(defaultHelperContext.getContextCopy(), fieldListCriteria, fieldCriteria);
+                    } catch (ARException e) {
+                        throw new RuntimeException(e);
+                    }
+                    formFields.put(formName, fields);
+                } else {
+                    System.out.println("Using User Context");
+                    try {
+                        fields = FieldFactory.findObjects(context.getContext(), fieldListCriteria, fieldCriteria);
+                    } catch (ARException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            } else {
+                fields = formFields.get(formName);
             }
 
-            // Retrieve the entry records
+            // Build the qualification
+            QualifierInfo qualifierInfo = null;
             try {
-                result = helper.getEntryCount(formName, qualification);
-            } catch (Exception e) {
-                throw new RuntimeException("There was a problem retrieving the " + formName + " records.", e);
+               qualifierInfo = Util.ARGetQualifier(context.getContext(), qualification, fields, null, Constants.AR_QUALCONTEXT_DEFAULT);
+            } catch (ARException e) {
+                throw new RuntimeException(e);
+            }
+
+            // Build the query criteria
+            EntryCriteria entryCriteria = new EntryCriteria();
+            EntryListCriteria entryListCriteria = new EntryListCriteria();
+            entryListCriteria.setSchemaID(new NameID(formName));
+            entryListCriteria.setQualifier(qualifierInfo);
+            entryListCriteria.setMaxLimit(1);
+
+            // Do an "empty" retrieval (of no more than 1 record), storing the count in result
+            try {
+               EntryFactory.findObjects(context.getContext(), entryListCriteria, entryCriteria, false, result);
+            } catch (ARException e) {
+                throw new RuntimeException(e);
             }
 
             // Return the result
             return result;
+        }
+
+        public static HelperContext getDefaultHelperContext() {
+            return defaultHelperContext;
+        }
+        public static void setDefaultHelperContext(HelperContext helperContext) {
+            defaultHelperContext = helperContext;
         }
     }
 %>
