@@ -6,7 +6,3 @@
 <%@include file="../models/task.jspf" %>
 <%@include file="../models/taskMessage.jspf" %>
 <%@include file="../models/template.jspf" %>
-
-<% 
-    Base.setDefaultHelperContext(customerSurvey.getRemedyHandler().getDefaultHelperContext());
-%>

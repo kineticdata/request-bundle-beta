@@ -1,8 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@include file="../includes/models.jspf"%>
-
 <jsp:useBean id="customerSurvey" scope="request" class="com.kd.kineticSurvey.beans.CustomerSurvey"/>
 <jsp:useBean id="UserContext" scope="session" class="com.kd.kineticSurvey.beans.UserContext"/>
+<%@include file="../includes/models.jspf"%>
 <%
     HelperContext context = UserContext.getArContext();
     Catalog catalog = Catalog.findByName(context, customerSurvey.getCategory());

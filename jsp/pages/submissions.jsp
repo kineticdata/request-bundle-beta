@@ -7,6 +7,7 @@
 <%-- The following file specifies a map of submission "types" to their qualification. --%>
 <%@include file="submissions/submissionLists.jspf"%>
 <%
+    Base.setDefaultHelperContext(customerSurvey.getRemedyHandler().getDefaultHelperContext());
     String catalogName = customerSurvey.getCategory();
     HelperContext context = UserContext.getArContext();
     SubmissionList[] submissionLists = getSubmissionLists(context, catalogName);
