@@ -1,6 +1,0 @@
-<%@page import="com.kd.arsHelpers.*"%>
-<%!
-    public Integer countRecord(HelperContext context, String formName, String qualification) {
-        return 0;
-    }
-%>

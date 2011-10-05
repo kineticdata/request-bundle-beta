@@ -1,0 +1,9 @@
+<%!
+    public static class CurrentDate {
+        public static String getYear() {
+            java.util.Calendar calendar = java.util.Calendar.getInstance();
+            int year = calendar.get(java.util.Calendar.YEAR);
+            return String.valueOf(year);
+        }
+    }
+%>

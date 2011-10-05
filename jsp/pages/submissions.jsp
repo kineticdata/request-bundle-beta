@@ -21,11 +21,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title><%= catalogName %> Submissions</title>
-        <!-- Dependency -->
-        <script src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
-
-        <!-- Used for Custom Events and event listener bindings -->
-        <script src="http://yui.yahooapis.com/2.9.0/build/event/event-min.js"></script>
+        <!-- Dependencies -->
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/button/button-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/selector/selector-min.js"></script>
 
         <!-- Source file -->
         <!--
@@ -36,36 +36,10 @@
         <style type="text/css">
             .submissionList {padding-left: 2em;}
         </style>
+
+        <script src="<%=request.getAttribute("com.kd.themes.root")%>/js/theme.js" type="text/javascript"></script>
         <script type="text/javascript">
-            function replace(elementId, path, arguments) {
-                var callback = {
-                    success: buildHandleReplaceSuccess(elementId),
-                    failure: buildHandleReplaceFailure(elementId),
-                    arguments: arguments
-                };
-
-                path = '<%=request.getAttribute("com.kd.themes.root")%>/'+path;
-
-                var request = YAHOO.util.Connect.asyncRequest('GET', path, callback);
-            }
-            function replaceIfEmpty(elementId, path, arguments) {
-                var element = document.getElementById(elementId);
-                if (element.children.length == 0) {
-                    replace(elementId, path, arguments);
-                }
-            }
-            function buildHandleReplaceSuccess(elementId) {
-                return function(response) {
-                    var element = document.getElementById(elementId);
-                    element.innerHTML = response.responseText;
-                }
-            }
-            function buildHandleReplaceFailure(elementId) {
-                return function(response) {
-                    alert('Unable to replace the contents of '+elementId+
-                        ': ('+response.status+') '+response.statusText);
-                }
-            }
+            THEME.config.rootPath = '<%=request.getAttribute("com.kd.themes.root")%>';
         </script>
     </head>
     <body>
@@ -76,7 +50,7 @@
             <% for (SubmissionList submissionList : submissionLists) { %>
                 <%-- Render the submission list name and count. --%>
                 <div>
-                    <a href="javascript:void(0)" onclick="replaceIfEmpty('<%= submissionList.getNameDigest() %>', 'jsp/pages/submissions/callbacks/submissionList.jsp?catalogName=<%=catalogName%>&nameDigest=<%=submissionList.getNameDigest()%>')">
+                    <a href="javascript:void(0)" onclick="THEME.replace('<%= submissionList.getNameDigest() %>a', 'jsp/pages/submissions/callbacks/submissionList.jsp?catalogName=<%=catalogName%>&nameDigest=<%=submissionList.getNameDigest()%>')">
                         <%= submissionList.getName() %> (<%= submissionList.getCount(context) %>)
                     </a>
                 </div>

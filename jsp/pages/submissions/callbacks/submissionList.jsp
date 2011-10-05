@@ -4,7 +4,7 @@
 <%-- The following file specifies a map of submission "types" to their qualification. --%>
 <%@include file="../submissionLists.jspf"%>
 <%
-    if (UserContext == null) {
+    if (UserContext == null || UserContext.getArContext() == null) {
         response.setStatus(response.SC_UNAUTHORIZED);
 %>
 Please log in.

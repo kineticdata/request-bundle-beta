@@ -1,4 +1,5 @@
 <!-- START jsp/includes/theme.jspf -->
+<%@include file="../../config/config.jsp" %>
 <%!
     public static String getThemeRoot(HttpServletRequest request) {
         String requestUri = request.getRequestURI();

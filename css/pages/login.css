@@ -1,0 +1,71 @@
+#footDivider {
+    height: 1px;
+    margin: 0 auto;
+    margin-top: 1em;
+    width: 380px;
+}
+
+#footer {
+    margin:0 auto;
+    margin-top:0.7em;
+    width: 420px;
+}
+
+#loginBox {
+    background: white;
+    padding: 1em;
+    margin:0 auto;
+    width: 400px;
+}
+
+#loginBox #loginForm div {
+    padding: 2px;
+}
+#loginBox #loginForm label {
+    border: 2px solid #FFF;
+    float: left;
+    font-weight: bold;
+    bottom: 0;
+    width: 8em;
+}
+#loginBox #loginForm input {
+    float: left;
+    right: 0;
+    width: 20em;
+}
+#loginBox #loginForm .field {
+    clear: both;
+    padding-top: 0.5em;
+}
+
+#loginBox #loginForm #authenticationField {
+    display: none;
+}
+
+#loginBox #loginForm #forgotPasswordLink {
+    clear: right;
+    float: right;
+    padding-right: 3em;
+}
+
+#loginBox #loginForm #logInButton {
+    clear: left;
+    float: left;
+    margin-top: 1.5em;
+}
+
+#siteReference {
+    clear: left;
+    height: 100px;
+    padding-top: 75px;
+    margin: 0 auto;
+    width: 400px;
+}
+
+#siteReference #siteLogo {
+    float: left;
+}
+
+#siteReference #siteName {
+    float: left;
+}

@@ -1,0 +1,6 @@
+<%
+    // Configure the header values necessary to prevent caching.
+    response.setDateHeader ("EXPIRES", 0); // Prevents caching at the proxy server
+    response.setHeader("CACHE-CONTROL","no-cache, no-store, must-revalidate, max-age=0"); //HTTP 1.1
+    response.setHeader("PRAGMA","NO-CACHE");
+%>
