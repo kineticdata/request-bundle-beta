@@ -1,0 +1,54 @@
+<%@ page pageEncoding="UTF-8" %>
+<%
+    String qualification = "'Submitter'=\"" + context.getUserName() + "\"";
+    Submission[] submissions = Submission.find(context, qualification);
+%>
+
+<div class="tableContainer">
+    <%@include file="tableHeader.jspf"%>
+
+    <div class="header">Submissions <%= submissions.length%></div>
+    <div id="submissionTableContainer">
+        <table class="simpleTable">
+            <thead>
+                <tr>
+                    <th>create date</th>
+                    <th>template name</th>
+                    <th>status</th>
+                    <th>request id</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (int i = 0; i < submissions.length; i++) {%>
+                <% Submission submission = submissions[i];%>
+                <% if (i % 2 == 0) {%>
+                <tr id="<%= submission.getId()%>">
+                    <% } else {%>
+                <tr id="<%= submission.getId()%>" class="even">
+                    <% }%>
+                    <td><%= submission.getCreateDate()%></td>
+                    <td><%= submission.getTemplateName()%></td>
+                    <td><%= submission.getStatus()%></td>
+                    <td><a href="#"><%= submission.getRequestId()%></a></td>
+                </tr>
+            <script type="text/javascript">
+                    tableRow = document.getElementById("<%= submission.getId()%>");
+                    function rowClick() {
+                        var container = document.getElementById("submissionCallback");
+                        var html = "<div style=\"background-color: red;\">foo</div>";
+                        container.innerHTML += html;
+                    }
+                    YAHOO.util.Event.addListener(tableRow, "click", rowClick);
+            </script>
+            <% }%>
+            </tbody>
+        </table>
+    </div>
+
+    <%@include file="tableFooter.jspf"%>
+</div>
+
+<div id="submissionCallback" class="callback">
+    Other stuff goes here.
+</div>
+<div class="spacer"></div>
