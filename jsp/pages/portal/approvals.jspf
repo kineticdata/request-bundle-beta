@@ -1,4 +1,3 @@
-<%@ page pageEncoding="UTF-8" %>
 <%@include file="tableHeader.jspf"%>
 <h2>Hello Approvals!</h2>
 <%@include file="tableFooter.jspf"%>

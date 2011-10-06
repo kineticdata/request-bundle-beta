@@ -1,4 +1,8 @@
+<%-- Initialize the theme configuration bean used for this request. --%>
+<jsp:useBean id="ThemeConfig" scope="request" class="java.util.LinkedHashMap"/>
+
+<%-- Set the values of the themes configurable settings. --%>
 <%
-    request.setAttribute("com.kd.themes.companyName", "ACME");
-    request.setAttribute("com.kd.themes.siteName", "ACME<br/>Service Portal");
+    ThemeConfig.put("companyName", "ACME");
+    ThemeConfig.put("portalName", "Service Portal");
 %>

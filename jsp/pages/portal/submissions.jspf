@@ -1,4 +1,3 @@
-<%@ page pageEncoding="UTF-8" %>
 <%
     String qualification = "'Submitter'=\"" + context.getUserName() + "\"";
     Submission[] submissions = Submission.find(context, qualification);

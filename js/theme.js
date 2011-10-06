@@ -1,9 +1,25 @@
 if (typeof THEME == "undefined") {THEME = {};}
 THEME.config = {};
 
+THEME.disable = function(element) {
+    YAHOO.util.Dom.setAttribute(element, 'disabled', 'diabled');
+}
+THEME.enable = function(element) {
+    YAHOO.util.Dom.setAttribute(element, 'disabled', 'false');
+}
+
+THEME.lock = function(element) {
+    YAHOO.util.Dom.setAttribute(element, 'readonly', 'readonly');
+    YAHOO.util.Dom.addClass(element, 'readonly');
+}
+THEME.unlock = function(element) {
+    YAHOO.util.Dom.setAttribute(element, 'readonly', 'false');
+    YAHOO.util.Dom.removeClass(element, 'readonly');
+}
+
 THEME.focus = function(element) {
     try {
-        var element = YAHOO.util.Dom.get(element);
+        element = YAHOO.util.Dom.get(element);
         element.select();
         element.focus();
     } catch (e) {
@@ -18,8 +34,7 @@ THEME.show = function(element) {
     YAHOO.util.Dom.removeClass(element, 'hidden');
 }
 THEME.toggle = function(element) {
-    var element = YAHOO.util.Dom.get(element);
-    if (element.hasClass('hidden')) {
+    if (YAHOO.util.Dom.hasClass(element, 'hidden')) {
         THEME.show(element);
     } else {
         THEME.hide(element);
@@ -60,14 +75,15 @@ THEME.replace = function(elementReference, path, arguments) {
     }
 }
 
-//function replaceIfEmpty(elementId, path, arguments) {
-//    var element = document.getElementById(elementId);
-//    if (element.children.length == 0) {
-//        replace(elementId, path, arguments);
-//    }
-//}
-THEME.buildHandleReplaceSuccess = function(element) {
-    var element = YAHOO.util.Dom.get(element);
+THEME.replaceIfEmpty = function (elementReference, path, arguments) {
+    var element = YAHOO.util.Dom.get(elementReference);
+    if (element.children.length == 0) {
+        THEME.replace(elementReference, path, arguments);
+    }
+}
+
+THEME.buildHandleReplaceSuccess = function(elementReference) {
+    var element = YAHOO.util.Dom.get(elementReference);
     return function(response) {
         if (element == null) {
             THEME.showErrorMessage("Unable to process the javascript "+
@@ -80,6 +96,7 @@ THEME.buildHandleReplaceSuccess = function(element) {
 THEME.buildHandleReplaceFailure = function(elementReference) {
     return function(response) {
         THEME.showErrorMessage('Unable to replace the contents of '+
-            elementReference+': ('+response.status+') '+response.statusText);
+            elementReference+': ('+response.status+') '+response.statusText+
+            '\n\n'+response.responseText);
     }
 }

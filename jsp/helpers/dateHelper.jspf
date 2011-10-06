@@ -1,6 +1,6 @@
 <%!
-    public static class CurrentDate {
-        public static String getYear() {
+    public static class DateHelper {
+        public static String getCurrentYear() {
             java.util.Calendar calendar = java.util.Calendar.getInstance();
             int year = calendar.get(java.util.Calendar.YEAR);
             return String.valueOf(year);

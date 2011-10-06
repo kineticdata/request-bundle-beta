@@ -1,0 +1,28 @@
+<%--
+    Configure the HTTP Content-Type header value to specify UTF-8
+--%>
+<%@page contentType="text/html; charset=UTF-8"%>
+
+<%--
+    Configuration setting that trims all of the whitespace that is created by
+    using JSP comments (such as this one) and other JSP tags.
+--%>
+<%@page trimDirectiveWhitespaces="true"%>
+
+<%--
+    Include the helper files.
+--%>
+<%@include file="../helpers/dateHelper.jspf" %>
+<%@include file="../helpers/themeHelper.jspf" %>
+
+<%--
+    Include the models.
+--%>
+<%@include file="../models/base.jspf" %>
+<%@include file="../models/catalog.jspf" %>
+<%@include file="../models/category.jspf" %>
+<%@include file="../models/submission.jspf" %>
+<%@include file="../models/submissionList.jspf" %>
+<%@include file="../models/task.jspf" %>
+<%@include file="../models/taskMessage.jspf" %>
+<%@include file="../models/template.jspf" %>

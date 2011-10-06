@@ -1,16 +1,27 @@
-<jsp:useBean id="UserContext" scope="session" class="com.kd.kineticSurvey.beans.UserContext"/>
-<%@include file="../../../includes/theme.jspf"%>
-<%@include file="../../../includes/models.jspf"%>
+<%--
+    Configure the theme.  This sets multiple theme attributes on the request.
+    For more information, see the themeInitialization.jsp file.
+--%>
+<jsp:include page="../../../includes/themeInitialization.jsp"/>
+<%--
+    Include the theme configuration file.  This
+--%>
+<%@include file="../../../includes/themeLoader.jspf"%>
+<%--
+    Initialize the reference to the ThemeConfig (HashMap) bean.  This bean is
+    initialized in the THEME_ROOT/config/config.jsp file and further attributes
+    are added by the THEME_ROOT/jsp/includes/themeInitialization.jsp file.
+--%>
+<jsp:useBean id="ThemeConfig" scope="request" class="java.util.LinkedHashMap"/>
+
 <%-- The following file specifies a map of submission "types" to their qualification. --%>
-<%@include file="../submissionLists.jspf"%>
+<%@include file="../configuration/listConfiguration.jspf"%>
 <%
-    if (UserContext == null || UserContext.getArContext() == null) {
+    if (ThemeConfig.get("context") == null) {
         response.setStatus(response.SC_UNAUTHORIZED);
-%>
-Please log in.
-<%
+        response.getWriter().write("Please log in.");
     } else {
-        HelperContext context = UserContext.getArContext();
+        HelperContext context = (HelperContext)ThemeConfig.get("context");
         String catalogName = request.getParameter("catalogName");
         String nameDigest = request.getParameter("nameDigest");
         SubmissionList submissionList = getSubmissionListByNameDigest(context, catalogName, nameDigest);
@@ -18,7 +29,7 @@ Please log in.
 <div>
     <% for (Submission submission : submissionList.getSubmissions(context)) { %>
     <div>
-        <a href="<%= submission.getDisplayUrl() %>"><%= submission.getRequestId() %></a>
+        <%= submission.getTemplateName() %>: <a href="<%= submission.getDisplayUrl() %>"><%= submission.getRequestId() %></a>
     </div>
     <% } %>
 </div>
