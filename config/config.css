@@ -2,15 +2,17 @@
 .primaryColorBackground { background: #EE8114; }
 .primaryColorBorder { border: 1px solid #EE8114; }
 
-.secondaryColor {color: #E36F1D; }
+.secondaryColor {color: #00427E; }
+.secondaryColorBackground {background: #00427E; }
+.secondaryColorBorder {border: #00427E; }
 
 .tertiaryColor { color: #CCC; }
 .tertiaryColorBackground { background: #CCC; }
 .tertiaryColorBorder { border: solid 1px #CCC; }
 
 .auxiliaryColor {color: #999;}
-.auxiliaryColorBackground {background: #999;}
-.auxiliaryColorBorder {border: #999;}
+.auxiliaryColorBackground {background: #EEE;}
+.auxiliaryColorBorder {border: #777;}
 
 .auxiliaryTitleColor {color: #777;}
 

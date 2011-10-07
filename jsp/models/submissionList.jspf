@@ -2,17 +2,20 @@
     public static class SubmissionList {
         private String name;
         private String nameDigest;
+        private String type;
         private String qualification;
         private Integer count;
 
         private Submission[] submissions = null;
 
-        public SubmissionList(String name, String qualification) {
+        public SubmissionList(String type, String name, String qualification) {
+            this.type = type;
             this.name = name;
             this.qualification = qualification;
         }
 
         public String getName() {return name;}
+        public String getType() {return type;}
         public String getQualification() {return qualification;}
 
         public Integer getCount(HelperContext context) {
@@ -28,11 +31,13 @@
         public String getNameDigest() {
             if (nameDigest == null) {
                 try {
-                    byte[] digest = java.security.MessageDigest.getInstance("MD5").digest(getName().getBytes());
                     StringBuffer hexString = new StringBuffer();
-                    for (int i=0;i<digest.length;i++) {
-                        hexString.append(Integer.toHexString(0xFF & digest[i]));
+
+                    byte[] digestBytes = java.security.MessageDigest.getInstance("MD5").digest((type+name).getBytes());
+                    for (int i=0;i<digestBytes.length;i++) {
+                        hexString.append(Integer.toHexString(0xFF & digestBytes[i]));
                     }
+
                     nameDigest = hexString.toString();
                 } catch (Exception e) {
                     throw new RuntimeException(e);

@@ -6,7 +6,7 @@
 <div class="categoryContainer">
     <div class="categoryHeader">
         <div class="categoryTitle"><%= category.getName()%></div>
-        <div class="categoryImage"><img src="favorites.jpg"/></div>
+        <div class="categoryImage"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
         <div class="clear"></div>
     </div>
     <div class="categoryDescription">

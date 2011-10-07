@@ -14,15 +14,15 @@
 --%>
 <jsp:useBean id="ThemeConfig" scope="request" class="java.util.LinkedHashMap"/>
 
-<%-- The following file specifies a map of submission "types" to their qualification. --%>
-<%@include file="submissions/configuration/listConfiguration.jspf"%>
-
 <%
     HelperContext context = (HelperContext)ThemeConfig.get("context");
     String catalogName = (String)ThemeConfig.get("catalogName");
     catalogName = request.getParameter("catalogName");
     SubmissionList[] submissionLists = getSubmissionLists(context, catalogName);
 %>
+
+<%-- The following file specifies a map of submission "types" to their qualification. --%>
+<%@include file="submissions/configuration/listConfiguration.jspf"%>
 
 <%-- Set the HTML DOCTYPE. --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"

@@ -117,6 +117,7 @@
         <div id="siteReference">
             <div id="siteLogo" class="logo"></div>
             <h1 id="siteName" class="primaryColor"><%= ThemeConfig.get("companyName") %><br><%= ThemeConfig.get("portalName") %></h1>
+            <div class="clear"></div>
         </div>
 
         <!-- Render the log in box -->

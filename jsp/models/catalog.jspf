@@ -2,11 +2,12 @@
     public static class Catalog {
         public static final String FORM_NAME = "KS_SRV_Category";
         public static final String FIELD_APPLICATION = "700036000";
+        public static final String FIELD_DESCRIPTION = "8";
         public static final String FIELD_ID = "179";
         public static final String FIELD_NAME = "600000500";
         public static final String FIELD_STATUS = "7";
         public static final String[] FIELD_IDS = new String[] {
-            FIELD_ID, FIELD_NAME
+            FIELD_DESCRIPTION, FIELD_ID, FIELD_NAME
         };
         
         private SimpleEntry entry = null;
@@ -57,6 +58,7 @@
             return templates;
         }
 
+        public String getDescription() {return entry.getEntryFieldValue(FIELD_DESCRIPTION);}
         public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
         public String getName() {return entry.getEntryFieldValue(FIELD_NAME);}
 

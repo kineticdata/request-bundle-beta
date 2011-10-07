@@ -7,6 +7,7 @@
     Include the theme configuration file.  This
 --%>
 <%@include file="../includes/themeLoader.jspf"%>
+
 <%--
     Initialize the reference to the ThemeConfig (HashMap) bean.  This bean is
     initialized in the THEME_ROOT/config/config.jsp file and further attributes
@@ -20,6 +21,8 @@
     String catalogName = (String)ThemeConfig.get("catalogName");
     Catalog catalog = Catalog.findByName(context, catalogName);
 %>
+<%@include file="portal/configuration/submissionGroups.jspf"%>
+<% String[] submissionGroups = SubmissionGroupManager.getGroups(); %>
 
 <%-- Set the HTML DOCTYPE. --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -37,70 +40,58 @@
         <%-- Set the title of the page. --%>
         <title><%= ThemeConfig.get("companyName")+" "+ThemeConfig.get("portalName") %></title>
 
+        <!-- Set the favicon for the page. -->
+        <link rel="shortcut icon" href="<%=ThemeConfig.get("root")%>/images/logo-favicon.png" type="image/x-icon">
+
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/fonts/fonts-min.css">
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/tabview/assets/skins/sam/tabview.css">
+        
+
         <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/theme.css" type="text/css">
         <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/pages/portal.css" type="text/css">
+        <link rel="stylesheet" type="text/css" href="<%=ThemeConfig.get("root") + "/config/config.css"%>" >
+
+        <link rel="stylesheet" type="text/css" href="<%=ThemeConfig.get("root") + "/js/pages/portal.js"%>">
 
         <script src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
         <script src="http://yui.yahooapis.com/2.9.0/build/dom/dom-min.js"></script>
         <script src="http://yui.yahooapis.com/2.9.0/build/event/event-min.js" ></script>
+        <script src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script>
+        <script src="http://yui.yahooapis.com/2.9.0/build/tabview/tabview-min.js"></script>
+
+        <!-- Include the Theme javascript file. -->
+        <script src="<%=ThemeConfig.get("root")%>/js/theme.js" type="text/javascript"></script>
+        <!-- Configure the Theme javascript. -->
         <script type="text/javascript">
-            YAHOO.util.Event.onDOMReady(function (){
-                var oElement = document.getElementById("catalogLink");
-                function catalogClick(e) {
-                    YAHOO.util.Dom.setStyle(["submissionContent", "approvalContent", "taskContent"], "display", "none");
-                    YAHOO.util.Dom.removeClass(["submissionLink", "approvalLink", "taskLink"], "navigationItemActive");
-                    YAHOO.util.Dom.setStyle("catalogContent", "display", "");
-                    YAHOO.util.Dom.addClass("catalogLink", "navigationItemActive");
-                }
-                YAHOO.util.Event.addListener(oElement, "click", catalogClick);
-
-                var oElement = document.getElementById("submissionLink");
-                function submissionClick(e) {
-                    YAHOO.util.Dom.setStyle(["catalogContent", "approvalContent", "taskContent"], "display", "none");
-                    YAHOO.util.Dom.removeClass(["catalogLink", "approvalLink", "taskLink"], "navigationItemActive");
-                    YAHOO.util.Dom.setStyle("submissionContent", "display", "");
-                    YAHOO.util.Dom.addClass("submissionLink", "navigationItemActive");
-                }
-                YAHOO.util.Event.addListener(oElement, "click", submissionClick);
-
-                var oElement = document.getElementById("approvalLink");
-                function approvalClick(e) {
-                    YAHOO.util.Dom.setStyle(["submissionContent", "catalogContent", "taskContent"], "display", "none");
-                    YAHOO.util.Dom.removeClass(["submissionLink", "catalogLink", "taskLink"], "navigationItemActive");
-                    YAHOO.util.Dom.setStyle("approvalContent", "display", "");
-                    YAHOO.util.Dom.addClass("approvalLink", "navigationItemActive");
-                }
-                YAHOO.util.Event.addListener(oElement, "click", approvalClick);
-
-                var oElement = document.getElementById("taskLink");
-                function taskClick(e) {
-                    YAHOO.util.Dom.setStyle(["submissionContent", "approvalContent", "catalogContent"], "display", "none");
-                    YAHOO.util.Dom.removeClass(["submissionLink", "approvalLink", "catalogLink"], "navigationItemActive");
-                    YAHOO.util.Dom.setStyle("taskContent", "display", "");
-                    YAHOO.util.Dom.addClass("taskLink", "navigationItemActive");
-                }
-                YAHOO.util.Event.addListener(oElement, "click", taskClick);
-            });
+            // Configure the rootPath of the THEME's configuration.  This value
+            // is used to reference callbacks for methods such as THEME.replace.
+            THEME.config.rootPath = '<%=ThemeConfig.get("root")%>';
         </script>
+
+        <!-- Include the javascript for the page. -->
+        <script src="<%=ThemeConfig.get("root")%>/js/pages/portal.js" type="text/javascript"></script>
     </head>
-    <body>
+    <body class="yui-skin-sam">
         <div id="portalHeader">
             <div id="mainNavigation">
-                <div id="catalogLink" class="navigationItem navigationItemActive">
+                <div id="portalTab" class="navigationItem navigationItemActive">
                     <a href="javascript:void(0)"><%= ThemeConfig.get("portalName") %></a>
                 </div>
-                <div class="divider"></div>
-                <div id="submissionLink" class="navigationItem">
-                    <a href="javascript:void(0)">Submissions</a>
-                </div>
-                <div class="divider"></div>
-                <div id="approvalLink" class="navigationItem">
-                    <a href="javascript:void(0)">Approvals</a>
-                </div>
-                <div class="divider"></div>
-                <div id="taskLink" class="navigationItem">
-                    <a href="javascript:void(0)">Tasks</a>
-                </div>
+                <% for (int i=0;i<submissionGroups.length;i++) { %>
+                    <div class="divider"></div>
+                    <div class="navigationItem" id="submissionGroupTab<%= i %>">
+                        <a href="javascript:void(0)"><%= submissionGroups[i] %></a>
+                    </div>
+                    <script type="text/javascript">
+                        var tabElement = YAHOO.util.Dom.get('submissionGroupTab<%= i %>');
+                        THEME.portal.tabs[tabElement.id] = tabElement.id+'Content';
+                        YAHOO.util.Event.addListener(tabElement, "click", THEME.portal.selectTab);
+
+                        YAHOO.util.Event.onDOMReady(function() {
+                            new YAHOO.widget.TabView("submissionGroupTab<%= i %>Content");
+                        })
+                    </script>
+                <% } %>
             </div>
             <div id="accountNavigation">
                 <div class="navigationItem">
@@ -116,21 +107,101 @@
                 </div>
             </div>
         </div>
+
+        <div class="" id="portalRightColumn">
+            <div class="portalSection auxiliaryColorBackground tertiaryColorBorder">
+                <!-- Render the logo and site name -->
+                <div id="siteReference">
+                    <div id="siteLogo" class="logo"></div>
+                    <h1 id="siteName" class="primaryColor"><%= ThemeConfig.get("companyName") %><br><%= ThemeConfig.get("portalName") %></h1>
+                    <div class="clear"></div>
+                </div>
+
+                <div><%= catalog.getDescription() %></div>
+            </div>
+
+            <div id="quickLinks" class="contentSection auxiliaryTitleColor">
+                <hr>
+                <h2>Quick Links</h2>
+                <div>
+                    <ul>
+                        <li>
+                            <div class="name">Kinetic Data Homepage</div>
+                            <div class="link"><a href="http://www.kineticdata.com" class="primaryColor">http://www.kineticdata.com</a></div>
+                        </li>
+                        <li>
+                            <div class="name">Kinetic Community Homepage</div>
+                            <div class="link""><a href="http://community.kineticdata.com" class="primaryColor">http://community.kineticdata.com</a></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="recentSubmissions" class="contentSection auxiliaryTitleColor">
+                <hr>
+                <h2>Recent Submissions</h2>
+                <div>
+                    <ul>
+                        <li>
+                            <div class="name">Submission 1:</div>
+                            <div class="link"><a href="#" class="primaryColor">KSR000000000000</a></div>
+                        </li>
+                        <li>
+                            <div class="name">Submission 2 With A Long Template Name:</div>
+                            <div class="link"><a href="#" class="primaryColor">KSR000000000000</a></div>
+                        </li>
+                        <li>
+                            <div class="name">Submission 3:</div>
+                            <div class="link"><a href="#" class="primaryColor">KSR000000000000</a></div>
+                        </li>
+                        <li>
+                            <div class="name">Submission 4 With A Really Long Template:</div>
+                            <div class="link"><a href="#" class="primaryColor">KSR000000000000</a></div>
+                        </li>
+                        <li>
+                            <div class="name">Submission 5:</div>
+                            <div class="link"><a href="#" class="primaryColor">KSR000000000000</a></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+                
+            <div class="clear"></div>
+        </div>
+
         <div id="portalBody">
-            <div id="catalogContent" style="display:none;">
+            <div id="portalTabContent" class="content">
                 <%@include file="portal/catalog.jspf"%>
             </div>
-            <div id="submissionContent">
-                <%@include file="portal/submissions.jspf"%>
+            <% 
+                for (int i=0;i<submissionGroups.length;i++) {
+                    SubmissionList[] subgroups = SubmissionGroupManager.getSubmissionLists(submissionGroups[i]);
+            %>
+            <div id="submissionGroupTab<%= i %>Content" class="content hidden">
+                <%@include file="portal/tableHeader.jspf"%>
+                <h1><%= submissionGroups[i] %></h1>
+                <div class="yui-navset">
+                    <ul class="yui-nav">
+                    <% for (SubmissionList list : subgroups) { %>
+                    <% if (subgroups[0] == list) { %>
+                        <li class="selected"><a href="javascript:void(0)"><em><%= list.getName() %> (<%= list.getCount(context) %>)</em></a></li>
+                    <% } else {%>
+                        <li><a href="javascript:void(0)"><em><%= list.getName() %> (<%= list.getCount(context) %>)</em></a></li>
+                    <% } %>
+                    <% } %>
+                    </ul>
+                    <div class="yui-content">
+                    <% for (SubmissionList list : subgroups) { %>
+                        <div><%= list.getNameDigest() %></div>
+                    <% } %>
+                    </div>
+                </div>
+                <%@include file="portal/tableFooter.jspf"%>
             </div>
-            <div id="approvalContent" style="display:none;">
-                <%@include file="portal/approvals.jspf"%>
-            </div>
-            <div id="taskContent" style="display:none;">
-                <%@include file="portal/tasks.jspf"%>
-            </div>
+            <% } %>
         </div>
         <div id="portalFooter">
+            
         </div>
     </body>
 </html>

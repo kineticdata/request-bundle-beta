@@ -1,3 +1,72 @@
+#siteReference {
+    margin: 0 auto;
+    padding-bottom: 1em;
+}
+
+#siteReference #siteLogo {
+    float: left;
+}
+
+#siteReference #siteName {
+    float: left;
+}
+
+#portalRightColumn #recentSubmissions li {
+    padding: 0.2em 0;
+}
+
+#portalRightColumn #recentSubmissions .name {
+    
+}
+#portalRightColumn #recentSubmissions .link,
+#portalRightColumn #quickLinks .link {
+    padding-left: 1em;
+    padding-bottom: 0.5em;
+}
+
+
+#portalRightColumn {
+    float: right;
+    margin-right: 1em;
+    padding:0.5em;
+    width: 22em;
+}
+
+#portalRightColumn .portalSection {
+    padding: 0.5em;
+}
+
+#portalRightColumn .contentSection {
+    padding-top: 1em;
+}
+
+#portalRightColumn .contentSection h2 {
+    border-bottom: 1px dotted #A1A1A1;
+    margin-bottom: 0.5em;
+}
+
+#portalRightColumn .contentSection hr {
+    border: none;
+    height: 4px;
+    width: 100%;
+    margin: 0.2em 0;
+    background-color: #A1A1A1;
+    color: #A1A1A1;
+}
+
+#portalRightColumn ul {
+    list-style: none;
+}
+
+#portalBody .content {
+    margin-right: 24em;
+}
+
+#portalBody .content table {
+    width: 100%;
+}
+
+
 #portalHeader {
     background: url("../../images/nav_bg.gif") repeat-x scroll left top transparent;
     color: #FFFFFF;
@@ -11,6 +80,7 @@
 #portalHeader #mainNavigation {
     float: left;
 }
+
 #portalHeader #accountNavigation {
     float: right;
 }
@@ -22,6 +92,7 @@
 }
 #portalHeader .navigationItem {
     float: left;
+    font-size: 1.3em;
     height: 38px;
     padding: 5px 10px;
 }
@@ -37,36 +108,35 @@
 #portalBody {
     margin: 50px 15px 15px 15px;
 }
-#portalBody #catalogContent .categoryContainer {
+#portalBody #portalTabContent .categoryContainer {
     background-color: #F5F5F5;
     border: 1px solid #B1B1B1;
     float: left;
     margin: 0px 15px 15px 0px;
     width: 350px;
 }
-#portalBody #catalogContent .categoryContainer .categoryDescription {
+#portalBody #portalTabContent .categoryContainer .categoryDescription {
     font-size: 0.8em;
     padding: 5px;
 }
-#portalBody #catalogContent .categoryContainer .categoryHeader {
+#portalBody #portalTabContent .categoryContainer .categoryHeader {
     padding: 5px;
 }
-#portalBody #catalogContent .categoryContainer .categoryHeader .categoryTitle {
+#portalBody #portalTabContent .categoryContainer .categoryHeader .categoryTitle {
     float: left;
     font-weight: bold;
     font-size: 1.0em;
 }
-#portalBody #catalogContent .categoryContainer .categoryHeader .categoryImage {
-    border: 1px solid #B1B1B1;
+#portalBody #portalTabContent .categoryContainer .categoryHeader .categoryImage {
     float: right;
 }
-#portalBody #catalogContent .categoryContainer .serviceItemsContainer {
+#portalBody #portalTabContent .categoryContainer .serviceItemsContainer {
     background-color: #FFEDC6;
     border: 1px solid #E4701E;
     margin: 5px 5px 5px 5px;
     padding: 5px;
 }
-#portalBody #catalogContent .categoryContainer .serviceItemsContainer .serviceItemTitle a {
+#portalBody #portalTabContent .categoryContainer .serviceItemsContainer .serviceItemTitle a {
     color: black;
     font-size: 0.8em;
     font-weight: bold;

@@ -1,5 +1,5 @@
 if (typeof THEME == "undefined") {THEME = {};}
-THEME.config = {};
+if (typeof THEME.config == "undefined") {THEME.config = {};}
 
 THEME.disable = function(element) {
     YAHOO.util.Dom.setAttribute(element, 'disabled', 'diabled');

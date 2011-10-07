@@ -1,0 +1,116 @@
+<%
+    /**
+     * This file configures the Submission groupings.  Submission groupings
+     * control how the Kinetic Request submission lists are displayed within
+     * the Service Portal page.  Submission groups are the high level 
+     * collections of submissions, each containing one or more subgroupings.
+     * 
+     * Submission groups will be rendered as Portal header links and Submission
+     * subgroups will be rendered as tabs within their parent group's page.
+     * Each subgroup will display the total count and a table of most recent X 
+     * submissions (configurable below).
+     */
+
+    if (SubmissionGroupManager.getGroups().length == 0) {
+
+    // Define the base Qualification, this will be appended to the following
+    // qualifications.
+    String baseQualification =
+        "'"+Submission.FIELD_CATALOG_NAME+"' = \""+ThemeConfig.get("catalogName")+"\" AND"+
+        "'"+Submission.FIELD_SUBMITTER+"' = \""+context.getUserName()+"\"";
+
+    // Define the Requests group
+    SubmissionGroupManager.addSubmissionGroup("Requests");
+    // Define and add each of the Requests group subgroupings
+    String parkedRequestsQualification = baseQualification + " AND " +
+        "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+        "'"+Submission.FIELD_STATUS+"' = \"In Progress\" AND " +
+        "'"+Submission.FIELD_SUBMIT_TYPE+"' = $NULL$";
+    SubmissionGroupManager.addSubmissionSubgroup("Requests", "Parked", parkedRequestsQualification);
+    String activeRequestsQualification = baseQualification + " AND " +
+        "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+        "'"+Submission.FIELD_STATUS+"' = \"Completed\" AND " +
+        "'"+Submission.FIELD_SUBMIT_TYPE+"' = $NULL$";
+    SubmissionGroupManager.addSubmissionSubgroup("Requests", "Active", activeRequestsQualification);
+    String completeRequestsQualification = baseQualification + " AND " +
+        "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Closed\" AND " +
+        "'"+Submission.FIELD_SUBMIT_TYPE+"' = $NULL$";
+    SubmissionGroupManager.addSubmissionSubgroup("Requests", "Closed", completeRequestsQualification);
+
+    // Define the Tasks group
+    SubmissionGroupManager.addSubmissionGroup("Tasks");
+    // Define and add each of the Tasks group subgroupings
+    String openTasksQualification = baseQualification + " AND " +
+        "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+        "'"+Submission.FIELD_STATUS+"' = \"Completed\" AND " +
+        "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
+    SubmissionGroupManager.addSubmissionSubgroup("Tasks", "Open", openTasksQualification);
+    String closedTasksQualification = baseQualification + " AND " +
+        "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Closed\" AND " +
+        "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
+    SubmissionGroupManager.addSubmissionSubgroup("Tasks", "Closed", closedTasksQualification);
+
+    // Define the Approvals group 
+    SubmissionGroupManager.addSubmissionGroup("Approvals");
+    // Define and add each of the Approvals group subgroupings
+    String openApprovalsQualification = baseQualification + " AND " +
+        "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+        "'"+Submission.FIELD_STATUS+"' = \"Completed\" AND " +
+        "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
+    SubmissionGroupManager.addSubmissionSubgroup("Approvals", "Open", openApprovalsQualification);
+    String closedApprovalsQualification = baseQualification + " AND " +
+        "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Closed\" AND " +
+        "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
+    SubmissionGroupManager.addSubmissionSubgroup("Approvals", "Closed", closedApprovalsQualification);
+
+    }
+%>
+
+<%@page import="java.util.*"%>
+<%!
+    public static class SubmissionGroupManager {
+        private static HashMap<String,HashMap<String,SubmissionList>> groupMap = new LinkedHashMap();
+
+        public static String[] getGroups() {
+            return groupMap.keySet().toArray(new String[groupMap.size()]);
+        }
+
+        public static SubmissionList[] getSubmissionLists(String groupName) {
+            HashMap<String,SubmissionList> subgroupMap = groupMap.get(groupName);
+            if (subgroupMap == null) {
+                throw new RuntimeException("Unable to retrieve submission list.");
+            }
+            return subgroupMap.values().toArray(new SubmissionList[subgroupMap.size()]);
+        }
+
+        public static void addSubmissionGroup(String groupName) {
+            if (groupMap.containsKey(groupName)) {
+                throw new RuntimeException("Trying to add a Group that " +
+                    "already exists: '"+groupName+"'. Please validate the " +
+                    "THEME_ROOT/jsp/pages/portal/configuration/" +
+                    "submissionGroups.jspf configuration file.");
+            }
+            groupMap.put(groupName, new LinkedHashMap());
+        }
+
+        public static void addSubmissionSubgroup(String groupName, String subgroupName, String qualification) {
+            if (!groupMap.containsKey(groupName)) {
+                throw new RuntimeException("Trying to add a Subgroup to a " +
+                    "Group that does not exist: '"+groupName+"'. Please " +
+                    "validate the THEME_ROOT/jsp/pages/portal/configuration/" +
+                    "submissionGroups.jspf configuration file.");
+            } else {
+                HashMap<String,SubmissionList> subgroupMap = groupMap.get(groupName);
+                SubmissionList submissionList = new SubmissionList(groupName, subgroupName, qualification);
+                if (subgroupMap.containsKey(submissionList.getNameDigest())) {
+                    throw new RuntimeException("Trying to add a Subgroup " +
+                        "that already exists: '"+subgroupName+"' to the '"+
+                        groupName+"' group.  Please validate the" +
+                        "THEME_ROOT/jsp/pages/portal/configuration/" +
+                        "submissionGroups.jspf configuration file.");
+                }
+                subgroupMap.put(submissionList.getNameDigest(), submissionList);
+            }
+        }
+    }
+%>
