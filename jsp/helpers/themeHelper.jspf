@@ -1,0 +1,19 @@
+<%!
+    public static class ThemeHelper {
+        public static boolean isBlank(Object object) {
+            boolean isBlank = true;
+            if (object != null && object != Boolean.FALSE && object.toString().trim().length() > 0) {
+                isBlank = false;
+            }
+            return isBlank;
+        }
+
+        public static String render(Object object) {
+            String result = "";
+            if (object != null && object.toString().trim().length() > 0) {
+                result = object.toString();
+            }
+            return result;
+        }
+    }
+%>

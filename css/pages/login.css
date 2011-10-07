@@ -11,6 +11,16 @@
     width: 420px;
 }
 
+#footer #copyright {
+    float:right;
+    padding-right: 0.7em;
+}
+
+#footer #helpDesk {
+    float:left;
+    padding-left: 0.7em;
+}
+
 #loginBox {
     background: white;
     padding: 1em;
@@ -48,10 +58,21 @@
     padding-right: 3em;
 }
 
+#loginBox #loginForm #loader {
+    clear: left;
+    float: left;
+    margin-top: 1.5em;
+}
+
 #loginBox #loginForm #logInButton {
     clear: left;
     float: left;
     margin-top: 1.5em;
+}
+
+#loginBox #loginForm #loginFormFooter {
+    clear: both;
+    height: 4em;
 }
 
 #siteReference {

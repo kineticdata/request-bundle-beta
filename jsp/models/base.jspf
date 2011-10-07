@@ -10,6 +10,11 @@
             // Declare the result
             SimpleEntry[] results = new SimpleEntry[0];
 
+            // Verify that context is not null
+            if (context == null) {
+                throw new IllegalArgumentException("The \"context\" argument can't be null.");
+            }
+
             // Build the helper
             ArsPrecisionHelper helper = null;
             try {
@@ -69,7 +74,6 @@
                     ~FieldCriteria.HELP_TEXT);
 
                 if (defaultHelperContext != null) {
-                    System.out.println("Using Default Helper Context");
                     // Retrieve the fields
                     try {
                         fields = FieldFactory.findObjects(defaultHelperContext.getContextCopy(), fieldListCriteria, fieldCriteria);
@@ -78,7 +82,6 @@
                     }
                     formFields.put(formName, fields);
                 } else {
-                    System.out.println("Using User Context");
                     try {
                         fields = FieldFactory.findObjects(context.getContext(), fieldListCriteria, fieldCriteria);
                     } catch (ARException e) {

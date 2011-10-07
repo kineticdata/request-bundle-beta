@@ -37,6 +37,7 @@
 
         public String getAnonymousUrl() {return entry.getEntryFieldValue(FIELD_ANONYMOUS_URL);}
         public String getCategory() {return entry.getEntryFieldValue(FIELD_CATEGORY);}
+        public String getCatelog() {return entry.getEntryFieldValue(FIELD_CATELOG);}
         public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
         public String getName() {return entry.getEntryFieldValue(FIELD_NAME);}
 

@@ -1,23 +1,45 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<jsp:useBean id="customerSurvey" scope="request" class="com.kd.kineticSurvey.beans.CustomerSurvey"/>
-<jsp:useBean id="UserContext" scope="session" class="com.kd.kineticSurvey.beans.UserContext"/>
-<%@include file="../includes/models.jspf"%>
-<%@include file="../includes/theme.jspf"%>
+<%--
+    Configure the theme.  This sets multiple theme attributes on the request.
+    For more information, see the themeInitialization.jsp file.
+--%>
+<jsp:include page="../includes/themeInitialization.jsp"/>
+<%--
+    Include the theme configuration file.  This
+--%>
+<%@include file="../includes/themeLoader.jspf"%>
+<%--
+    Initialize the reference to the ThemeConfig (HashMap) bean.  This bean is
+    initialized in the THEME_ROOT/config/config.jsp file and further attributes
+    are added by the THEME_ROOT/jsp/includes/themeInitialization.jsp file.
+--%>
+<jsp:useBean id="ThemeConfig" scope="request" class="java.util.LinkedHashMap"/>
+
+<%-- Retrieve the Catalog --%>
 <%
-    HelperContext context = UserContext.getArContext();
-    Catalog catalog = Catalog.findByName(context, customerSurvey.getCategory());
+    HelperContext context = (HelperContext)ThemeConfig.get("context");
+    String catalogName = (String)ThemeConfig.get("catalogName");
+    Catalog catalog = Catalog.findByName(context, catalogName);
 %>
 
+<%-- Set the HTML DOCTYPE. --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
+   "http://www.w3.org/TR/html4/loose.dtd">
 
+<%-- Define the page HTML. --%>
 <html>
     <head>
-        <title><%= catalog.getName()%> Portal</title>
+        <%-- Document the HTTP Content-Type header value within the HTML. --%>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <link rel="stylesheet" href="<%= request.getAttribute("com.kd.themes.root")%>/css/theme.css" type="text/css">
-        <link rel="stylesheet" href="<%= request.getAttribute("com.kd.themes.root")%>/css/pages/portal.css" type="text/css">
+        <%-- Specify that modern IE versions should render the page with their 
+             own rendering engine (as opposed to falling back to compatibility
+             mode. --%>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <%-- Set the title of the page. --%>
+        <title><%= ThemeConfig.get("companyName")+" "+ThemeConfig.get("portalName") %></title>
+
+        <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/theme.css" type="text/css">
+        <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/pages/portal.css" type="text/css">
+
         <script src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
         <script src="http://yui.yahooapis.com/2.9.0/build/dom/dom-min.js"></script>
         <script src="http://yui.yahooapis.com/2.9.0/build/event/event-min.js" ></script>
@@ -65,7 +87,7 @@
         <div id="portalHeader">
             <div id="mainNavigation">
                 <div id="catalogLink" class="navigationItem navigationItemActive">
-                    <a href="javascript:void(0)"><%= catalog.getName()%></a>
+                    <a href="javascript:void(0)"><%= ThemeConfig.get("portalName") %></a>
                 </div>
                 <div class="divider"></div>
                 <div id="submissionLink" class="navigationItem">

@@ -17,6 +17,10 @@ a:hover {
     text-decoration: underline;
 }
 
+input.readonly {
+    color: #777;
+}
+
 ul.horizontalNavigation {
     list-style: none;
 }
@@ -87,4 +91,8 @@ ul.horizontalNavigation li {
 }
 .topline {
     height: 0.5em;
+}
+
+.invisible {
+    visibility: hidden;
 }

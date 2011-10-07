@@ -4,6 +4,10 @@
 
 <jsp:useBean id="customerSurvey" scope="request" class="com.kd.kineticSurvey.beans.CustomerSurvey"/>
 <jsp:useBean id="UserContext" scope="session" class="com.kd.kineticSurvey.beans.UserContext"/>
+
+<%-- Initialize the theme configuration bean used for this request. --%>
+<jsp:useBean id="ThemeConfig" scope="request" class="java.util.LinkedHashMap"/>
+
 <%@include file="../includes/models.jspf"%>
 <%
     HelperContext context = UserContext.getArContext();
@@ -21,12 +25,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title><%= catalog.getName() %> - <%= customerSurvey.getSurveyTemplateName() %></title>
-        <link rel="stylesheet" type="text/css" href="<%=request.getAttribute("com.kd.themes.root") + "/css/theme.css"%>" />
-        <link rel="stylesheet" type="text/css" href="<%=request.getAttribute("com.kd.themes.root") + "/config/config.css"%>" />
+        <link rel="stylesheet" type="text/css" href="<%=ThemeConfig.get("root") + "/css/theme.css"%>" />
+        <link rel="stylesheet" type="text/css" href="<%=ThemeConfig.get("root") + "/config/config.css"%>" />
     </head>
     <body class="fadedBackground">
         <div class="topline primaryColorBackground">a</div>
-        <%= request.getAttribute("com.kd.themes.root") + "/css/theme.css"%></br>
-        <%= request.getAttribute("com.kd.themes.companyName") %>
+        <%= ThemeConfig.get("root") + "/css/theme.css"%></br>
+        <%= ThemeConfig.get("companyName") %>
     </body>
 </html>

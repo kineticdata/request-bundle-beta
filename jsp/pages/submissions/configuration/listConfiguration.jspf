@@ -7,12 +7,14 @@
             "'"+Submission.FIELD_SUBMITTER+"' = \""+context.getUserName()+"\"";
 
         String parkedRequestQualification = baseQualification + " AND " +
+            "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
             "'"+Submission.FIELD_STATUS+"' = \"In Progress\" AND " +
             "'"+Submission.FIELD_SUBMIT_TYPE+"' = $NULL$";
-        submissionLists.add(new SubmissionList("Parked Requests", parkedRequestQualification));
+        submissionLists.add(new SubmissionList("Incomplete Requests", parkedRequestQualification));
 
         String activeRequestQualification = baseQualification + " AND " +
             "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+            "'"+Submission.FIELD_STATUS+"' = \"Completed\" AND " +
             "'"+Submission.FIELD_SUBMIT_TYPE+"' = $NULL$";
         submissionLists.add(new SubmissionList("Active Requests", activeRequestQualification));
 
@@ -23,6 +25,7 @@
 
         String activeApprovalQualification = baseQualification + " AND " +
             "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+            "'"+Submission.FIELD_STATUS+"' = \"Completed\" AND " +
             "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
         submissionLists.add(new SubmissionList("Active Approvals", activeApprovalQualification));
 
