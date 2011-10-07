@@ -1,0 +1,98 @@
+#portalHeader {
+    background: url("../../images/nav_bg.gif") repeat-x scroll left top transparent;
+    color: #FFFFFF;
+    height: 38px;
+    left: 0;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    z-index: 1000;
+}
+#portalHeader #mainNavigation {
+    float: left;
+}
+#portalHeader #accountNavigation {
+    float: right;
+}
+#portalHeader .divider {
+    background: url("../../images/nav_divider.gif") no-repeat scroll right top transparent;
+    float: left;
+    height: 33px;
+    width: 2px;
+}
+#portalHeader .navigationItem {
+    float: left;
+    height: 38px;
+    padding: 5px 10px;
+}
+#portalHeader .navigationItem a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+#portalHeader .navigationItemActive {
+    background: url("../../images/nav_bg_active.gif") no-repeat scroll center top transparent;
+}
+
+#portalBody {
+    margin: 50px 15px 15px 15px;
+}
+#portalBody #catalogContent .categoryContainer {
+    background-color: #F5F5F5;
+    border: 1px solid #B1B1B1;
+    float: left;
+    margin: 0px 15px 15px 0px;
+    width: 350px;
+}
+#portalBody #catalogContent .categoryContainer .categoryDescription {
+    font-size: 0.8em;
+    padding: 5px;
+}
+#portalBody #catalogContent .categoryContainer .categoryHeader {
+    padding: 5px;
+}
+#portalBody #catalogContent .categoryContainer .categoryHeader .categoryTitle {
+    float: left;
+    font-weight: bold;
+    font-size: 1.0em;
+}
+#portalBody #catalogContent .categoryContainer .categoryHeader .categoryImage {
+    border: 1px solid #B1B1B1;
+    float: right;
+}
+#portalBody #catalogContent .categoryContainer .serviceItemsContainer {
+    background-color: #FFEDC6;
+    border: 1px solid #E4701E;
+    margin: 5px 5px 5px 5px;
+    padding: 5px;
+}
+#portalBody #catalogContent .categoryContainer .serviceItemsContainer .serviceItemTitle a {
+    color: black;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.simpleTable {
+    border: 1px solid #7F7F7F;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.simpleTable th {
+    background: url("http://yui.yahooapis.com/2.9.0/build/assets/skins/sam/sprite.png") repeat-x scroll 0 0 #D8D8DA;
+    border-bottom: 1px solid #7F7F7F;
+    border-right: 1px solid #CBCBCB;
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 5px 25px;
+}
+.simpleTable td {
+    border-right: 1px solid #CBCBCB;
+    font-size: 0.8em;
+    padding: 5px;
+}
+.simpleTable tr.even {
+    background-color: #F2F2F2;
+}
+.simpleTable tr:hover {
+    background-color: #D6D6D6;
+}
