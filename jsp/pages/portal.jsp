@@ -17,6 +17,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <link rel="stylesheet" href="<%= request.getAttribute("com.kd.themes.root")%>/css/theme.css" type="text/css">
+        <link rel="stylesheet" href="<%= request.getAttribute("com.kd.themes.root")%>/css/pages/portal.css" type="text/css">
         <script src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
         <script src="http://yui.yahooapis.com/2.9.0/build/dom/dom-min.js"></script>
         <script src="http://yui.yahooapis.com/2.9.0/build/event/event-min.js" ></script>
@@ -61,7 +62,7 @@
         </script>
     </head>
     <body>
-        <div id="header">
+        <div id="portalHeader">
             <div id="mainNavigation">
                 <div id="catalogLink" class="navigationItem navigationItemActive">
                     <a href="javascript:void(0)"><%= catalog.getName()%></a>
@@ -93,7 +94,7 @@
                 </div>
             </div>
         </div>
-        <div id="body">
+        <div id="portalBody">
             <div id="catalogContent" style="display:none;">
                 <%@include file="portal/catalog.jspf"%>
             </div>
@@ -107,7 +108,7 @@
                 <%@include file="portal/tasks.jspf"%>
             </div>
         </div>
-        <div id="footer">
+        <div id="portalFooter">
         </div>
     </body>
 </html>
