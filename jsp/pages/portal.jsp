@@ -77,20 +77,13 @@
                 <div id="portalTab" class="navigationItem navigationItemActive">
                     <a href="javascript:void(0)"><%= ThemeConfig.get("portalName") %></a>
                 </div>
-                <% for (int i=0;i<submissionGroups.length;i++) { %>
+                <% for (String submissionGroup : submissionGroups) { %>
+                <div class="submissionTab">
                     <div class="divider"></div>
-                    <div class="navigationItem" id="submissionGroupTab<%= i %>">
-                        <a href="javascript:void(0)"><%= submissionGroups[i] %></a>
+                    <div class="navigationItem">
+                        <a href="javascript:void(0)"><%= submissionGroup %></a>
                     </div>
-                    <script type="text/javascript">
-                        var tabElement = YAHOO.util.Dom.get('submissionGroupTab<%= i %>');
-                        THEME.portal.tabs[tabElement.id] = tabElement.id+'Content';
-                        YAHOO.util.Event.addListener(tabElement, "click", THEME.portal.selectTab);
-
-                        YAHOO.util.Event.onDOMReady(function() {
-                            new YAHOO.widget.TabView("submissionGroupTab<%= i %>Content");
-                        })
-                    </script>
+                </div>
                 <% } %>
             </div>
             <div id="accountNavigation">
@@ -103,7 +96,7 @@
                 </div>
                 <div class="divider"></div>
                 <div class="navigationItem">
-                    <a href="#">Logout</a>
+                    <a href="KSAuthenticationServlet?Logout=true">Logout</a>
                 </div>
             </div>
         </div>
@@ -177,10 +170,10 @@
                 for (int i=0;i<submissionGroups.length;i++) {
                     SubmissionList[] subgroups = SubmissionGroupManager.getSubmissionLists(submissionGroups[i]);
             %>
-            <div id="submissionGroupTab<%= i %>Content" class="content hidden">
+            <div class="content hidden">
                 <%@include file="portal/tableHeader.jspf"%>
                 <h1><%= submissionGroups[i] %></h1>
-                <div class="yui-navset">
+                <div class="yui-navset" id="submissionGroupTab<%=i%>Content">
                     <ul class="yui-nav">
                     <% for (SubmissionList list : subgroups) { %>
                     <% if (subgroups[0] == list) { %>
@@ -196,6 +189,7 @@
                     <% } %>
                     </div>
                 </div>
+                <script type="text/javascript">new YAHOO.widget.TabView("submissionGroupTab<%= i %>Content");</script>
                 <%@include file="portal/tableFooter.jspf"%>
             </div>
             <% } %>

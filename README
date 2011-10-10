@@ -1,3 +1,10 @@
+Suggestions:
+ * Set the Portal Page as the logout action.  This will display the login page,
+   but the user will be directed to the Portal page right after login (rather
+   than redisplaying the log in page).
+
+
+
 == Config
 Directory with three configuration files: configCSS.jspf, config.js, and config.jspf.
 These files are used to set variables and other configuration values that allow

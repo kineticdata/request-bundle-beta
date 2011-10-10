@@ -48,7 +48,7 @@
     String closedTasksQualification = baseQualification + " AND " +
         "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Closed\" AND " +
         "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
-    SubmissionGroupManager.addSubmissionSubgroup("Tasks", "Closed", closedTasksQualification);
+    SubmissionGroupManager.addSubmissionSubgroup("Tasks", "Complete", closedTasksQualification);
 
     // Define the Approvals group 
     SubmissionGroupManager.addSubmissionGroup("Approvals");
@@ -57,11 +57,11 @@
         "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
         "'"+Submission.FIELD_STATUS+"' = \"Completed\" AND " +
         "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
-    SubmissionGroupManager.addSubmissionSubgroup("Approvals", "Open", openApprovalsQualification);
+    SubmissionGroupManager.addSubmissionSubgroup("Approvals", "Awaiting Approval", openApprovalsQualification);
     String closedApprovalsQualification = baseQualification + " AND " +
         "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Closed\" AND " +
         "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
-    SubmissionGroupManager.addSubmissionSubgroup("Approvals", "Closed", closedApprovalsQualification);
+    SubmissionGroupManager.addSubmissionSubgroup("Approvals", "Complete", closedApprovalsQualification);
 
     }
 %>

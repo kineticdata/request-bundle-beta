@@ -166,3 +166,7 @@
 .simpleTable tr:hover {
     background-color: #D6D6D6;
 }
+
+.submissionTab {
+    float: left;
+}

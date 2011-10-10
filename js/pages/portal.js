@@ -1,20 +1,31 @@
-if (typeof THEME == "undefined") {THEME = {};}
-if (typeof THEME.portal == "undefined") {THEME.portal = {};}
-
-// Map of tabNavigationIds to tabContentIds
-THEME.portal.tabs = {};
-
-THEME.portal.selectTab = function() {
-    for (var tabNavigationId in THEME.portal.tabs) {
-        YAHOO.util.Dom.removeClass(tabNavigationId, "navigationItemActive");
-        YAHOO.util.Dom.addClass(THEME.portal.tabs[tabNavigationId], "hidden");
-    }
-    YAHOO.util.Dom.addClass(this, "navigationItemActive");
-    YAHOO.util.Dom.removeClass(this.id+'Content', "hidden");
-}
-
 // Once the page has loaded
-YAHOO.util.Event.onDOMReady(function() {
-    THEME.portal.tabs['portalTab'] = 'portalTabContent';
-    YAHOO.util.Event.addListener('portalTab', "click", THEME.portal.selectTab);
-})
+THEME.onPageLoad(function() {
+    /**
+     * Configure the page tabs:
+     *  - Link the children of the +tabContainer+ element (tabs) to the children
+     *     of the +contentContainer+ element (content panes).
+     *  - When a tab is clicked:
+     *    - Execute the +tabSelectHandler+ on the selected tab element.
+     *    - Execute the +tabUnselectHandler+ on each of the other tab elements.
+     *    - Execute the +contentSelectHandler+ on the content pane element 
+     *      linked to the selected tab element.
+     *    - Execute the +contentUnselectHandler+ on each of the content pane
+     *      elements not linked to the selected tab element.
+     */
+    THEME.activateTabs({
+        tabContainer: 'mainNavigation',
+        tabSelectHandler: function(element) {
+            THEME.addClass(element, 'navigationItemActive');
+        },
+        tabUnselectHandler: function(element) {
+            THEME.removeClass(element, 'navigationItemActive');
+        },
+        contentContainer: 'portalBody',
+        contentSelectHandler: function(element) {
+            THEME.removeClass(element, 'hidden');
+        },
+        contentUnselectHandler: function(element) {
+            THEME.addClass(element, 'hidden');
+        }
+    });
+});
