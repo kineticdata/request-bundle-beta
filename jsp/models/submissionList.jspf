@@ -53,6 +53,10 @@
             return submissions;
         }
 
+        public Submission[] getSubmissions(HelperContext context, String[] sortFields, Integer chunkSize, Integer recordOffset, Integer sortOrder) {
+            return Submission.find(context, qualification, sortFields, chunkSize, recordOffset, sortOrder);
+        }
+
         public boolean hasSubmissions() {
             return submissions != null && submissions.length > 0;
         }

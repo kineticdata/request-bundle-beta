@@ -7,10 +7,14 @@
         private static Map<String,Field[]> formFields = new HashMap();
 
         public static SimpleEntry[] find(HelperContext context, String formName, String qualification, String[] fieldIds) {
-            return find(context, formName, qualification, fieldIds, 0);
+            return find(context, formName, qualification, fieldIds, new String[0], 0, 0, 1);
         }
 
         public static SimpleEntry[] find(HelperContext context, String formName, String qualification, String[] fieldIds, Integer count) {
+            return find(context, formName, qualification, fieldIds, new String[0], count, 0, 1);
+        }
+
+        public static SimpleEntry[] find(HelperContext context, String formName, String qualification, String[] fieldIds, String[] sortFieldIds, Integer chunkSize, Integer recordOffset, Integer order) {
             // Declare the result
             SimpleEntry[] results = new SimpleEntry[0];
 
@@ -30,7 +34,7 @@
             // Retrieve the entry records
             SimpleEntry[] entries = new SimpleEntry[0];
             try {
-                entries = helper.getSimpleEntryList(formName, qualification, fieldIds, new String[0], count);
+                entries = helper.getSimpleEntryList(formName, qualification, fieldIds, sortFieldIds, chunkSize, recordOffset, order);
             } catch (Exception e) {
                 throw new RuntimeException("There was a problem retrieving the "+formName+" records.", e);
             }

@@ -41,6 +41,20 @@
             return results;
         }
 
+        public static Submission[] find(HelperContext context, String qualification, String[] sortFields, Integer chunkSize, Integer recordOffset, Integer sortOrder) {
+            Submission[] results = new Submission[0];
+
+            SimpleEntry[] entries = Base.find(context, FORM_NAME, qualification, FIELD_IDS, sortFields, chunkSize, recordOffset, sortOrder);
+            if (entries != null && entries.length > 0) {
+                results = new Submission[entries.length];
+                for(int i=0;i<results.length;i++) {
+                    results[i] = new Submission(entries[i]);
+                }
+            }
+
+            return results;
+        }
+
         public static Submission[] findRecentByCatalogName(HelperContext context, String catalogName, Integer number) {
             Submission[] results = new Submission[0];
 
