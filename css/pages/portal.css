@@ -1,6 +1,9 @@
 #recentSubmissions .submissionStatus {
     float: right;
 }
+#recentSubmissions .name {
+    font-weight: bold;
+}
 
 #siteReference {
     margin: 0 auto;
