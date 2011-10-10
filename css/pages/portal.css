@@ -1,3 +1,7 @@
+#recentSubmissions .submissionStatus {
+    float: right;
+}
+
 #siteReference {
     margin: 0 auto;
     padding-bottom: 1em;

@@ -1,10 +1,10 @@
 <%!
     public static class Submission {
-        public static final String FORM_NAME = "KS_SRV_CustomerSurvey_base";
+        public static final String FORM_NAME = "KS_SRV_CustomerSurvey";
         public static final String FIELD_CATALOG_NAME = "600000500";
         public static final String FIELD_CREATE_DATE = "3";
         public static final String FIELD_ID = "179";
-        public static final String FIELD_REQUEST_ID = "1";
+        public static final String FIELD_REQUEST_ID = "536870913";
         public static final String FIELD_SUBMIT_TYPE = "700088475";
         public static final String FIELD_SUBMITTER = "2";
         public static final String FIELD_TEMPLATE_ID = "700000800";
@@ -31,6 +31,24 @@
             Submission[] results = new Submission[0];
 
             SimpleEntry[] entries = Base.find(context, FORM_NAME, qualification, FIELD_IDS);
+            if (entries != null && entries.length > 0) {
+                results = new Submission[entries.length];
+                for(int i=0;i<results.length;i++) {
+                    results[i] = new Submission(entries[i]);
+                }
+            }
+
+            return results;
+        }
+
+        public static Submission[] findRecentByCatalogName(HelperContext context, String catalogName, Integer number) {
+            Submission[] results = new Submission[0];
+
+            String qualification =
+                "'"+FIELD_CATALOG_NAME+"' = \""+catalogName+"\" AND "+
+                "'"+FIELD_SUBMITTER+"' = \""+context.getUserName()+"\"";
+
+            SimpleEntry[] entries = Base.find(context, FORM_NAME, qualification, FIELD_IDS, number);
             if (entries != null && entries.length > 0) {
                 results = new Submission[entries.length];
                 for(int i=0;i<results.length;i++) {

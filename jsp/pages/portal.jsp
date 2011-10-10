@@ -130,34 +130,7 @@
                 </div>
             </div>
 
-            <div id="recentSubmissions" class="contentSection auxiliaryTitleColor">
-                <hr>
-                <h2>Recent Submissions</h2>
-                <div>
-                    <ul>
-                        <li>
-                            <div class="name">Submission 1:</div>
-                            <div class="link"><a href="#" class="primaryColor">KSR000000000000</a></div>
-                        </li>
-                        <li>
-                            <div class="name">Submission 2 With A Long Template Name:</div>
-                            <div class="link"><a href="#" class="primaryColor">KSR000000000000</a></div>
-                        </li>
-                        <li>
-                            <div class="name">Submission 3:</div>
-                            <div class="link"><a href="#" class="primaryColor">KSR000000000000</a></div>
-                        </li>
-                        <li>
-                            <div class="name">Submission 4 With A Really Long Template:</div>
-                            <div class="link"><a href="#" class="primaryColor">KSR000000000000</a></div>
-                        </li>
-                        <li>
-                            <div class="name">Submission 5:</div>
-                            <div class="link"><a href="#" class="primaryColor">KSR000000000000</a></div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <jsp:include page="portal/partials/recentSubmissions.jsp"/>
                 
             <div class="clear"></div>
         </div>
