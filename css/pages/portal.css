@@ -16,7 +16,7 @@
 }
 
 #portalRightColumn #recentSubmissions .name {
-    
+
 }
 #portalRightColumn #recentSubmissions .link,
 #portalRightColumn #quickLinks .link {
@@ -108,38 +108,54 @@
 #portalBody {
     margin: 50px 15px 15px 15px;
 }
-#portalBody #portalTabContent .categoryContainer {
-    background-color: #F5F5F5;
-    border: 1px solid #B1B1B1;
-    float: left;
-    margin: 0px 15px 15px 0px;
-    width: 350px;
+
+#catalogContent {
+    width: 100%;
 }
-#portalBody #portalTabContent .categoryContainer .categoryDescription {
-    font-size: 0.8em;
+#catalogContent #catalogNavigation {
+    float: left;
+    width: 18em;
+}
+#catalogContent #catalogNavigation .navigationHeader {
+    background-color: #888888;
+    color: #FFFFFF;
+    font-size: 1.4em;
     padding: 5px;
 }
-#portalBody #portalTabContent .categoryContainer .categoryHeader {
+#catalogContent #catalogNavigation .navigationContent {
+    background-color: #EEEEEE;
     padding: 5px;
 }
-#portalBody #portalTabContent .categoryContainer .categoryHeader .categoryTitle {
-    float: left;
-    font-weight: bold;
+#catalogContent #catalogNavigation .navigationContent .categoryLink a {
+    color: #EE8114;
+}
+#catalogContent #catalogNavigation .navigationContent .categoryLink {
+    margin-top: 5px;
+}
+
+#catalogContent #categoryItems {
+    margin-left: 19em;
+}
+#catalogContent #categoryItems .categoryItem {
+    margin-bottom: 20px;
+}
+#catalogContent #categoryItems .categoryItem .categoryDescription {
+    border-bottom: 1px dotted #A1A1A1;
+    color: #777777;
     font-size: 1.0em;
+    padding: 5px 0px 5px 0px;  
 }
-#portalBody #portalTabContent .categoryContainer .categoryHeader .categoryImage {
-    float: right;
+#catalogContent #categoryItems .categoryItem .categoryTitle {
+    border-top: 4px solid #A1A1A1;
+    color: #777777;
+    font-size: 1.4em;
+    padding: 5px 0px 5px 0px;
 }
-#portalBody #portalTabContent .categoryContainer .serviceItemsContainer {
-    background-color: #FFEDC6;
-    border: 1px solid #E4701E;
-    margin: 5px 5px 5px 5px;
-    padding: 5px;
+#catalogContent #categoryItems .categoryItem .serviceItemTitle {
+    padding: 5px 0px 5px 0px;
 }
-#portalBody #portalTabContent .categoryContainer .serviceItemsContainer .serviceItemTitle a {
-    color: black;
-    font-size: 0.8em;
-    font-weight: bold;
+#catalogContent #categoryItems .categoryItem .serviceItemTitle a {
+    color: #EE8114;
 }
 
 .simpleTable {
@@ -165,8 +181,4 @@
 }
 .simpleTable tr:hover {
     background-color: #D6D6D6;
-}
-
-.submissionTab {
-    float: left;
 }
