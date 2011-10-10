@@ -1,8 +1,7 @@
 <%!
     public static class Catalog {
-        public static final String FORM_NAME = "KS_SRV_Category";
-        public static final String FIELD_APPLICATION = "700036000";
-        public static final String FIELD_DESCRIPTION = "8";
+        public static final String FORM_NAME = "KS_RQT_ServiceCatalog_base";
+        public static final String FIELD_DESCRIPTION = "702020006";
         public static final String FIELD_ID = "179";
         public static final String FIELD_NAME = "600000500";
         public static final String FIELD_STATUS = "7";
@@ -23,7 +22,6 @@
             Catalog catalog = null;
 
             String qualification =
-                "'"+FIELD_APPLICATION+"'=\"Kinetic Request\" AND "+
                 "'"+FIELD_STATUS+"' = \"Active\" AND "+
                 "'"+FIELD_NAME+"' = \""+name+"\"";
 
