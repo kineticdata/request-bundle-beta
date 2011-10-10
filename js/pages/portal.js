@@ -12,20 +12,31 @@ THEME.onPageLoad(function() {
      *    - Execute the +contentUnselectHandler+ on each of the content pane
      *      elements not linked to the selected tab element.
      */
-    THEME.activateTabs({
-        tabContainer: 'mainNavigation',
-        tabSelectHandler: function(element) {
+    THEME.activateNavigation({
+        navigationSelector: '#mainNavigation .navigationItem',
+        navigationSelectHandler: function(element) {
             THEME.addClass(element, 'navigationItemActive');
         },
-        tabUnselectHandler: function(element) {
+        navigationUnselectHandler: function(element) {
             THEME.removeClass(element, 'navigationItemActive');
         },
-        contentContainer: 'portalBody',
+        contentSelector: '#portalBody .content',
         contentSelectHandler: function(element) {
             THEME.removeClass(element, 'hidden');
         },
         contentUnselectHandler: function(element) {
             THEME.addClass(element, 'hidden');
+        }
+    });
+    
+    THEME.activateNavigation({
+        navigationSelector: '#categoryLinks a',
+        contentSelector: '#categoryItems .categoryItem',
+        contentSelectHandler: function(element) {
+            THEME.removeClass(element, 'hidden');
+        },
+        contentUnselectHandler: function(element) {
+            THEME.addClass(element, 'hidden')
         }
     });
 });

@@ -22,8 +22,8 @@ if (typeof THEME == "undefined") {
     if (missingDependencies.length > 0) {
         // Initialize the error message
         var message = 'There was a problem initializing the THEME Javascript '+
-            'object.    Please ensure the following libraries are loaded by '+
-            'the current page:\n';
+        'object.    Please ensure the following libraries are loaded by '+
+        'the current page:\n';
         // For each of the missing dependencies
         for (var index in missingDependencies) {
             // Add the missing dependency to the error message.
@@ -47,43 +47,47 @@ if (typeof THEME == "undefined") {
             alert(message);
         }
 
-        THEME.activateTabs = function(configuration) {
-            var tabElement = YAHOO.util.Dom.get(configuration['tabContainer']);
-            var contentElement = YAHOO.util.Dom.get(configuration['contentContainer']);
+        THEME.activateNavigation = function(config) {
+            var navigationElements = YAHOO.util.Selector.query(config['navigationSelector']);
+            var contentElements = YAHOO.util.Selector.query(config['contentSelector']);
 
-            if (!tabElement) {
-                THEME.displayError("Unable to activate tabs, the tab "+
-                    "container '"+configuration['tabContainer']+"' does not "+
-                    "exist.");
-            } else if (!contentElement) {
-                THEME.displayError("Unable to activate tabs, the tab content "+
-                    "container '"+configuration['contentContainer']+"' does "+
-                    "not exist.");
-            } else if (tabElement.children.length != contentElement.children.length) {
-                THEME.displayError("Unable to configure tabs, the tab "+
-                    "container '"+configuration['tabContainer']+"' ("+
-                    tabElement.children.length+") has a different number of "+
-                    "children than the content container '"+
-                    configuration['contentContainer']+"' ("+
-                    contentElement.children.length+").");
+            // Validate the configuration passed to this function
+            if (navigationElements.length == 0) {
+                THEME.displayError("Unable to activate navigation, the navigation " +
+                    "selector query '" + config['navigationSelector'] + "' returns " +
+                    "zero results.");
+            } else if (contentElements.length == 0) {
+                THEME.displayError("Unable to activate navigation, the content container " +
+                    "querry '" + config['contentSelector'] + "' returns zero results.");
+            } else if (navigationElements.length != contentElements.length) {
+                THEME.displayError("Unable to configure navigation, the navigation " +
+                    "selector query '" + config['navigationSelector'] + "' (" +
+                    navigationElements.length + ") returns a different number of " +
+                    "elements than the content selector query '" + config['contentContainer'] +
+                    "' (" + contentElements.length + ").");
             } else {
-                var tabElements = tabElement.children;
-                var contentElements = contentElement.children;
-
-                // For each of the tab elements
-                for(var eventIndex=0;eventIndex<tabElements.length;eventIndex++) {
-                    // Set an event to
-                    YAHOO.util.Event.on(tabElements[eventIndex], "click", function (e) {
-                        // Call the unselect handler on each of the tabs
-                        for(var tabIndex=0;tabIndex<tabElements.length;tabIndex++) {
-                            //alert(tabElements[tabIndex].id + ' : ' + this.id);
-                            if (tabElements[tabIndex] == this) {
-                                // Call the select handler on the selected element
-                                configuration['tabSelectHandler'](tabElements[tabIndex]);
-                                configuration['contentSelectHandler'](contentElements[tabIndex]);
+                // For each of the associated elements
+                for (var index=0; index<navigationElements.length; index++) {
+                    // Configure an event listener on click of the navigation element
+                    YAHOO.util.Event.on(navigationElements[index], "click", function (e) {
+                        // For each of the content elements
+                        for (var eventIndex=0; eventIndex<contentElements.length; eventIndex++) {
+                            var navigationElement = navigationElements[eventIndex];
+                            var contentElement = contentElements[eventIndex];
+                            if (this == navigationElement) {
+                                if (config['navigationSelectHandler'] != undefined) {
+                                    config['navigationSelectHandler'](navigationElement);
+                                }
+                                if (config['contentSelectHandler'] != undefined) {
+                                    config['contentSelectHandler'](contentElement);
+                                }
                             } else {
-                                configuration['tabUnselectHandler'](tabElements[tabIndex]);
-                                configuration['contentUnselectHandler'](contentElements[tabIndex]);
+                                if (config['navigationUnselectHandler'] != undefined) {
+                                    config['navigationUnselectHandler'](navigationElement);
+                                }
+                                if (config['contentUnselectHandler'] != undefined) {
+                                    config['contentUnselectHandler'](contentElement);
+                                }
                             }
                         }
                     });
@@ -124,7 +128,7 @@ if (typeof THEME == "undefined") {
                 element.select();
                 element.focus();
             } catch (e) {
-                // something failed, just ignore and let the user click
+            // something failed, just ignore and let the user click
             }
         }
 

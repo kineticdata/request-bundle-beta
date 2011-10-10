@@ -1,31 +1,31 @@
 <%@include file="tableHeader.jspf"%>
 
-<% int counter = 0;%>
-<% for (Category category : catalog.getCategories(context)) {%>
-<% if (category.hasTemplates()) {%>
-<div class="categoryContainer">
-    <div class="categoryHeader">
-        <div class="categoryTitle"><%= category.getName()%></div>
-        <div class="categoryImage"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
-        <div class="clear"></div>
+<style type="text/css">
+</style>
+<div id="catalogContent">
+    <div id="catalogNavigation">
+        <div class="navigationHeader">Search the Catalog</div>
+        <div class="navigationContent"><input type="text" name="search"/></div>
+        <div class="navigationHeader">Service Categories</div>
+        <div class="navigationContent" id="categoryLinks">
+            <% for (Category category : catalog.getCategories(context)) {%>
+            <div class="categoryLink"><a href="javascript:void(0)"><%= category.getName()%></a></div>
+            <% }%>
+        </div>
     </div>
-    <div class="categoryDescription">
-        <%= category.getName()%>
-    </div>
-    <div class="serviceItemsContainer">
-        <% for (Template template : category.getTemplates()) {%>
-        <div class="serviceItemTitle" style="float: left;"><a href="#"><%= template.getName()%></a></div>
-        <div class="link" style="float: right;"><a href="#">Open</a></div>
-        <div class="clear"></div>
+    <div id="categoryItems">
+        <% for (Category category : catalog.getCategories(context)) {%>
+        <div class="categoryItem hidden">
+            <div class="categoryTitle"><%= category.getName()%></div>
+            <div class="categoryDescription"><%= category.getDescription()%></div>
+            <% for (Template template : category.getTemplates()) {%>
+            <div class="serviceItemTitle"><a href="<%= template.getAnonymousUrl()%>"><%= template.getName()%></a></div>
+            <% }%>
+
+        </div>
         <% }%>
     </div>
+    <div class="clear"></div>
 </div>
-<% if (counter % 2 != 0) {%>
-<div class="clear"></div>
-<% }%>
-<% counter++;%>
-<% }%>
-<% }%>
-<div class="clear"></div>
 
 <%@include file="tableFooter.jspf"%>

@@ -17,16 +17,16 @@
 
 <%-- Retrieve the Catalog --%>
 <%
-    HelperContext context = (HelperContext)ThemeConfig.get("context");
-    String catalogName = (String)ThemeConfig.get("catalogName");
+    HelperContext context = (HelperContext) ThemeConfig.get("context");
+    String catalogName = (String) ThemeConfig.get("catalogName");
     Catalog catalog = Catalog.findByName(context, catalogName);
 %>
 <%@include file="portal/configuration/submissionGroups.jspf"%>
-<% String[] submissionGroups = SubmissionGroupManager.getGroups(); %>
+<% String[] submissionGroups = SubmissionGroupManager.getGroups();%>
 
 <%-- Set the HTML DOCTYPE. --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+    "http://www.w3.org/TR/html4/loose.dtd">
 
 <%-- Define the page HTML. --%>
 <html>
@@ -38,14 +38,14 @@
              mode. --%>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <%-- Set the title of the page. --%>
-        <title><%= ThemeConfig.get("companyName")+" "+ThemeConfig.get("portalName") %></title>
+        <title><%= ThemeConfig.get("companyName") + " " + ThemeConfig.get("portalName")%></title>
 
         <!-- Set the favicon for the page. -->
         <link rel="shortcut icon" href="<%=ThemeConfig.get("root")%>/images/logo-favicon.png" type="image/x-icon">
 
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/fonts/fonts-min.css">
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/tabview/assets/skins/sam/tabview.css">
-        
+
 
         <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/theme.css" type="text/css">
         <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/pages/portal.css" type="text/css">
@@ -58,6 +58,7 @@
         <script src="http://yui.yahooapis.com/2.9.0/build/event/event-min.js" ></script>
         <script src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script>
         <script src="http://yui.yahooapis.com/2.9.0/build/tabview/tabview-min.js"></script>
+        <script src="http://yui.yahooapis.com/2.9.0/build/selector/selector-min.js"></script>
 
         <!-- Include the Theme javascript file. -->
         <script src="<%=ThemeConfig.get("root")%>/js/theme.js" type="text/javascript"></script>
@@ -75,16 +76,14 @@
         <div id="portalHeader">
             <div id="mainNavigation">
                 <div id="portalTab" class="navigationItem navigationItemActive">
-                    <a href="javascript:void(0)"><%= ThemeConfig.get("portalName") %></a>
+                    <a href="javascript:void(0)"><%= ThemeConfig.get("portalName")%></a>
                 </div>
-                <% for (String submissionGroup : submissionGroups) { %>
-                <div class="submissionTab">
-                    <div class="divider"></div>
-                    <div class="navigationItem">
-                        <a href="javascript:void(0)"><%= submissionGroup %></a>
-                    </div>
+                <% for (String submissionGroup : submissionGroups) {%>
+                <div class="divider"></div>
+                <div class="navigationItem">
+                    <a href="javascript:void(0)"><%= submissionGroup%></a>
                 </div>
-                <% } %>
+                <% }%>
             </div>
             <div id="accountNavigation">
                 <div class="navigationItem">
@@ -106,11 +105,11 @@
                 <!-- Render the logo and site name -->
                 <div id="siteReference">
                     <div id="siteLogo" class="logo"></div>
-                    <h1 id="siteName" class="primaryColor"><%= ThemeConfig.get("companyName") %><br><%= ThemeConfig.get("portalName") %></h1>
+                    <h1 id="siteName" class="primaryColor"><%= ThemeConfig.get("companyName")%><br><%= ThemeConfig.get("portalName")%></h1>
                     <div class="clear"></div>
                 </div>
 
-                <div><%= catalog.getDescription() %></div>
+                <div><%= catalog.getDescription()%></div>
             </div>
 
             <div id="quickLinks" class="contentSection auxiliaryTitleColor">
@@ -129,9 +128,9 @@
                     </ul>
                 </div>
             </div>
-
+            
             <jsp:include page="portal/partials/recentSubmissions.jsp"/>
-                
+            
             <div class="clear"></div>
         </div>
 
@@ -139,36 +138,36 @@
             <div id="portalTabContent" class="content">
                 <%@include file="portal/catalog.jspf"%>
             </div>
-            <% 
-                for (int i=0;i<submissionGroups.length;i++) {
+            <%
+                for (int i = 0; i < submissionGroups.length; i++) {
                     SubmissionList[] subgroups = SubmissionGroupManager.getSubmissionLists(submissionGroups[i]);
             %>
             <div class="content hidden">
                 <%@include file="portal/tableHeader.jspf"%>
-                <h1><%= submissionGroups[i] %></h1>
+                <h1><%= submissionGroups[i]%></h1>
                 <div class="yui-navset" id="submissionGroupTab<%=i%>Content">
                     <ul class="yui-nav">
-                    <% for (SubmissionList list : subgroups) { %>
-                    <% if (subgroups[0] == list) { %>
-                        <li class="selected"><a href="javascript:void(0)"><em><%= list.getName() %> (<%= list.getCount(context) %>)</em></a></li>
-                    <% } else {%>
-                        <li><a href="javascript:void(0)"><em><%= list.getName() %> (<%= list.getCount(context) %>)</em></a></li>
-                    <% } %>
-                    <% } %>
+                        <% for (SubmissionList list : subgroups) {%>
+                        <% if (subgroups[0] == list) {%>
+                        <li class="selected"><a href="javascript:void(0)"><em><%= list.getName()%> (<%= list.getCount(context)%>)</em></a></li>
+                        <% } else {%>
+                        <li><a href="javascript:void(0)"><em><%= list.getName()%> (<%= list.getCount(context)%>)</em></a></li>
+                        <% }%>
+                        <% }%>
                     </ul>
                     <div class="yui-content">
-                    <% for (SubmissionList list : subgroups) { %>
-                        <div><%= list.getNameDigest() %></div>
-                    <% } %>
+                        <% for (SubmissionList list : subgroups) {%>
+                        <div><%= list.getNameDigest()%></div>
+                        <% }%>
                     </div>
                 </div>
-                <script type="text/javascript">new YAHOO.widget.TabView("submissionGroupTab<%= i %>Content");</script>
+                <script type="text/javascript">new YAHOO.widget.TabView("submissionGroupTab<%= i%>Content");</script>
                 <%@include file="portal/tableFooter.jspf"%>
             </div>
-            <% } %>
+            <% }%>
         </div>
         <div id="portalFooter">
-            
+
         </div>
     </body>
 </html>
