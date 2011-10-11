@@ -1,21 +1,17 @@
 <%!
     public static class Template {
-        public static final String FORM_NAME = "KS_RQT_SurveyTemplateAttrInst_Category_join";
+        public static final String FORM_NAME = "KS_SRV_SurveyTemplate";
 
         public static final String FIELD_ANONYMOUS_URL = "700002489";
-        public static final String FIELD_CATEGORY = "700401900";
-        public static final String FIELD_CATEGORY_SORT_ORDER = "536870914";
         public static final String FIELD_CATELOG = "600000500";
         public static final String FIELD_DESCRIPTION = "700001010";
         public static final String FIELD_ID = "179";
         public static final String FIELD_NAME = "700001000";
-        public static final String FIELD_PRIORITY = "700061010";
         public static final String[] FIELD_IDS = new String[]{
-            FIELD_ID, FIELD_CATEGORY, FIELD_DESCRIPTION, FIELD_NAME,
-            FIELD_ANONYMOUS_URL};
+            FIELD_ID, FIELD_DESCRIPTION, FIELD_NAME, FIELD_ANONYMOUS_URL};
 
         private SimpleEntry entry = null;
-        private Template[] templates = null;
+        private List<Category> categories = new ArrayList();
 
         public static Template[] findByCatalogName(HelperContext context, String catalogName) {
             Template[] results = new Template[0];
@@ -37,8 +33,17 @@
             this.entry = entry;
         }
 
+        public void addCategory(Category category) {
+            categories.add(category);
+        }
+        public Category[] getCategories() {
+            return categories.toArray(new Category[categories.size()]);
+        }
+        public boolean hasTemplates() {
+            return categories.size() > 0;
+        }
+
         public String getAnonymousUrl() {return entry.getEntryFieldValue(FIELD_ANONYMOUS_URL);}
-        public String getCategory() {return entry.getEntryFieldValue(FIELD_CATEGORY);}
         public String getCatelog() {return entry.getEntryFieldValue(FIELD_CATELOG);}
         public String getDescription() {return entry.getEntryFieldValue(FIELD_DESCRIPTION);}
         public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
@@ -48,7 +53,6 @@
             StringBuilder builder = new StringBuilder();
             builder.append("{");
             builder.append("anonymousUrl: '").append(getAnonymousUrl()).append("'").append(",");
-            builder.append("category: '").append(getCategory()).append("'").append(",");
             builder.append("catelog: '").append(getCatelog()).append("'").append(",");
             builder.append("description: '").append(getDescription()).append("'").append(",");
             builder.append("id: '").append(getId()).append("'").append(",");

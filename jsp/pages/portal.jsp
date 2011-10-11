@@ -19,7 +19,7 @@
 <%
     HelperContext context = (HelperContext) ThemeConfig.get("context");
     String catalogName = (String) ThemeConfig.get("catalogName");
-    Catalog catalog = Catalog.findByName(context, catalogName);
+    Catalog catalog = Catalog.findByName(context, catalogName, true);
 %>
 <%@include file="portal/configuration/submissionGroups.jspf"%>
 <% String[] submissionGroups = SubmissionGroupManager.getGroups();%>
