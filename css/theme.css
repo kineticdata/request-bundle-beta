@@ -9,10 +9,6 @@ a, div, h1, h2, h3, h4, input, span, table, tbody, td, tr, th, thead, ul {
     padding: 0;
 }
 
-ul {
-    padding-left: 2em;
-}
-
 a {
     font-weight: bold;
     text-decoration: none;
