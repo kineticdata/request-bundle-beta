@@ -95,7 +95,8 @@
 
 
             // Initialize the initial data source (generated server side)
-            var initialData = <jsp:include page="portal/partials/submissions.jsp"/>;
+            var initialDataString = YAHOO.lang.JSON.stringify(<jsp:include page="portal/partials/submissions.jsp"/>);
+            var initialData = YAHOO.lang.JSON.parse(initialDataString);
             var initialDataSource = new YAHOO.util.DataSource(initialData);
             initialDataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
             initialDataSource.responseSchema = responseSchema;

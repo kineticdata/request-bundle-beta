@@ -1,0 +1,15 @@
+<% for (SubmissionList list : subgroups) {%>
+<div class="submissionSubgroup" id="<%= list.getNameDigest()%>">
+    <div class="hidden">
+        <div id="<%= list.getNameDigest()%>-Group"><%= submissionGroups[i] %></div>
+        <div id="<%= list.getNameDigest()%>-Subgroup"><%= list.getName() %></div>
+        <div id="<%= list.getNameDigest()%>-InitialData">
+            <jsp:include page="portal/partials/submissions.jsp">
+                <jsp:param name="group" value="<%= submissionGroups[i] %>"/>
+                <jsp:param name="subgroup" value="<%= list.getName() %>"/>
+            </jsp:include>
+        </div>
+    </div>
+    <div id="<%= list.getNameDigest() %>-DataTable" style="text-align: center;"></div>
+</div>
+<% }%>

@@ -42,12 +42,11 @@
     // Define and add each of the Tasks group subgroupings
     String openTasksQualification = baseQualification + " AND " +
         "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
-        "'"+Submission.FIELD_STATUS+"' = \"Completed\" AND " +
-        "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
+        "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Task\"";
     SubmissionGroupManager.addSubmissionSubgroup("Tasks", "Open", openTasksQualification);
     String closedTasksQualification = baseQualification + " AND " +
         "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Closed\" AND " +
-        "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
+        "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Task\"";
     SubmissionGroupManager.addSubmissionSubgroup("Tasks", "Complete", closedTasksQualification);
 
     // Define the Approvals group 
@@ -55,7 +54,6 @@
     // Define and add each of the Approvals group subgroupings
     String openApprovalsQualification = baseQualification + " AND " +
         "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
-        "'"+Submission.FIELD_STATUS+"' = \"Completed\" AND " +
         "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\"";
     SubmissionGroupManager.addSubmissionSubgroup("Approvals", "Awaiting Approval", openApprovalsQualification);
     String closedApprovalsQualification = baseQualification + " AND " +
