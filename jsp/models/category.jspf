@@ -12,6 +12,8 @@
         public static final String FIELD_STATUS = "7";
         public static final String[] FIELD_IDS = new String[]{
             FIELD_DESCRIPTION, FIELD_ID, FIELD_IMAGE_TAG, FIELD_NAME, FIELD_NUMBER_OF_ITEMS};
+        public static final String[] SORT_FIELD_IDS = new String[]{
+            FIELD_SORT_ORDER, FIELD_NAME};
 
         private SimpleEntry entry = null;
         private List<Template> templates = new ArrayList();
@@ -25,7 +27,7 @@
 
             String qualification = "'"+FIELD_CATELOG+"' = \""+catalogName+"\"";
 
-            SimpleEntry[] entries = Base.find(context, FORM_NAME, qualification, FIELD_IDS);
+            SimpleEntry[] entries = Base.find(context, FORM_NAME, qualification, FIELD_IDS, SORT_FIELD_IDS);
             if (entries != null && entries.length > 0) {
                 results = new Category[entries.length];
                 for(int i=0;i<results.length;i++) {

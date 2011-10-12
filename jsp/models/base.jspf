@@ -10,6 +10,10 @@
             return find(context, formName, qualification, fieldIds, new String[0], 0, 0, 1);
         }
 
+        public static SimpleEntry[] find(HelperContext context, String formName, String qualification, String[] fieldIds, String[] sortFieldIds) {
+            return find(context, formName, qualification, fieldIds, sortFieldIds, 0, 0, 1);
+        }
+
         public static SimpleEntry[] find(HelperContext context, String formName, String qualification, String[] fieldIds, Integer count) {
             return find(context, formName, qualification, fieldIds, new String[0], count, 0, 1);
         }

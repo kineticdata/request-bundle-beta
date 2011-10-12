@@ -8,17 +8,32 @@
         public static final String[] FIELD_IDS = new String[] {
             FIELD_DESCRIPTION, FIELD_ID, FIELD_NAME
         };
+
+        private static final String CATEGORIZATION_FORM_NAME = "KS_RQT_SurveyTemplateAttrInst_Category_join";
+        private static final String CATEGORIZATION_FIELD_CATEGORY_ID = "700401990";
+        private static final String CATEGORIZATION_FIELD_CATELOG_ID = "600000500";
+        private static final String CATEGORIZATION_FIELD_TEMPLATE_ID = "179";
+
+        private static final String[] CATEGORIZATION_FIELD_IDS = new String[] {
+            CATEGORIZATION_FIELD_CATEGORY_ID, CATEGORIZATION_FIELD_TEMPLATE_ID
+        };
         
         private SimpleEntry entry = null;
+
+        private Map<String,Category> categoryMap = new LinkedHashMap();
         private Category[] categories = null;
+        private Map<String,Template> templateMap = new LinkedHashMap();
         private Template[] templates = null;
-        private Map<String,Category> categoriesMap = new LinkedHashMap();
 
         public Catalog(SimpleEntry entry) {
             this.entry = entry;
         }
 
         public static Catalog findByName(HelperContext context, String name) {
+            return findByName(context, name, false);
+        }
+
+        public static Catalog findByName(HelperContext context, String name, Boolean includeChildren) {
             Catalog catalog = null;
 
             String qualification =
@@ -30,41 +45,71 @@
                 catalog = new Catalog(entry);
             }
 
+            if (includeChildren) {
+                Category[] categories = catalog.getCategories(context);
+                Template[] templates = catalog.getTemplates(context);
+
+                String categorizationQualification = 
+                    "'"+CATEGORIZATION_FIELD_CATELOG_ID+"' = \""+name+"\"";
+
+                SimpleEntry[] categorizations = Base.find(context,
+                    CATEGORIZATION_FORM_NAME,
+                    categorizationQualification,
+                    CATEGORIZATION_FIELD_IDS);
+
+                for(SimpleEntry categorization : categorizations) {
+                    String categoryId = categorization.getEntryFieldValue(CATEGORIZATION_FIELD_CATEGORY_ID);
+                    String templateId = categorization.getEntryFieldValue(CATEGORIZATION_FIELD_TEMPLATE_ID);
+
+                    System.out.println(categoryId +"->"+templateId);
+
+                    Category category = catalog.categoryMap.get(categoryId);
+                    Template template = catalog.templateMap.get(templateId);
+                    System.out.println("  "+category.getName()+ " -> "+template.getName());
+                    category.addTemplate(template);
+                    template.addCategory(category);
+                }
+            }
+
             return catalog;
         }
 
         public Category[] getCategories(HelperContext context) {
+            // If the memorized categories are null, populate the array
             if (categories == null) {
                 categories = Category.findByCatalogName(context, getName());
-                for (Category category : categories) {
-                    categoriesMap.put(category.getName(), category);
-                }
-
-                Template[] templates = getTemplates(context);
-                for (Template template : templates) {
-                    Category category = categoriesMap.get(template.getCategory());
-                    category.addTemplate(template);
+                for(Category category : categories) {
+                    categoryMap.put(category.getId(), category);
                 }
             }
+
             return categories;
         }
 
         public Template[] getTemplates(HelperContext context) {
+            // If the memorized templates are null, populate the array
             if (templates == null) {
                 templates = Template.findByCatalogName(context, getName());
+                for(Template template : templates) {
+                    templateMap.put(template.getId(), template);
+                }
             }
+
             return templates;
         }
 
         public String getDescription() {return entry.getEntryFieldValue(FIELD_DESCRIPTION);}
         public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
         public String getName() {return entry.getEntryFieldValue(FIELD_NAME);}
+        public String getStatus() {return entry.getEntryFieldValue(FIELD_STATUS);}
 
         public String toJson() {
             StringBuilder builder = new StringBuilder();
             builder.append("{");
+            builder.append("description: '").append(getDescription()).append("'").append(",");
             builder.append("id: '").append(getId()).append("'").append(",");
             builder.append("name: '").append(getName()).append("'");
+            builder.append("status: '").append(getStatus()).append("'");
             builder.append("}");
             return builder.toString();
         }

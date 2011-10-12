@@ -19,7 +19,7 @@
 <%
     HelperContext context = (HelperContext) ThemeConfig.get("context");
     String catalogName = (String) ThemeConfig.get("catalogName");
-    Catalog catalog = Catalog.findByName(context, catalogName);
+    Catalog catalog = Catalog.findByName(context, catalogName, true);
 %>
 <%@include file="portal/configuration/submissionGroups.jspf"%>
 <% String[] submissionGroups = SubmissionGroupManager.getGroups();%>
@@ -45,6 +45,8 @@
 
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/fonts/fonts-min.css">
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/tabview/assets/skins/sam/tabview.css">
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/paginator/assets/skins/sam/paginator.css" />
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/datatable/assets/skins/sam/datatable.css" />
 
 
         <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/theme.css" type="text/css">
@@ -59,6 +61,11 @@
         <script src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script>
         <script src="http://yui.yahooapis.com/2.9.0/build/tabview/tabview-min.js"></script>
         <script src="http://yui.yahooapis.com/2.9.0/build/selector/selector-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/connection/connection-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/paginator/paginator-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/datasource/datasource-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/datatable/datatable-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/json/json-min.js"></script> 
 
         <!-- Include the Theme javascript file. -->
         <script src="<%=ThemeConfig.get("root")%>/js/theme.js" type="text/javascript"></script>
@@ -71,6 +78,7 @@
 
         <!-- Include the javascript for the page. -->
         <script src="<%=ThemeConfig.get("root")%>/js/pages/portal.js" type="text/javascript"></script>
+        <script src="<%=ThemeConfig.get("root")%>/js/pages/portal-submissions.js" type="text/javascript"></script>
     </head>
     <body class="yui-skin-sam">
         <div id="portalHeader">
@@ -145,23 +153,7 @@
             <div class="content hidden">
                 <%@include file="portal/tableHeader.jspf"%>
                 <h1><%= submissionGroups[i]%></h1>
-                <div class="yui-navset" id="submissionGroupTab<%=i%>Content">
-                    <ul class="yui-nav">
-                        <% for (SubmissionList list : subgroups) {%>
-                        <% if (subgroups[0] == list) {%>
-                        <li class="selected"><a href="javascript:void(0)"><em><%= list.getName()%> (<%= list.getCount(context)%>)</em></a></li>
-                        <% } else {%>
-                        <li><a href="javascript:void(0)"><em><%= list.getName()%> (<%= list.getCount(context)%>)</em></a></li>
-                        <% }%>
-                        <% }%>
-                    </ul>
-                    <div class="yui-content">
-                        <% for (SubmissionList list : subgroups) {%>
-                        <div><%= list.getNameDigest()%></div>
-                        <% }%>
-                    </div>
-                </div>
-                <script type="text/javascript">new YAHOO.widget.TabView("submissionGroupTab<%= i%>Content");</script>
+                <%@include file="portal/pageFragments/submissionGroup.jspf"%>
                 <%@include file="portal/tableFooter.jspf"%>
             </div>
             <% }%>

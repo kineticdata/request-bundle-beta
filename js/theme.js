@@ -17,6 +17,12 @@ if (typeof THEME == "undefined") {
     if (typeof YAHOO == "undefined" || typeof YAHOO.util.Event == "undefined") {
         missingDependencies.push('event.js (event-min.js)');
     }
+    if (typeof YAHOO == "undefined" || typeof YAHOO.lang.JSON == "undefined") {
+        missingDependencies.push('json.js (json-min.js)');
+    }
+    if (typeof YAHOO == "undefined" || typeof YAHOO.util.Selector == "undefined") {
+        missingDependencies.push('selector.js (selector-min.js)');
+    }
 
     // If there were any missing dependencies
     if (missingDependencies.length > 0) {
@@ -63,7 +69,7 @@ if (typeof THEME == "undefined") {
                 THEME.displayError("Unable to configure navigation, the navigation " +
                     "selector query '" + config['navigationSelector'] + "' (" +
                     navigationElements.length + ") returns a different number of " +
-                    "elements than the content selector query '" + config['contentContainer'] +
+                    "elements than the content selector query '" + config['contentSelector'] +
                     "' (" + contentElements.length + ").");
             } else {
                 // For each of the associated elements
@@ -100,6 +106,18 @@ if (typeof THEME == "undefined") {
         }
         THEME.removeClass = function(element, className) {
             YAHOO.util.Dom.removeClass(element, className);
+        }
+
+        THEME.get = function(element) {
+            return YAHOO.util.Dom.get(element);
+        }
+
+        THEME.retrieve = function(selector, root) {
+            return YAHOO.util.Selector.query(selector, root, true);
+        }
+
+        THEME.select = function(selector, root) {
+            return YAHOO.util.Selector.query(selector, root);
         }
 
         THEME.onPageLoad = function(method) {
