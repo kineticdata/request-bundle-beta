@@ -3,27 +3,88 @@
 <style type="text/css">
 </style>
 <div id="catalogContent">
+
+    <div id="catalogBreadcrums">
+        <span><a href="javascript:void(0)">Service Portal</a></span>
+        <span class="crum">></span>
+        <span><a href="javascript:void(0)">People Services</a></span>
+        <span class="crum">></span>
+        <span><a href="javascript:void(0)">Employee Onboarding</a></span>
+    </div>
+
     <div id="catalogNavigation">
         <div class="navigationHeader">Search the Catalog</div>
-        <div class="navigationContent"><input type="text" name="search"/></div>
+        <div class="navigationContent">
+            <div><a href="javascript:void(0)" id="allCategoriesLink">All Categories</a></div>
+            <div><a href="javascript:void(0)" id="allServiceItemsLink">Service Items A to Z</a></div>
+        </div>
+        <div class="navigationHeader">Search the Catalog</div>
+        <div class="navigationContent">
+            <div><input type="text" name="search"/></div>
+        </div>
         <div class="navigationHeader">Service Categories</div>
         <div class="navigationContent" id="categoryLinks">
             <% for (Category category : catalog.getCategories(context)) {%>
+            <% if (category.hasTemplates()) {%>
             <div class="categoryLink"><a href="javascript:void(0)"><%= category.getName()%></a></div>
+            <% }%>
             <% }%>
         </div>
     </div>
-    <div id="categoryItems">
-        <% for (Category category : catalog.getCategories(context)) {%>
-        <div class="categoryItem hidden">
-            <div class="categoryTitle"><%= category.getName()%></div>
-            <div class="categoryDescription"><%= category.getDescription()%></div>
-            <% for (Template template : category.getTemplates()) {%>
-            <div class="serviceItemTitle"><a href="<%= template.getAnonymousUrl()%>"><%= template.getName()%></a></div>
-            <% }%>
 
+
+    <div id="catalogMain">
+
+        <div class="catalogMainItem" id="allCategories">
+
+            <div class="header">
+                <div class="title">All Categories</div>
+                <div class="description">This is a listing of every category in the service catalog.</div>
+            </div>
+            <div class="body">
+                <% for (Category category : catalog.getCategories(context)) {%>
+                <% if (category.hasTemplates()) {%>
+                <div>
+                    <div class="title"><a href="javascript:void(0)"><%= category.getName()%></a></div>
+                    <div class="description">Lorem ipsum stuff goes here because the description method has not been added yet.</div>
+                </div>
+                <% }%>
+                <% }%>
+            </div>
+        </div>
+
+        <div class="catalogMainItem hidden" id="allServiceItems">
+            <div class="header">
+                <div class="title">All Service Items</div>
+                <div class="description">This is a listing of every service item available in the service catalog.</div>
+            </div>
+            <div class="body">
+                <% for (Template template : catalog.getTemplates(context)) {%>
+                <div>
+                    <div class="title"><a href="javascript:void(0)"><%= template.getName()%></a></div>
+                    <div class="description">Lorem ipsum stuff goes here because the description method has not been added yet.</div>
+                </div>
+                <% }%>
+            </div>
+        </div>
+
+        <% for (Category category : catalog.getCategories(context)) {%>
+        <% if (category.hasTemplates()) {%>
+        <div class="catalogMainItem hidden categoryItem">
+            <div class="header">
+                <div class="title"><%= category.getName()%></div>
+                <div class="description"><%= category.getDescription()%></div>
+            </div>
+            <div class="body">
+                <% for (Template template : category.getTemplates()) {%>
+                <div class="title"><a href="<%= template.getAnonymousUrl()%>"><%= template.getName()%></a></div>
+                <div class="description">Lorem ipsum stuff goes here because the description method has not been added yet.</div>
+                <% }%>
+            </div>
         </div>
         <% }%>
+        <% }%>
+
     </div>
     <div class="clear"></div>
 </div>
