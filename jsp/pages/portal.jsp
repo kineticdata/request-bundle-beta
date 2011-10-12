@@ -45,8 +45,8 @@
 
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/fonts/fonts-min.css">
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/tabview/assets/skins/sam/tabview.css">
-        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/paginator/assets/skins/sam/paginator.css" />
-        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/datatable/assets/skins/sam/datatable.css" />
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/paginator/assets/skins/sam/paginator.css" >
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/datatable/assets/skins/sam/datatable.css" >
 
 
         <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/theme.css" type="text/css">
@@ -55,12 +55,12 @@
 
         <link rel="stylesheet" type="text/css" href="<%=ThemeConfig.get("root") + "/js/pages/portal.js"%>">
 
-        <script src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
-        <script src="http://yui.yahooapis.com/2.9.0/build/dom/dom-min.js"></script>
-        <script src="http://yui.yahooapis.com/2.9.0/build/event/event-min.js" ></script>
-        <script src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script>
-        <script src="http://yui.yahooapis.com/2.9.0/build/tabview/tabview-min.js"></script>
-        <script src="http://yui.yahooapis.com/2.9.0/build/selector/selector-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/dom/dom-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/event/event-min.js" ></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/tabview/tabview-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/selector/selector-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/connection/connection-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/paginator/paginator-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/datasource/datasource-min.js"></script>
@@ -131,7 +131,7 @@
                         </li>
                         <li>
                             <div class="name">Kinetic Community Homepage</div>
-                            <div class="link""><a href="http://community.kineticdata.com" class="primaryColor">http://community.kineticdata.com</a></div>
+                            <div class="link"><a href="http://community.kineticdata.com" class="primaryColor">http://community.kineticdata.com</a></div>
                         </li>
                     </ul>
                 </div>

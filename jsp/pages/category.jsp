@@ -14,12 +14,6 @@
     are added by the THEME_ROOT/jsp/includes/themeInitialization.jsp file.
 --%>
 <jsp:useBean id="ThemeConfig" scope="request" class="java.util.LinkedHashMap"/>
-<%-- Retrieve the Catalog --%>
-<%
-    HelperContext context = (HelperContext) ThemeConfig.get("context");
-    String catalogName = (String) ThemeConfig.get("catalogName");
-    Catalog catalog = Catalog.findByName(context, "Klean", true);
-%>
 <%-- Set the HTML DOCTYPE. --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -68,25 +62,18 @@
             THEME.config.rootPath = '<%=ThemeConfig.get("root")%>';
         </script>
     </head>
-    <body class="yui-skin-sam">
-        <h3>Catalog.getTemplates()</h3>
-        <% for (Template template : catalog.getTemplates(context)) { %>
-        <div><%= template.getName() %></div>
-        <ul>
-            <% for (Category category : template.getCategories()) { %>
-            <li><%= category.getName() %></li>
-            <% }%>
-        </ul>
-        <% } %>
 
-        <h3>Catalog.getCategories()</h3>
-        <% for (Category category : catalog.getCategories(context)) { %>
-        <div><%= category.getName() %></div>
-        <ul>
-            <% for (Template template : category.getTemplates()) { %>
-            <li><%= template.getName() %></li>
-            <% }%>
-        </ul>
-        <% } %>
+<%
+    HelperContext context = (HelperContext) ThemeConfig.get("context");
+    String catalogName = (String) ThemeConfig.get("catalogName");
+    Catalog catalog = Catalog.findByName(context, "Klean", true);
+%>
+
+    <body class="yui-skin-sam">
+        <h2>Service Names</h2>
+        
+        <h2>Service Descriptions</h2>
+
+        <h2>Service Attributes</h2>
     </body>
 </html>

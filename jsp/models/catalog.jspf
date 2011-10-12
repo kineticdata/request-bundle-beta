@@ -61,11 +61,8 @@
                     String categoryId = categorization.getEntryFieldValue(CATEGORIZATION_FIELD_CATEGORY_ID);
                     String templateId = categorization.getEntryFieldValue(CATEGORIZATION_FIELD_TEMPLATE_ID);
 
-                    System.out.println(categoryId +"->"+templateId);
-
                     Category category = catalog.categoryMap.get(categoryId);
                     Template template = catalog.templateMap.get(templateId);
-                    System.out.println("  "+category.getName()+ " -> "+template.getName());
                     category.addTemplate(template);
                     template.addCategory(category);
                 }
