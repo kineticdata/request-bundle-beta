@@ -3,150 +3,87 @@
 <style type="text/css">
 </style>
 <div id="catalogContent">
+
+    <div id="catalogBreadcrums">
+        <span><a href="javascript:void(0)">Service Portal</a></span>
+        <span class="crum">></span>
+        <span><a href="javascript:void(0)">People Services</a></span>
+        <span class="crum">></span>
+        <span><a href="javascript:void(0)">Employee Onboarding</a></span>
+    </div>
+
     <div id="catalogNavigation">
         <div class="navigationHeader">Search the Catalog</div>
-        <div class="navigationContent"><input type="text" name="search"/></div>
+        <div class="navigationContent">
+            <div><a href="javascript:void(0)" id="allCategoriesLink">All Categories</a></div>
+            <div><a href="javascript:void(0)" id="allServiceItemsLink">Service Items A to Z</a></div>
+        </div>
+        <div class="navigationHeader">Search the Catalog</div>
+        <div class="navigationContent">
+            <div><input type="text" name="search"/></div>
+        </div>
         <div class="navigationHeader">Service Categories</div>
         <div class="navigationContent" id="categoryLinks">
             <% for (Category category : catalog.getCategories(context)) {%>
+            <% if (category.hasTemplates()) {%>
             <div class="categoryLink"><a href="javascript:void(0)"><%= category.getName()%></a></div>
+            <% }%>
             <% }%>
         </div>
     </div>
-    <div id="categoryItems">
-        <style>
-            #searchResults h1 {
-                padding-bottom: 0.5em;
-            }
-            #searchResults h2 {
-                border-bottom: 1px dotted #A1A1A1;
-                border-top: 4px solid #A1A1A1;
-                color: #777;
-                font-size: 1.4em;
-                font-weight: normal;
-                padding: 5px 0px 5px 0px;
-            }
-            .highlighted {background: khaki;}
 
-            .allMatchesLink {float: right;padding-right: 2em;}
-            .resultType {clear: right;padding-bottom: 2em;position: relative;}
-            .templateMatch {padding-top: 0.5em;}
-            .matchingAttributes {
-                float: right;
-                text-align: left;
-                width: 40%;
-            }
-            .templateName {float: right; position: absolute; left: 0;}
-            .templateDescription {clear: right;}
-        </style>
-        <h1>Search Results: <span class="highlighted">Lorem</span></h1>
-        <div id="searchResults">
-            <div class="resultType">
-                <h2>Matching Service Names</h2>
-                <div class="templateMatch">
-                    <div class="templateName"><a class="secondaryColor" href="#"><span class="highlighted">Lorem</span> Ipsum</a></div>
-                    <div class="matchingAttributes">&nbsp;</div>
-                    <div class="templateDescription">
-                        Mauris vel eros libero. Nullam et lacus nec neque auctor sodales. Nulla a mi orci, at tincidunt lorem.
-                    </div>
-                </div>
-                <div class="templateMatch">
-                    <div class="templateName"><a class="secondaryColor" href="#"><span class="highlighted">Lorem</span> ipsum dolor sit</a></div>
-                    <div class="matchingAttributes">&nbsp;</div>
-                    <div class="templateDescription">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et lacus nec neque auctor sodales. Nulla a mi orci, at tincidunt lorem.
-                    </div>
-                </div>
-                <div class="templateMatch">
-                    <div class="templateName"><a class="secondaryColor" href="#"><span class="highlighted">Lorem</span> Template Name</a></div>
-                    <div class="matchingAttributes">&nbsp;</div>
-                    <div class="templateDescription">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel eros libero.
-                    </div>
-                </div>
-                <div class="templateMatch">
-                    <div class="templateName"><a class="secondaryColor" href="#">Mauris <span class="highlighted">Lorem</span></a></div>
-                    <div class="matchingAttributes">&nbsp;</div>
-                    <div class="templateDescription">
-                        Mauris vel eros libero.
-                    </div>
-                </div>
-                <div class="templateMatch">
-                    <div class="templateName"><a class="secondaryColor" href="#"><span class="highlighted">Lorem</span> <span class="highlighted">Lorem</span> <span class="highlighted">Lorem</span></a></div>
-                    <div class="matchingAttributes">&nbsp;</div>
-                    <div class="templateDescription">
-                        Nulla a mi orci, consectetur adipiscing elit. Mauris vel eros libero.
-                    </div>
-                </div>
-                <div class="allMatchesLink"><a class="primaryColor" href="#">See 10 more...</a></div>
+    <div id="catalogMain">
+
+        <div class="catalogMainItem" id="allCategories">
+
+            <div class="header">
+                <div class="title">All Categories</div>
+                <div class="description">This is a listing of every category in the service catalog.</div>
             </div>
-
-            <div class="resultType">
-                <h2>Matching Service Descriptions</h2>
-                <div class="templateMatch">
-                    <div class="templateName"><a class="secondaryColor" href="#">Template Name</a></div>
-                    <div class="matchingAttributes">&nbsp;</div>
-                    <div class="templateDescription">
-                        Mauris vel eros libero. Nullam et lacus nec neque auctor sodales. Nulla a mi orci, at tincidunt <span class="highlighted">lorem</span>.
-                    </div>
+            <div class="body">
+                <% for (Category category : catalog.getCategories(context)) {%>
+                <% if (category.hasTemplates()) {%>
+                <div>
+                    <div class="title"><a href="javascript:void(0)"><%= category.getName()%></a></div>
+                    <div class="description">Lorem ipsum stuff goes here because the description method has not been added yet.</div>
                 </div>
-                <div class="templateMatch">
-                    <div class="templateName"><a class="secondaryColor" href="#">Template Name</a></div>
-                    <div class="matchingAttributes">&nbsp;</div>
-                    <div class="templateDescription">
-                        <span class="highlighted">Lorem</span> ipsum dolor sit amet, consectetur adipiscing elit. Nullam et lacus nec neque auctor sodales. Nulla a mi orci, at tincidunt <span class="highlighted">lorem</span>.
-                    </div>
-                </div>
-                <div class="templateMatch">
-                    <div class="templateName"><a class="secondaryColor" href="#">Template Name</a></div>
-                    <div class="matchingAttributes">&nbsp;</div>
-                    <div class="templateDescription">
-                        <span class="highlighted">Lorem</span> ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel eros libero.
-                    </div>
-                </div>
-
-                <div class="allMatchesLink"><a class="primaryColor" href="#">See 25 more...</a></div>
+                <% }%>
+                <% }%>
             </div>
+        </div>
 
-            <div class="resultType">
-                <h2>Matching Service Attributes</h2>
-                <div class="templateMatch">
-                    <div class="templateName"><a class="secondaryColor" href="#">Template Name</a></div>
-                    <div class="matchingAttributes"><b>Attributes: </b><span class="highlighted">Keyword</span></div>
-                    <div class="templateDescription">
-                        Mauris vel eros libero. Nullam et lacus nec neque auctor sodales. Nulla a mi orci, at tincidunt lorem.
-                    </div>
+        <div class="catalogMainItem hidden" id="allServiceItems">
+            <div class="header">
+                <div class="title">All Service Items</div>
+                <div class="description">This is a listing of every service item available in the service catalog.</div>
+            </div>
+            <div class="body">
+                <% for (Template template : catalog.getTemplates(context)) {%>
+                <div>
+                    <div class="title"><a href="javascript:void(0)"><%= template.getName()%></a></div>
+                    <div class="description">Lorem ipsum stuff goes here because the description method has not been added yet.</div>
                 </div>
-                <div class="templateMatch">
-                    <div class="templateName"><a class="secondaryColor" href="#">Template Name</a></div>
-                    <div class="matchingAttributes"><b>Attributes: </b><span class="highlighted">Category</span>, <span class="highlighted">Keyword</span></div>
-                    <div class="templateDescription">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et lacus nec neque auctor sodales. Nulla a mi orci, at tincidunt lorem.
-                    </div>
-                </div>
-                <div class="templateMatch">
-                    <div class="templateName"><a class="secondaryColor" href="#">Template Name</a></div>
-                    <div class="matchingAttributes"><b>Attributes: </b><span class="highlighted">Category</span></div>
-                    <div class="templateDescription">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel eros libero.
-                    </div>
-                </div>
-
-                <div class="allMatchesLink"><a class="primaryColor" href="#">See 3 more...</a></div>
+                <% }%>
             </div>
         </div>
 
         <% for (Category category : catalog.getCategories(context)) {%>
-        <div class="categoryItem hidden">
-            <div class="categoryTitle"><%= category.getName()%></div>
-            <div class="categoryDescription"><%= category.getDescription()%></div>
-            <% for (Template template : category.getTemplates()) {%>
-            <div class="serviceItemTitle"><a href="<%= template.getAnonymousUrl()%>"><%= template.getName()%></a></div>
-            <div><%= template.getDescription() %></div>
-            <% }%>
-
+        <% if (category.hasTemplates()) {%>
+        <div class="catalogMainItem hidden categoryItem">
+            <div class="header">
+                <div class="title"><%= category.getName()%></div>
+                <div class="description"><%= category.getDescription()%></div>
+            </div>
+            <div class="body">
+                <% for (Template template : category.getTemplates()) {%>
+                <div class="title"><a href="<%= template.getAnonymousUrl()%>"><%= template.getName()%></a></div>
+                <div class="description">Lorem ipsum stuff goes here because the description method has not been added yet.</div>
+                <% }%>
+            </div>
         </div>
         <% }%>
+        <% }%>
+
     </div>
     <div class="clear"></div>
 </div>

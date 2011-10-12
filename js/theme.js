@@ -75,7 +75,7 @@ if (typeof THEME == "undefined") {
                 // For each of the associated elements
                 for (var index=0; index<navigationElements.length; index++) {
                     // Configure an event listener on click of the navigation element
-                    YAHOO.util.Event.on(navigationElements[index], "click", function (e) {
+                    YAHOO.util.Event.on(navigationElements[index], "click", function () {
                         // For each of the content elements
                         for (var eventIndex=0; eventIndex<contentElements.length; eventIndex++) {
                             var navigationElement = navigationElements[eventIndex];
