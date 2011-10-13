@@ -94,11 +94,11 @@
     <div id="catalogBreadcrums">
         <span><a class="breadcrumbLink" data-id="rootCategories" href="javascript:void(0)">Catalog Home</a></span>
     </div>
-    
-    <div id="searchBoxContainer">
+
+    <div id="searchBoxContainer" class="hidden">
         <input id="searchBox" type="text" name="search"/>
     </div>
-    <div id="searchContent" style="padding-top: 5px;">
+    <div id="searchContent" style="padding-top: 5px;" class="hidden">
         <div id="searchLoadDisplay" style="font-size: 2em; font-weight: bold; text-align: center;margin-top: 4em;">
             Searching for "<span id="searchLoadDisplayQuery"></span>"... <img alt="Loading Indicator" src="resources/loading.gif">
         </div>
@@ -110,10 +110,7 @@
         <div class="name">
             <a class="navigationLink" data-id="<%= category.getId()%>" href="javascript:void(0)"><%= category.getName()%></a>
         </div>
-        <div class="description">
-            Lorem ipsum dolor sit amet foo bar baz more text should go here because this is the description.
-
-        </div>
+        <div class="description"><%= category.getDescription()%></div>
         <% }%>
     </div>
 
@@ -121,25 +118,19 @@
     <div class="category hidden" id="<%= category.getId()%>">
         <div class="header">
             <div class="name"><%= category.getName()%></div>
-            <div class="description">Lorem ipsum dolor sit amet foo bar baz more text should go here because this is the description.</div>
+            <div class="description"><%= category.getDescription()%></div>
         </div>
         <div class="subcategories">
+            <% for (Category subcategory : category.getSubcategories()) {%>
             <div class="subcategory">
                 <div class="name">
-                    <a class="navigationLink" data-id="category.getId()" data-type="category" href="javascript:void(0)">Foo</a>
+                    <a class="navigationLink" data-id="<%= subcategory.getId()%>" data-type="category" href="javascript:void(0)"><%= subcategory.getName()%></a>
                 </div>
                 <div class="description">
-                    Lorem ipsum dolor sit amet foo bar baz more text should go here because this is the description.
+                    <%= subcategory.getDescription()%>
                 </div>
             </div>
-            <div class="subcategory">
-                <div class="name">
-                    <a class="navigationLink" data-id="category.getId()" data-type="category" href="javascript:void(0)">Foo</a>
-                </div>
-                <div class="description">
-                    Lorem ipsum dolor sit amet foo bar baz more text should go here because this is the description.
-                </div>
-            </div>
+            <% }%>
         </div>
         <div class="templates">
             <% for (Template template : category.getTemplates()) {%>
@@ -148,7 +139,7 @@
                     <a class="navigationLink" data-id="<%= template.getId()%>" data-type="template" href="javascript:void(0)"><%= template.getName()%></a>
                 </div>
                 <div class="description">
-                    Lorem ipsum dolor sit amet foo bar baz more text should go here because this is the description.
+                    <%= template.getDescription()%>
                 </div>
             </div>
             <% }%>
@@ -164,7 +155,7 @@
         <div class="header">
             <div class="name"><%= template.getName()%></div>
         </div>
-        <div class="description">Lorem ipsum dolor more text goes here, blah blah blah.</div>
+        <div class="description"><%= template.getDescription()%></div>
         <div class="link"><a href="javascript:void(0)">Request This</a></div>
     </div>
     <% }%>
