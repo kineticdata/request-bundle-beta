@@ -83,8 +83,12 @@
     <body class="yui-skin-sam">
         <div id="portalHeader">
             <div id="mainNavigation">
+                <div id="homeTab" class="navigationItem">
+                    <a href="javascript:void(0)"><img src="<%= ThemeConfig.get("root")%>/images/home.png" /></a>
+                </div>
+                <div class="divider"></div>
                 <div id="portalTab" class="navigationItem navigationItemActive">
-                    <a href="javascript:void(0)"><%= ThemeConfig.get("portalName")%></a>
+                    <a href="javascript:void(0)">Catalog</a>
                 </div>
                 <% for (String submissionGroup : submissionGroups) {%>
                 <div class="divider"></div>
@@ -136,15 +140,22 @@
                     </ul>
                 </div>
             </div>
-            
+
             <jsp:include page="portal/partials/recentSubmissions.jsp"/>
-            
+
             <div class="clear"></div>
         </div>
 
         <div id="portalBody">
-            <div id="portalTabContent" class="content">
+            <div class="content hidden">
+                <%@include file="portal/tableHeader.jspf"%>
+                <%@include file="portal/home.jspf"%>
+                <%@include file="portal/tableFooter.jspf"%>
+            </div>
+            <div class="content">
+                <%@include file="portal/tableHeader.jspf"%>
                 <%@include file="portal/catalog.jspf"%>
+                <%@include file="portal/tableFooter.jspf"%>
             </div>
             <%
                 for (int i = 0; i < submissionGroups.length; i++) {

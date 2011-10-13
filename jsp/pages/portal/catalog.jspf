@@ -1,92 +1,161 @@
-<%@include file="tableHeader.jspf"%>
+<script type="text/javascript">
+    THEME.breadcrums = [{
+            name: 'Catalog Home',
+            id: 'rootCategories'
+        }];
+    
+    THEME.lastBreadcrum = function() {
+        return THEME.breadcrums[THEME.breadcrums.length - 1];
+    }
+    
+    THEME.refreshBreadcrumHTML = function() {
+        // Build the new breadcrum HTML
+        var HTML = '';
+        for(var i=0; i<THEME.breadcrums.length; i++) {
+            var name = THEME.breadcrums[i]['name'];
+            var id = THEME.breadcrums[i]['id'];
+            if (i>0) {
+                HTML += '<span class="breadcrumDivider">></span>';
+            }
+            HTML += '<span class="breadcrum">';
+            HTML += '<a class="breadcrumLink" ';
+            HTML += 'data-id="' + id + '" ';
+            HTML += 'href="javascript:void(0)">';
+            HTML += name;
+            HTML += '</a></span>';
+        }
+        
+        // Set the HTML to the correct div element
+        var breadcrumElement = document.getElementById('catalogBreadcrums');
+        breadcrumElement.innerHTML = HTML;
 
-<style type="text/css">
-</style>
-<div id="catalogContent">
+        // Bind a click function to each of the breadcrumLink elements that shows
+        // the specified element and refreshes the breadcrum html.
+        var breadcrumLinks = YAHOO.util.Selector.query('#catalogBreadcrums .breadcrumLink');
+        for(var i=0; i<breadcrumLinks.length; i++) {
+            YAHOO.util.Event.on(breadcrumLinks[i], 'click', function() {
+                // Hide the currently displayed element.  The id of the currently
+                // displayed element should be stored in the most recent entry in
+                // the breadcrum stack.
+                var displayedElement = document.getElementById(THEME.lastBreadcrum()['id']);
+                THEME.addClass(displayedElement, 'hidden');
+                
+                // Get the target id stored in the link that triggers this function.
+                // Then retrieve and show the element.
+                var targetId = this.getAttribute('data-id');
+                var targetElement = document.getElementById(targetId);
+                THEME.removeClass(targetElement, 'hidden');
+                
+                // Rebuild the breadcrums.
+                // First remove elements from the breadcrums stack until we reach
+                // the element that was clicked.
+                while(THEME.lastBreadcrum()['id'] != targetId) {
+                    THEME.breadcrums.pop();
+                }
+                
+                THEME.refreshBreadcrumHTML();
+            });
+        }
+    };
+    
+    
+    THEME.onPageLoad(function() {
+        var navigationLinks = YAHOO.util.Selector.query('#catalog .navigationLink');
+        for(var i=0; i<navigationLinks.length; i++) {
+            YAHOO.util.Event.on(navigationLinks[i], 'click', function() {
+                // Hide the currently displayed element.
+                var displayedElement = document.getElementById(THEME.lastBreadcrum()['id']);
+                THEME.addClass(displayedElement, 'hidden');
+                
+                // Show the element specified by the link that triggered this function.
+                var targetId = this.getAttribute('data-id');
+                var targetName = this.innerHTML;
+                var targetElement = document.getElementById(targetId);
+                THEME.removeClass(targetElement, 'hidden');
+                
+                // Add this navigation action to the breadcrum stack by pushing
+                // the id and name of the link that triggered this function.
+                THEME.breadcrums.push({
+                    id: targetId,
+                    name: targetName
+                });
+                
+                // Rebuild the breadcrum HTML and insert it into the #breadcrum
+                // div element.
+                THEME.refreshBreadcrumHTML();
+            });
+        }
+    });
+
+</script>
+
+<div id="catalog">
 
     <div id="catalogBreadcrums">
-        <span><a href="javascript:void(0)">Service Portal</a></span>
-        <span class="crum">></span>
-        <span><a href="javascript:void(0)">People Services</a></span>
-        <span class="crum">></span>
-        <span><a href="javascript:void(0)">Employee Onboarding</a></span>
+        <span><a class="breadcrumbLink" data-id="rootCategories" href="javascript:void(0)">Catalog Home</a></span>
     </div>
 
-    <div id="catalogNavigation">
-        <div class="navigationHeader">Search the Catalog</div>
-        <div class="navigationContent">
-            <div><a href="javascript:void(0)" id="allCategoriesLink">All Categories</a></div>
-            <div><a href="javascript:void(0)" id="allServiceItemsLink">Service Items A to Z</a></div>
-        </div>
-        <div class="navigationHeader">Search the Catalog</div>
-        <div class="navigationContent">
-            <div><input type="text" name="search"/></div>
-        </div>
-        <div class="navigationHeader">Service Categories</div>
-        <div class="navigationContent" id="categoryLinks">
-            <% for (Category category : catalog.getCategories(context)) {%>
-            <% if (category.hasTemplates()) {%>
-            <div class="categoryLink"><a href="javascript:void(0)"><%= category.getName()%></a></div>
-            <% }%>
-            <% }%>
-        </div>
-    </div>
-
-
-    <div id="catalogMain">
-
-        <div class="catalogMainItem" id="allCategories">
-
-            <div class="header">
-                <div class="title">All Categories</div>
-                <div class="description">This is a listing of every category in the service catalog.</div>
-            </div>
-            <div class="body">
-                <% for (Category category : catalog.getCategories(context)) {%>
-                <% if (category.hasTemplates()) {%>
-                <div>
-                    <div class="title"><a href="javascript:void(0)"><%= category.getName()%></a></div>
-                    <div class="description">Lorem ipsum stuff goes here because the description method has not been added yet.</div>
-                </div>
-                <% }%>
-                <% }%>
-            </div>
-        </div>
-
-        <div class="catalogMainItem hidden" id="allServiceItems">
-            <div class="header">
-                <div class="title">All Service Items</div>
-                <div class="description">This is a listing of every service item available in the service catalog.</div>
-            </div>
-            <div class="body">
-                <% for (Template template : catalog.getTemplates(context)) {%>
-                <div>
-                    <div class="title"><a href="javascript:void(0)"><%= template.getName()%></a></div>
-                    <div class="description">Lorem ipsum stuff goes here because the description method has not been added yet.</div>
-                </div>
-                <% }%>
-            </div>
-        </div>
-
+    <div class="" id="rootCategories">
         <% for (Category category : catalog.getCategories(context)) {%>
-        <% if (category.hasTemplates()) {%>
-        <div class="catalogMainItem hidden categoryItem">
-            <div class="header">
-                <div class="title"><%= category.getName()%></div>
-                <div class="description"><%= category.getDescription()%></div>
-            </div>
-            <div class="body">
-                <% for (Template template : category.getTemplates()) {%>
-                <div class="title"><a href="<%= template.getAnonymousUrl()%>"><%= template.getName()%></a></div>
-                <div class="description">Lorem ipsum stuff goes here because the description method has not been added yet.</div>
-                <% }%>
-            </div>
+        <div class="name">
+            <a class="navigationLink" data-id="<%= category.getId()%>" href="javascript:void(0)"><%= category.getName()%></a>
+        </div>
+        <div class="description">
+            Lorem ipsum dolor sit amet foo bar baz more text should go here because this is the description.
         </div>
         <% }%>
-        <% }%>
-
     </div>
-    <div class="clear"></div>
-</div>
 
-<%@include file="tableFooter.jspf"%>
+    <% for (Category category : catalog.getCategories(context)) {%>
+    <div class="category hidden" id="<%= category.getId()%>">
+        <div class="header">
+            <div class="name"><%= category.getName()%></div>
+            <div class="description">Lorem ipsum dolor sit amet foo bar baz more text should go here because this is the description.</div>
+        </div>
+        <div class="subcategories">
+            <div class="subcategory">
+                <div class="name">
+                    <a class="navigationLink" data-id="category.getId()" data-type="category" href="javascript:void(0)">Foo</a>
+                </div>
+                <div class="description">
+                    Lorem ipsum dolor sit amet foo bar baz more text should go here because this is the description.
+                </div>
+            </div>
+            <div class="subcategory">
+                <div class="name">
+                    <a class="navigationLink" data-id="category.getId()" data-type="category" href="javascript:void(0)">Foo</a>
+                </div>
+                <div class="description">
+                    Lorem ipsum dolor sit amet foo bar baz more text should go here because this is the description.
+                </div>
+            </div>
+        </div>
+        <div class="templates">
+            <% for (Template template : category.getTemplates()) {%>
+            <div class="template">
+                <div class="name">
+                    <a class="navigationLink" data-id="<%= template.getId()%>" data-type="template" href="javascript:void(0)"><%= template.getName()%></a>
+                </div>
+                <div class="description">
+                    Lorem ipsum dolor sit amet foo bar baz more text should go here because this is the description.
+                </div>
+            </div>
+            <% }%>
+        </div>
+        <div class="clear"></div>
+        <!-- If there should be more content besides the subcategories and templates
+        it should go hear after the .clear div element -->
+    </div>
+    <% }%>
+
+    <% for (Template template : catalog.getTemplates(context)) {%>
+    <div class="template hidden" id="<%= template.getId()%>">
+        <div class="header">
+            <div class="name"><%= template.getName()%></div>
+        </div>
+        <div class="description">Lorem ipsum dolor more text goes here, blah blah blah.</div>
+        <div class="link"><a href="javascript:void(0)">Request This</a></div>
+    </div>
+    <% }%>
+
+</div>

@@ -28,28 +28,4 @@ THEME.onPageLoad(function() {
             THEME.addClass(element, 'hidden');
         }
     });
-    
-    THEME.activateNavigation({
-        navigationSelector: '#catalogContent #catalogNavigation #categoryLinks .categoryLink a',
-        contentSelector: '#catalogContent #catalogMain .categoryItem',
-        contentSelectHandler: function(element) {
-            itemElements = YAHOO.util.Selector.query('.catalogMainItem');
-            THEME.addClass(itemElements, 'hidden');
-            THEME.removeClass(element, 'hidden');
-        }
-    });
-
-    YAHOO.util.Event.on('allCategoriesLink', 'click', function () {
-        itemElements = YAHOO.util.Selector.query('.catalogMainItem');
-        THEME.addClass(itemElements, 'hidden');
-        categoriesElement = YAHOO.util.Selector.query('#allCategories');
-        THEME.removeClass(categoriesElement, 'hidden');
-    });
-
-    YAHOO.util.Event.on("allServiceItemsLink", "click", function () {
-        itemElements = YAHOO.util.Selector.query('.catalogMainItem');
-        THEME.addClass(itemElements, 'hidden');
-        serviceItemsElement = YAHOO.util.Selector.query('#allServiceItems');
-        THEME.removeClass(serviceItemsElement, 'hidden');
-    });
 });

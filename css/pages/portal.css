@@ -142,78 +142,45 @@
 }
 
 
-#catalogContent {
+#catalog {
     width: 100%;
 }
-#catalogContent a {
+#catalog a {
     color: #00427E;
 }
 
-
-#catalogContent #catalogBreadcrums {
-    margin-bottom: 1em;
-}
-#catalogContent #catalogBreadcrums .crum {
-    color: #888888;
-    font-family: "Courier New";
-    font-size: 1.0em;
-    font-weight: bolder;
-    margin: 0px 5px 0px 5px;
+#catalog #catalogBreadcrums {
+    margin-bottom: 10px;
 }
 
+#catalog .category .header {
+    border-top: 4px solid #777777;
+    border-bottom: 1px dotted #777777;
+    padding: 5px 0px;
+    margin: 0px 0px 10px 0px;
+}
+#catalog .category .header .description {
+    margin-top: 2px;
+}
+#catalog .category .header .name {
+    font-size: 1.3em;
+}
 
-#catalogContent #catalogNavigation {
-    border-right: 4px solid #A1A1A1;
+#catalog .category .subcategories {
+    border-right: 2px solid #777777;
     float: left;
     width: 18em;
-    padding-right: 10px;
 }
-#catalogContent #catalogNavigation .navigationHeader {
-    background-color: #F6F6F6;
-    border-top: 4px solid #A1A1A1;
-    border-bottom: 1px dotted #A1A1A1;
-    color: #555555;
-    font-size: 1.3em;
-    font-weight: bold;
-    padding: 5px;
-}
-#catalogContent #catalogNavigation .navigationContent {
-    padding: 5px;
-    margin-bottom: 15px;
-}
-#catalogContent #catalogNavigation .navigationContent div {
-    padding: 2px 0px;
+#catalog .category .templates {
+    margin-left: 19em;
 }
 
-
-#catalogContent #catalogMain {
-    border-top: 4px solid #A1A1A1;
-    margin-left: 20em;
+#catalog .template .header {
+    border-top: 4px solid #777777;
+    border-bottom: 1px dotted #777777;
+    padding: 5px 0px;
+    margin: 0px 0px 10px 0px;
 }
-#catalogContent #catalogMain .catalogMainItem .header {
-    border-bottom: 1px dotted #A1A1A1;
-    color: #555555;
-}
-#catalogContent #catalogMain .catalogMainItem .header .title {
+#catalog .template .header .name {
     font-size: 1.3em;
-    font-weight: bold;
-    padding-top: 5px;
-}
-#catalogContent #catalogMain .catalogMainItem .header .description {
-    color: #555555;
-    padding-top: 5px;
-}
-#catalogContent #catalogMain .catalogMainItem .body {
-    color: blue;
-}
-#catalogContent #catalogMain .catalogMainItem .body .title {
-    color: #00427E;
-    margin-top: 10px;
-}
-#catalogContent #catalogMain .catalogMainItem .body .title a {
-    color: #00427E;
-}
-#catalogContent #catalogMain .catalogMainItem .body .description {
-    color: #555555;
-    margin-top: 5px;
 }
