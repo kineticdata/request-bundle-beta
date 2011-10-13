@@ -16,6 +16,7 @@
             FIELD_SORT_ORDER, FIELD_NAME};
 
         private SimpleEntry entry = null;
+        private List<Category> subcategories = new ArrayList();
         private List<Template> templates = new ArrayList();
 
         public Category(SimpleEntry entry) {
@@ -38,6 +39,13 @@
             return results;
         }
 
+        public void addSubcategory(Category category) {
+            subcategories.add(category);
+        }
+        public Category[] getSubcategories() {
+            return subcategories.toArray(new Category[subcategories.size()]);
+        }
+
         public void addTemplate(Template template) {
             templates.add(template);
         }
@@ -49,7 +57,25 @@
         }
 
         public String getDescription() { return entry.getEntryFieldValue(FIELD_DESCRIPTION); }
+        public String getFullName() {return entry.getEntryFieldValue(FIELD_NAME);}
         public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
-        public String getName() {return entry.getEntryFieldValue(FIELD_NAME);}
+        public String getName() {
+            String[] trail = getNameTrail();
+            return trail[trail.length-1];
+        }
+        public String[] getNameTrail() {
+            return entry.getEntryFieldValue(FIELD_NAME).split(" :: ");
+        }
+        public String getParentName() {
+            StringBuilder result = new StringBuilder();
+            String[] trail = getNameTrail();
+            if (trail.length > 1) {
+                for (int i=0;i<trail.length-1;i++) {
+                    if (i!=0) result.append(" :: ");
+                    result.append(trail[i]);
+                }
+            }
+            return result.toString();
+        }
     }
 %>
