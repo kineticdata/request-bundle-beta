@@ -1,5 +1,44 @@
 // Once the page has loaded
 THEME.onPageLoad(function() {
+    var searchBox = THEME.get("searchBox");
+    
+    var searchListener = new YAHOO.util.KeyListener(
+        searchBox,
+        { keys: [YAHOO.util.KeyListener.KEY.ENTER] },
+        function() {
+            var searchContent = THEME.get("searchContent");
+            var searchLoadDisplay = THEME.get("searchLoadDisplay");
+            var searchLoadDisplayQuery = THEME.get("searchLoadDisplayQuery");
+            var searchResultsDisplay = THEME.get("searchResultsDisplay");
+
+            // Set the Search Load Display content
+            searchLoadDisplayQuery.innerHTML = searchBox.value;
+
+            // Hide the presently displayed content tab
+            THEME.hide("allCategories");
+            THEME.hide(searchContent);
+
+            // Ensure the proper Search Result display is visible
+            THEME.hide(searchResultsDisplay);
+            THEME.show(searchLoadDisplay);
+            // Show the search content pane
+            THEME.show(searchContent);
+
+            // Replace the search results content
+            THEME.replace(
+                searchResultsDisplay,
+                "/jsp/pages/portal/partials/searchResults.jsp?catalogName="+THEME.config.catalogName+"&query="+searchBox.value,
+                {callback: function() {
+                    THEME.hide(searchLoadDisplay);
+                    THEME.show(searchResultsDisplay);
+                }}
+            );
+                
+            searchBox.value = '';
+        }
+    );
+    searchListener.enable();
+
     /**
      * Configure the page tabs:
      *  - Link the children of the +tabContainer+ element (tabs) to the children

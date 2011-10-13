@@ -94,19 +94,30 @@
     <div id="catalogBreadcrums">
         <span><a class="breadcrumbLink" data-id="rootCategories" href="javascript:void(0)">Catalog Home</a></span>
     </div>
+    
+    <div id="searchBoxContainer">
+        <input id="searchBox" type="text" name="search"/>
+    </div>
+    <div id="searchContent" style="padding-top: 5px;">
+        <div id="searchLoadDisplay" style="font-size: 2em; font-weight: bold; text-align: center;margin-top: 4em;">
+            Searching for "<span id="searchLoadDisplayQuery"></span>"... <img alt="Loading Indicator" src="resources/loading.gif">
+        </div>
+        <div id="searchResultsDisplay"></div>
+    </div>
 
     <div class="" id="rootCategories">
-        <% for (Category category : catalog.getCategories(context)) {%>
+        <% for (Category category : catalog.getRootCategories(context)) {%>
         <div class="name">
             <a class="navigationLink" data-id="<%= category.getId()%>" href="javascript:void(0)"><%= category.getName()%></a>
         </div>
         <div class="description">
             Lorem ipsum dolor sit amet foo bar baz more text should go here because this is the description.
+
         </div>
         <% }%>
     </div>
 
-    <% for (Category category : catalog.getCategories(context)) {%>
+    <% for (Category category : catalog.getAllCategories(context)) {%>
     <div class="category hidden" id="<%= category.getId()%>">
         <div class="header">
             <div class="name"><%= category.getName()%></div>

@@ -21,7 +21,9 @@
         private SimpleEntry entry = null;
 
         private Map<String,Category> categoryMap = new LinkedHashMap();
+        private Map<String,Category> sortedCategoryMap = new TreeMap();
         private Category[] categories = null;
+        private List<Category> rootCategories = new ArrayList();
         private Map<String,Template> templateMap = new LinkedHashMap();
         private Template[] templates = null;
 
@@ -30,12 +32,8 @@
         }
 
         public static Catalog findByName(HelperContext context, String name) {
-            return findByName(context, name, false);
-        }
-
-        public static Catalog findByName(HelperContext context, String name, Boolean includeChildren) {
             Catalog catalog = null;
-
+            
             String qualification =
                 "'"+FIELD_STATUS+"' = \"Active\" AND "+
                 "'"+FIELD_NAME+"' = \""+name+"\"";
@@ -45,45 +43,74 @@
                 catalog = new Catalog(entry);
             }
 
-            if (includeChildren) {
-                Category[] categories = catalog.getCategories(context);
-                Template[] templates = catalog.getTemplates(context);
-
-                String categorizationQualification = 
-                    "'"+CATEGORIZATION_FIELD_CATELOG_ID+"' = \""+name+"\"";
-
-                SimpleEntry[] categorizations = Base.find(context,
-                    CATEGORIZATION_FORM_NAME,
-                    categorizationQualification,
-                    CATEGORIZATION_FIELD_IDS);
-
-                for(SimpleEntry categorization : categorizations) {
-                    String categoryId = categorization.getEntryFieldValue(CATEGORIZATION_FIELD_CATEGORY_ID);
-                    String templateId = categorization.getEntryFieldValue(CATEGORIZATION_FIELD_TEMPLATE_ID);
-
-                    System.out.println(categoryId +"->"+templateId);
-
-                    Category category = catalog.categoryMap.get(categoryId);
-                    Template template = catalog.templateMap.get(templateId);
-                    System.out.println("  "+category.getName()+ " -> "+template.getName());
-                    category.addTemplate(template);
-                    template.addCategory(category);
-                }
-            }
-
             return catalog;
         }
 
-        public Category[] getCategories(HelperContext context) {
+        public void preload(HelperContext context) {
+            Category[] categories = this.getAllCategories(context);
+            Template[] templates = this.getTemplates(context);
+
+            String categorizationQualification =
+                "'"+CATEGORIZATION_FIELD_CATELOG_ID+"' = \""+this.getName()+"\"";
+
+            SimpleEntry[] categorizations = Base.find(context,
+                CATEGORIZATION_FORM_NAME,
+                categorizationQualification,
+                CATEGORIZATION_FIELD_IDS);
+
+            for(SimpleEntry categorization : categorizations) {
+                String categoryId = categorization.getEntryFieldValue(CATEGORIZATION_FIELD_CATEGORY_ID);
+                String templateId = categorization.getEntryFieldValue(CATEGORIZATION_FIELD_TEMPLATE_ID);
+
+                Category category = this.categoryMap.get(categoryId);
+                Template template = this.templateMap.get(templateId);
+                category.addTemplate(template);
+                template.addCategory(category);
+            }
+        }
+
+        public Category[] getAllCategories(HelperContext context) {
             // If the memorized categories are null, populate the array
             if (categories == null) {
                 categories = Category.findByCatalogName(context, getName());
                 for(Category category : categories) {
                     categoryMap.put(category.getId(), category);
+                    sortedCategoryMap.put(category.getFullName(), category);
+                }
+                for(Category category : sortedCategoryMap.values()) {
+                    String[] trail = category.getNameTrail();
+                    if (trail.length == 1) {
+                        rootCategories.add(sortedCategoryMap.get(trail[0]));
+                    } else {
+                        Category parentCategory = sortedCategoryMap.get(category.getParentName());
+                        if (parentCategory != null) {
+                            parentCategory.addSubcategory(category);
+                        }
+                    }
                 }
             }
 
             return categories;
+        }
+
+        private void printCategoryTree(HelperContext context) {
+            printCategoryTree(getRootCategories(context), 1);
+        }
+
+        private void printCategoryTree(Category[] categories, int depth) {
+            StringBuilder builder = new StringBuilder();
+            for(int i=0;i<depth;i++) {builder.append("  ");}
+            for(Category category : categories) {
+                printCategoryTree(category.getSubcategories(), depth+1);
+            }
+        }
+
+        public Category[] getRootCategories(HelperContext context) {
+            if (categories == null) {
+                getAllCategories(context);
+            }
+
+            return rootCategories.toArray(new Category[rootCategories.size()]);
         }
 
         public Template[] getTemplates(HelperContext context) {

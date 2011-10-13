@@ -19,7 +19,8 @@
 <%
     HelperContext context = (HelperContext) ThemeConfig.get("context");
     String catalogName = (String) ThemeConfig.get("catalogName");
-    Catalog catalog = Catalog.findByName(context, catalogName, true);
+    Catalog catalog = Catalog.findByName(context, catalogName);
+    catalog.preload(context);
 %>
 <%@include file="portal/configuration/submissionGroups.jspf"%>
 <% String[] submissionGroups = SubmissionGroupManager.getGroups();%>
@@ -44,9 +45,10 @@
         <link rel="shortcut icon" href="<%=ThemeConfig.get("root")%>/images/logo-favicon.png" type="image/x-icon">
 
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/fonts/fonts-min.css">
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/button/assets/skins/sam/button.css">
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/tabview/assets/skins/sam/tabview.css">
-        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/paginator/assets/skins/sam/paginator.css" />
-        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/datatable/assets/skins/sam/datatable.css" />
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/paginator/assets/skins/sam/paginator.css" >
+        <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/datatable/assets/skins/sam/datatable.css" >
 
 
         <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/theme.css" type="text/css">
@@ -55,12 +57,15 @@
 
         <link rel="stylesheet" type="text/css" href="<%=ThemeConfig.get("root") + "/js/pages/portal.js"%>">
 
-        <script src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
-        <script src="http://yui.yahooapis.com/2.9.0/build/dom/dom-min.js"></script>
-        <script src="http://yui.yahooapis.com/2.9.0/build/event/event-min.js" ></script>
-        <script src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script>
-        <script src="http://yui.yahooapis.com/2.9.0/build/tabview/tabview-min.js"></script>
-        <script src="http://yui.yahooapis.com/2.9.0/build/selector/selector-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/dom/dom-min.js"></script>
+        <script type="text/javascript" src="/ksr/resources/js/yui/build/utilities/utilities.js"></script>
+        <script type="text/javascript" src="/ksr/resources/js/yui/build/container/container-min.js"></script>
+        <script type="text/javascript" src="/ksr/resources/js/yui/build/button/button-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/event/event.js" ></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/tabview/tabview-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/selector/selector-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/connection/connection-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/paginator/paginator-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/datasource/datasource-min.js"></script>
@@ -74,6 +79,7 @@
             // Configure the rootPath of the THEME's configuration.  This value
             // is used to reference callbacks for methods such as THEME.replace.
             THEME.config.rootPath = '<%=ThemeConfig.get("root")%>';
+            THEME.config.catalogName = '<%=ThemeConfig.get("catalogName")%>';
         </script>
 
         <!-- Include the javascript for the page. -->
@@ -135,7 +141,7 @@
                         </li>
                         <li>
                             <div class="name">Kinetic Community Homepage</div>
-                            <div class="link""><a href="http://community.kineticdata.com" class="primaryColor">http://community.kineticdata.com</a></div>
+                            <div class="link"><a href="http://community.kineticdata.com" class="primaryColor">http://community.kineticdata.com</a></div>
                         </li>
                     </ul>
                 </div>

@@ -7,11 +7,27 @@
         public static final String FIELD_DESCRIPTION = "700001010";
         public static final String FIELD_ID = "179";
         public static final String FIELD_NAME = "700001000";
+        public static final String FIELD_DISPLAY_NAME = "700002298";
         public static final String[] FIELD_IDS = new String[]{
             FIELD_ID, FIELD_DESCRIPTION, FIELD_NAME, FIELD_ANONYMOUS_URL};
 
         private SimpleEntry entry = null;
         private List<Category> categories = new ArrayList();
+
+        public static Template findByDisplayName(HelperContext context, String catalogName, String displayName) {
+            Template result = null;
+
+            String qualification =
+                "'"+FIELD_CATELOG+"' = \""+catalogName+"\" AND "+
+                "'"+FIELD_DISPLAY_NAME+"' = \""+displayName+"\"";
+
+            SimpleEntry entry = Base.findSingle(context, FORM_NAME, qualification, FIELD_IDS);
+            if (entry != null) {
+                result = new Template(entry);
+            }
+
+            return result;
+        }
 
         public static Template[] findByCatalogName(HelperContext context, String catalogName) {
             Template[] results = new Template[0];
@@ -41,6 +57,18 @@
         }
         public boolean hasTemplates() {
             return categories.size() > 0;
+        }
+
+        public String getCategorizationString() {
+            Category[] categories = getCategories();
+            StringBuilder result = new StringBuilder();
+            for(Category category : categories) {
+                // If this is not the first category, append a comma
+                if (category != categories[0]) {result.append(",");}
+                // Append the category name
+                result.append(category.getName());
+            }
+            return result.toString();
         }
 
         public String getAnonymousUrl() {return entry.getEntryFieldValue(FIELD_ANONYMOUS_URL);}
