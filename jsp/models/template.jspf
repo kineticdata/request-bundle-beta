@@ -59,6 +59,18 @@
             return categories.size() > 0;
         }
 
+        public String getCategorizationString() {
+            Category[] categories = getCategories();
+            StringBuilder result = new StringBuilder();
+            for(Category category : categories) {
+                // If this is not the first category, append a comma
+                if (category != categories[0]) {result.append(",");}
+                // Append the category name
+                result.append(category.getName());
+            }
+            return result.toString();
+        }
+
         public String getAnonymousUrl() {return entry.getEntryFieldValue(FIELD_ANONYMOUS_URL);}
         public String getCatelog() {return entry.getEntryFieldValue(FIELD_CATELOG);}
         public String getDescription() {return entry.getEntryFieldValue(FIELD_DESCRIPTION);}

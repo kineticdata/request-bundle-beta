@@ -171,7 +171,7 @@ if (typeof THEME == "undefined") {
         }
 
 
-        THEME.replace = function(elementReference, path, arguments) {
+        THEME.replace = function(elementReference, path, options) {
             if (THEME.config.rootPath == undefined) {
                 THEME.showErrorMessage("Error configuring THEME.replace AJAX " +
                     "request. Unable to determine the theme's root path.  Please "+
@@ -186,9 +186,8 @@ if (typeof THEME == "undefined") {
                         "found.");
                 } else {
                     var callback = {
-                        success: THEME.buildHandleReplaceSuccess(element),
-                        failure: THEME.buildHandleReplaceFailure(elementReference),
-                        arguments: arguments
+                        success: THEME.buildHandleReplaceSuccess(element, options),
+                        failure: THEME.buildHandleReplaceFailure(elementReference)
                     };
 
                     path = THEME.config.rootPath+'/'+path;
@@ -198,14 +197,14 @@ if (typeof THEME == "undefined") {
             }
         }
 
-        THEME.replaceIfEmpty = function (elementReference, path, arguments) {
+        THEME.replaceIfEmpty = function (elementReference, path, options) {
             var element = YAHOO.util.Dom.get(elementReference);
             if (element.children.length == 0) {
-                THEME.replace(elementReference, path, arguments);
+                THEME.replace(elementReference, path, options);
             }
         }
 
-        THEME.buildHandleReplaceSuccess = function(elementReference) {
+        THEME.buildHandleReplaceSuccess = function(elementReference, options) {
             var element = YAHOO.util.Dom.get(elementReference);
             return function(response) {
                 if (element == null) {
@@ -213,6 +212,9 @@ if (typeof THEME == "undefined") {
                         "THEME.replace call.  Target element was not found.");
                 } else {
                     element.innerHTML = response.responseText;
+                    if (options.callback) {
+                        options.callback();
+                    }
                 }
             }
         }

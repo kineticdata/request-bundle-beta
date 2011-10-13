@@ -13,14 +13,16 @@
     </div>
 
     <div id="catalogNavigation">
-        <div class="navigationHeader">Search the Catalog</div>
+        <div class="navigationHeader">Service Catalog</div>
         <div class="navigationContent">
             <div><a href="javascript:void(0)" id="allCategoriesLink">All Categories</a></div>
             <div><a href="javascript:void(0)" id="allServiceItemsLink">Service Items A to Z</a></div>
         </div>
         <div class="navigationHeader">Search the Catalog</div>
         <div class="navigationContent">
-            <div><input type="text" name="search"/></div>
+            <div id="searchBoxContainer">
+                <input id="searchBox" type="text" name="search"/>
+            </div>
         </div>
         <div class="navigationHeader">Service Categories</div>
         <div class="navigationContent" id="categoryLinks">
@@ -33,6 +35,12 @@
     </div>
 
     <div id="catalogMain">
+        <div class="catalogMainItem hidden" id="searchContent" style="padding-top: 5px;">
+            <div id="searchLoadDisplay" style="font-size: 2em; font-weight: bold; text-align: center;margin-top: 4em;">
+                Searching for "<span id="searchLoadDisplayQuery"></span>"... <img alt="Loading Indicator" src="resources/loading.gif">
+            </div>
+            <div id="searchResultsDisplay"></div>
+        </div>
 
         <div class="catalogMainItem" id="allCategories">
 

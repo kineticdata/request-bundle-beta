@@ -1,3 +1,10 @@
+#searchBoxContainer {
+    margin-right: 5px;
+}
+#searchBox {
+    width: 100%;
+}
+
 #recentSubmissions .submissionStatus {
     float: right;
 }
