@@ -159,6 +159,11 @@
 #catalog #catalogBreadcrums {
     margin-bottom: 10px;
 }
+#catalog #catalogBreadcrums .breadcrumDivider {
+    color: #A1A1A1;
+    font-weight: bold;
+    margin: 0px 5px;
+}
 
 #catalog .category .header {
     border-top: 4px solid #777777;
