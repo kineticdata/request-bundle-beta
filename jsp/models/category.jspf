@@ -55,6 +55,9 @@
         public boolean hasTemplates() {
             return templates.size() > 0;
         }
+        public boolean hasSubcategories() {
+            return subcategories.size() > 0;
+        }
 
         public String getDescription() { return entry.getEntryFieldValue(FIELD_DESCRIPTION); }
         public String getFullName() {return entry.getEntryFieldValue(FIELD_NAME);}

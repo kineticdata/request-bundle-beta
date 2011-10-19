@@ -191,3 +191,27 @@
 #catalog .template .header .name {
     font-size: 1.3em;
 }
+
+#catalog #rootCategories .rootCategory {
+    background-color: #EEEEEE;
+    border: 1px solid #CCCCCC;
+    float: left;
+    margin: 5px;
+    padding: 10px;
+    width: 40%;
+}
+#catalog #rootCategories .rootCategory:hover {
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+#catalog #rootCategories .rootCategory .image {
+    float: right;
+    margin-left: 10px;
+}
+#catalog #rootCategories .rootCategory .name {
+    border-bottom: 1px dotted #A1A1A1;
+    color: #00427E;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+}

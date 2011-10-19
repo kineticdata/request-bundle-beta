@@ -69,7 +69,10 @@
                 
                 // Show the element specified by the link that triggered this function.
                 var targetId = this.getAttribute('data-id');
-                var targetName = this.innerHTML;
+                var targetName = this.getAttribute('data-name');
+                if(targetName == undefined) {
+                    targetName = this.innerHTML;
+                }
                 var targetElement = document.getElementById(targetId);
                 THEME.removeClass(targetElement, 'hidden');
                 
@@ -107,11 +110,15 @@
 
     <div class="" id="rootCategories">
         <% for (Category category : catalog.getRootCategories(context)) {%>
-        <div class="name">
-            <a class="navigationLink" data-id="<%= category.getId()%>" href="javascript:void(0)"><%= category.getName()%></a>
+        <div class="rootCategory navigationLink" data-id="<%= category.getId()%>" data-name="<%= category.getName()%>">
+            <div class="name"><%= category.getName()%></div>
+            <div class="image">
+                <img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/>
+            </div>
+            <div class="description"><%= category.getDescription()%></div>
         </div>
-        <div class="description"><%= category.getDescription()%></div>
         <% }%>
+        <div class="clear"></div>
     </div>
 
     <% for (Category category : catalog.getAllCategories(context)) {%>
