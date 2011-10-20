@@ -1,1 +1,193 @@
-<h2>Welcome Home!</h2>
+<script src="http://yui.yahooapis.com/2.9.0/build/carousel/carousel.js"></script>
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/carousel/assets/skins/sam/carousel.css">
+<style>
+#home .header {
+    color: white;
+    margin-bottom: 10px;
+    padding: 5px;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+}
+
+#carouselContainer {
+    margin: 0;
+    height: 404px;
+    width: 604px;
+}
+.yui-carousel-element li {
+    height: 400px;
+    width: 600px;
+}
+.yui-carousel-nav {
+    display: none;
+}
+
+.yui-carousel .yui-carousel-item-selected {
+    border: 0;
+}
+li {outline: none;}
+
+body.home #portalRightColumn {display: none;}
+body.home #portalBody {margin:auto; margin-top: 50px; width: 950px;}
+body.home #portalBody .content {margin-right: 0;}
+
+.linkList {
+    float: left;
+}
+
+.linkLists {padding-top: 1em;}
+
+#carouselContainer img {z-index: -1;}
+#carouselContainer li div {float: left;z-index: 999;}
+
+.linkList .title {
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+}
+.siteReference {float: left; width: 275px;}
+.siteText {padding: 1em;}
+
+.itemDescription {float: left;}
+.itemDate {float: left;padding-right: 0.5em;}
+.itemLink {float: right;}
+.linkList ul li {padding: 0.25em 0;}
+
+#home .header {
+    background-image: url('<%= ThemeConfig.get("root")%>/images/secondaryHeader.png');
+    background-position: 0 0;
+    background-repeat: repeat-x;
+}
+
+.linkList .title {
+    background-image: url('<%= ThemeConfig.get("root")%>/images/secondaryHeader.png');
+    background-position: 0 0;
+    background-repeat: repeat-x;
+}
+
+</style>
+
+<script>
+    THEME.onPageLoad(function() {
+        var carousel = new YAHOO.widget.Carousel("carouselContainer", {
+            autoPlayInterval: 10000,
+            isCircular: true,
+            numVisible: 1
+        });
+        // Disable the termination of autoplay (which normally happens on click).
+        carousel.stopAutoPlay = function(){};
+        carousel.render();
+        carousel.show();
+        carousel.startAutoPlay();
+        THEME.show('carouselContainerList');
+    });
+</script>
+
+<div id="home">
+    <div class="header secondaryColorBackground"><%= ThemeConfig.get("portalName") %> Home</div>
+
+    <div>
+        <div id="carouselContainer" style="float: left;">
+            <ol id="carouselContainerList" class="hidden">
+                <li>
+                    <img alt="" src="<%= ThemeConfig.get("root") %>/images/home/home1_600x400.jpg">
+                    <div>Excellence in customer satisfaction</div>
+                </li>
+                <li>
+                    <img alt="" src="<%= ThemeConfig.get("root") %>/images/home/home2_600x400.jpg">
+                    <div>Excellence in customer satisfaction</div>
+                </li>
+                <li>
+                    <img alt="" src="<%= ThemeConfig.get("root") %>/images/home/home3_600x400.jpg">
+                    <div>Excellence in customer satisfaction</div>
+                </li>
+            </ol>
+        </div>
+        <!-- Render the logo and site name -->
+        <div id="siteReference" style="float:left;width: 275px;">
+            <div id="siteLogo" class="logo"></div>
+            <h1 id="siteName" class="primaryColor"><%= ThemeConfig.get("companyName")%><br><%= ThemeConfig.get("portalName")%></h1>
+            <div class="clear"></div>
+        </div>
+
+        <div class="siteText" style="float: left; width: 275px;">
+            Welcome to the <%= ThemeConfig.get("companyName") + " " +ThemeConfig.get("portalName")%>.
+            For help or support, please contact the Help Desk at <a class="primaryColor" href="tel:5555555555">555.555.5555</a> or <a class="primaryColor" href="email:helpdesk@acme.com">helpdesk@acme.com</a>.
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <div class="linkLists" style="width: 100%;">
+        <div class="linkList" style="margin-right:10px;width:240px;">
+            <div class="title secondaryColorBackground">System Alerts</div>
+            <ul>
+                <li>
+                    <div class="itemDescription">SAP - Inventory System Slow </div>
+                    <div class="itemLink"><a class="primaryColor" href="javascript:void(0)">more...</a></div>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <div class="itemDescription">Training Registration Down</div>
+                    <div class="itemLink"><a class="primaryColor" href="javascript:void(0)">more...</a></div>
+                    <div class="clear"></div>
+                </li>
+            </ul>
+        </div>
+        <div class="linkList" style="margin-right:10px;width:356px;">
+            <div class="title secondaryColorBackground">News and Events</div>
+            <ul>
+                <li>
+                    <div class="itemDescription">Kinetic Data releases Kinetic Request 5.1</div>
+                    <div class="itemLink"><a class="primaryColor" href="javascript:void(0)">more...</a></div>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <div class="itemDescription">Kinetic Data releases Kinetic Task 1.1</div>
+                    <div class="itemLink"><a class="primaryColor" href="javascript:void(0)">more...</a></div>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <div class="itemDescription">Kinetic Data releases Calendar 1.5</div>
+                    <div class="itemLink"><a class="primaryColor" href="javascript:void(0)">more...</a></div>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <div class="itemDescription">Kinetic Data wins Best Customer Support Award</div>
+                    <div class="itemLink"><a class="primaryColor" href="javascript:void(0)">more...</a></div>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <div class="itemDescription">Kinetic Data wins Innovator of the Year Award</div>
+                    <div class="itemLink"><a class="primaryColor" href="javascript:void(0)">more...</a></div>
+                    <div class="clear"></div>
+                </li>
+            </ul>
+        </div>
+        <div class="linkList" style="width:290px;">
+            <div class="title secondaryColorBackground">Scheduled Changes</div>
+            <ul>
+                <li>
+                    <div class="itemDate">2010-04-01</div>
+                    <div class="itemDescription">Remedy 7.6.3 Upgrade</div>
+                    <div class="itemLink"><a class="primaryColor" href="javascript:void(0)">more...</a></div>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <div class="itemDate">2010-04-01</div>
+                    <div class="itemDescription">AntiVirus Update</div>
+                    <div class="itemLink"><a class="primaryColor" href="javascript:void(0)">more...</a></div>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <div class="itemDate">2010-04-01</div>
+                    <div class="itemDescription">Server Move Scheduled</div>
+                    <div class="itemLink"><a class="primaryColor" href="javascript:void(0)">more...</a></div>
+                    <div class="clear"></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>

@@ -90,12 +90,12 @@
 </script>
 
 <div id="catalog">
-
+    
     <div id="catalogBreadcrums">
         <span><a class="breadcrumbLink" data-id="rootCategories" href="javascript:void(0)">Catalog Home</a></span>
     </div>
 
-    <div id="searchBoxContainer" class="hidden">
+    <div id="searchBoxContainer" class="">
         <input id="searchBox" type="text" name="search"/>
     </div>
     <div id="searchContent" style="padding-top: 5px;" class="hidden">

@@ -82,7 +82,7 @@
 
 
 #portalHeader {
-    background: url("../../images/nav_bg.gif") repeat-x scroll left top transparent;
+    background: url("../../images/nav_bg.png") repeat-x scroll left top transparent;
     color: #FFFFFF;
     height: 38px;
     left: 0;
@@ -116,7 +116,7 @@
     text-decoration: none;
 }
 #portalHeader .navigationItemActive {
-    background: url("../../images/nav_bg_active.gif") no-repeat scroll center top transparent;
+    background: url("../../images/nav_bg_active.png") no-repeat scroll center top transparent;
 }
 
 #portalBody {

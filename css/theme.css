@@ -21,7 +21,7 @@ input.readonly {
     color: #777;
 }
 
-ul.horizontalNavigation {
+ul {
     list-style: none;
 }
 
@@ -44,47 +44,52 @@ ul.horizontalNavigation li {
 }
 
 .fadedBackground {
-    background: #E4E4E4 url('../images/4x1000GreyFade.jpg') 0 0 repeat-x;
+    background: #E6E6E6 url('../images/4x1000Fade-ffffff-e6e6e6.jpg') 0 0 repeat-x;
+}
+
+.fadedBackground2 {
+    background: #FFF url('../images/4x1000Fade-e6e6e6-ffffff.jpg') 0 0 repeat-x;
 }
 
 .tableShell td.topLeft {
-    background-image: url("../images/table_top_lf.gif");
+    background-image: url('../images/shadows/shadow_corner_tl.png');
     background-repeat: no-repeat;
-    height: 17px;
-    width: 21px;
+    height: 16px;
+    width: 16px;
 }
 .tableShell td.topMiddle {
-    background-image: url("../images/table_mid_top.gif");
-    height: 17px;
+    background-image: url('../images/shadows/shadow_middle_top.png');
+    height: 10px;
 }
 .tableShell td.topRight {
-    background-image: url("../images/table_top_rt.gif");
+    background-image: url('../images/shadows/shadow_corner_tr.png');
     background-repeat: no-repeat;
-    height: 17px;
+    height: 16px;
     width: 21px;
 }
 .tableShell td.middleLeft {
-    background-image: url("../images/table_mid_lf.gif");
-    width: 21px;
+    background-image: url('../images/shadows/shadow_middle_left.png');
+    width: 10px;
 }
 .tableShell td.middleMiddle {
+    background: white;
 }
 .tableShell td.middleRight {
-    background-image: url("../images/table_mid_rt.gif");
-    width: 21px;
+    background-image: url('../images/shadows/shadow_middle_right.png');
+    width: 10px;
 }
 .tableShell td.bottomLeft {
-    background-image: url("../images/table_bot_lf.gif");
+    background-image: url('../images/shadows/shadow_corner_bl.png');
     background-repeat: no-repeat;
     height: 21px;
-    width: 21px;
+    width: 16px;
 }
 .tableShell td.bottomMiddle {
-    background-image: url("../images/table_mid_btm.gif");
-    height: 21px;
+    background-image: url('../images/shadows/shadow_middle_bottom.png');
+    height: 10px;
 }
 .tableShell td.bottomRight {
-    background-image: url("../images/table_bot_rt.gif");
+    background-image: url('../images/shadows/shadow_corner_br.png');
     background-repeat: no-repeat;
     height: 21px;
     width: 21px;

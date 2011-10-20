@@ -55,6 +55,11 @@ THEME.onPageLoad(function() {
         navigationSelector: '#mainNavigation .navigationItem',
         navigationSelectHandler: function(element) {
             THEME.addClass(element, 'navigationItemActive');
+            if (element.id == 'homeTab') {
+                THEME.addClass(document.body, 'home');
+            } else {
+                THEME.removeClass(document.body, 'home');
+            }
         },
         navigationUnselectHandler: function(element) {
             THEME.removeClass(element, 'navigationItemActive');

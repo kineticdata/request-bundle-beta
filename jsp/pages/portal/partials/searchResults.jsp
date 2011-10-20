@@ -46,7 +46,8 @@
 <%
     String catalogName = request.getParameter("catalogName");
     ThemeConfig.put("catalogName", catalogName);
-    Catalog catalog = Catalog.findByName(context, catalogName, true);
+    Catalog catalog = Catalog.findByName(context, catalogName);
+    catalog.preload(context);
 
     /**
      * The following code accepts the HTTP parameter "query", breaks it into
@@ -214,7 +215,7 @@
 
         <div class="allMatchesLink"><a class="primaryColor" href="#">See 25 more...</a></div>
     </div>
--->
+
     <div class="resultType">
         <h2>Matching Service Attributes</h2>
         <div class="templateMatch">
@@ -240,8 +241,8 @@
         </div>
 
         <div class="allMatchesLink"><a class="primaryColor" href="#">See 3 more...</a></div>
-
     </div>
+-->
 </div>
 <% 
     }

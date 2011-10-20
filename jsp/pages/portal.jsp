@@ -63,7 +63,7 @@
         <script type="text/javascript" src="/ksr/resources/js/yui/build/container/container-min.js"></script>
         <script type="text/javascript" src="/ksr/resources/js/yui/build/button/button-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/event/event.js" ></script>
-        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/element/element.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/tabview/tabview-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/selector/selector-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/connection/connection-min.js"></script>
@@ -86,14 +86,14 @@
         <script src="<%=ThemeConfig.get("root")%>/js/pages/portal.js" type="text/javascript"></script>
         <script src="<%=ThemeConfig.get("root")%>/js/pages/portal-submissions.js" type="text/javascript"></script>
     </head>
-    <body class="yui-skin-sam">
+    <body class="yui-skin-sam home fadedBackground2">
         <div id="portalHeader">
             <div id="mainNavigation">
-                <div id="homeTab" class="navigationItem">
+                <div id="homeTab" class="navigationItem navigationItemActive">
                     <a href="javascript:void(0)"><img src="<%= ThemeConfig.get("root")%>/images/home.png" /></a>
                 </div>
                 <div class="divider"></div>
-                <div id="portalTab" class="navigationItem navigationItemActive">
+                <div id="portalTab" class="navigationItem">
                     <a href="javascript:void(0)">Catalog</a>
                 </div>
                 <% for (String submissionGroup : submissionGroups) {%>
@@ -153,12 +153,12 @@
         </div>
 
         <div id="portalBody">
-            <div class="content hidden">
+            <div class="content">
                 <%@include file="portal/tableHeader.jspf"%>
                 <%@include file="portal/home.jspf"%>
                 <%@include file="portal/tableFooter.jspf"%>
             </div>
-            <div class="content">
+            <div class="content hidden">
                 <%@include file="portal/tableHeader.jspf"%>
                 <%@include file="portal/catalog.jspf"%>
                 <%@include file="portal/tableFooter.jspf"%>
