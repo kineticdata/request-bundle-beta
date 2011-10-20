@@ -1,8 +1,8 @@
 #searchBoxContainer {
-    margin-right: 5px;
+    float: right;
+    width: 13em;
 }
 #searchBox {
-    width: 100%;
 }
 
 #recentSubmissions .submissionStatus {
@@ -152,71 +152,74 @@
 #catalog {
     width: 100%;
 }
-#catalog a {
-    color: #00427E;
+#catalog .even {
+    float: left;
 }
-
-#catalog #catalogBreadcrums {
-    margin-bottom: 10px;
+#catalog .odd {
+    float: right;
 }
-#catalog #catalogBreadcrums .breadcrumDivider {
+#catalog #catalogBreadcrumbs {
+    margin-right: 20em;
+}
+#catalog #catalogBreadcrumbs .breadcrumbDivider {
     color: #A1A1A1;
     font-weight: bold;
     margin: 0px 5px;
 }
 
-#catalog .category .header {
-    border-top: 4px solid #777777;
-    border-bottom: 1px dotted #777777;
-    padding: 5px 0px;
-    margin: 0px 0px 10px 0px;
+#catalog .category .categoryHeader, #catalog #rootCategories .categoryHeader {
+    background-image: url('../../images/secondaryHeader.png');
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    color: white;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 4px;
+    text-align: center;
 }
-#catalog .category .header .description {
-    margin-top: 2px;
+#catalog .category .categoryDescription, #catalog #rootCategories .categoryDescription {
+    margin-bottom: 10px;
 }
-#catalog .category .header .name {
-    font-size: 1.3em;
-}
-
-#catalog .category .subcategories {
-    border-right: 2px solid #777777;
-    float: left;
-    width: 18em;
-}
-#catalog .category .templates {
-    margin-left: 19em;
-}
-
-#catalog .template .header {
-    border-top: 4px solid #777777;
-    border-bottom: 1px dotted #777777;
-    padding: 5px 0px;
-    margin: 0px 0px 10px 0px;
-}
-#catalog .template .header .name {
-    font-size: 1.3em;
+#catalog .category .subcategories .subcategoriesHeader, #catalog .category .templates .templatesHeader, #catalog #rootCategories .subcategoriesHeader {
+    background-image: url('../../images/secondaryHeader.png');
+    background-position: 0 0;
+    background-repeat: repeat-x;color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 1px;
+    text-align: center;
 }
 
-#catalog #rootCategories .rootCategory {
+#catalog .category .subcategories .subcategory, #catalog #rootCategories .rootCategory {
     background-color: #EEEEEE;
-    border: 1px solid #CCCCCC;
-    float: left;
-    margin: 5px;
-    padding: 10px;
-    width: 40%;
+    border: 1px dotted #A1A1A1;
+    margin-bottom: 10px;
+    width: 49%;
 }
-#catalog #rootCategories .rootCategory:hover {
+#catalog .category .subcategories .subcategory:hover, #catalog #rootCategories .rootCategory:hover {
     background-color: #FFFFFF;
     cursor: pointer;
 }
-#catalog #rootCategories .rootCategory .image {
-    float: right;
-    margin-left: 10px;
+#catalog .category .subcategories .subcategory .description, #catalog #rootCategories .rootCategory .description {
+    padding: 5px;
 }
-#catalog #rootCategories .rootCategory .name {
+#catalog .category .subcategories .subcategory .image, #catalog #rootCategories .rootCategory .image {
+    float: right;
+    padding: 5px;
+}
+#catalog .category .subcategories .subcategory .name, #catalog #rootCategories .rootCategory .name {
     border-bottom: 1px dotted #A1A1A1;
     color: #00427E;
     font-weight: bold;
     margin-bottom: 5px;
-    padding-bottom: 5px;
+    padding: 5px;
+}
+
+#catalog .category .templates .template {
+    margin-bottom: 10px;
+}
+#catalog .category .templates .template .name {
+    margin-bottom: 5px;
 }
