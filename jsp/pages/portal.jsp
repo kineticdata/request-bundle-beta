@@ -159,9 +159,7 @@
                 <%@include file="portal/tableFooter.jspf"%>
             </div>
             <div class="content hidden">
-                <%@include file="portal/tableHeader.jspf"%>
                 <%@include file="portal/catalog.jspf"%>
-                <%@include file="portal/tableFooter.jspf"%>
             </div>
             <%
                 for (int i = 0; i < submissionGroups.length; i++) {

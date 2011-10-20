@@ -1,24 +1,24 @@
 <script type="text/javascript">
-    THEME.breadcrums = [{
+    THEME.breadcrumbs = [{
             name: 'Catalog Home',
             id: 'rootCategories'
         }];
     
-    THEME.lastBreadcrum = function() {
-        return THEME.breadcrums[THEME.breadcrums.length - 1];
+    THEME.lastBreadcrumb = function() {
+        return THEME.breadcrumbs[THEME.breadcrumbs.length - 1];
     }
     
-    THEME.refreshBreadcrumHTML = function() {
-        // Build the new breadcrum HTML
+    THEME.refreshBreadcrumbHTML = function() {
+        // Build the new breadcrumb HTML
         var HTML = '';
-        for(var i=0; i<THEME.breadcrums.length; i++) {
-            var name = THEME.breadcrums[i]['name'];
-            var id = THEME.breadcrums[i]['id'];
+        for(var i=0; i<THEME.breadcrumbs.length; i++) {
+            var name = THEME.breadcrumbs[i]['name'];
+            var id = THEME.breadcrumbs[i]['id'];
             if (i>0) {
-                HTML += '<span class="breadcrumDivider">></span>';
+                HTML += '<span class="breadcrumbDivider">></span>';
             }
-            HTML += '<span class="breadcrum">';
-            HTML += '<a class="breadcrumLink" ';
+            HTML += '<span class="breadcrumb">';
+            HTML += '<a class="breadcrumbLink secondaryColor" ';
             HTML += 'data-id="' + id + '" ';
             HTML += 'href="javascript:void(0)">';
             HTML += name;
@@ -26,18 +26,18 @@
         }
         
         // Set the HTML to the correct div element
-        var breadcrumElement = document.getElementById('catalogBreadcrums');
-        breadcrumElement.innerHTML = HTML;
+        var breadcrumbElement = document.getElementById('catalogBreadcrumbs');
+        breadcrumbElement.innerHTML = HTML;
 
-        // Bind a click function to each of the breadcrumLink elements that shows
-        // the specified element and refreshes the breadcrum html.
-        var breadcrumLinks = YAHOO.util.Selector.query('#catalogBreadcrums .breadcrumLink');
-        for(var i=0; i<breadcrumLinks.length; i++) {
-            YAHOO.util.Event.on(breadcrumLinks[i], 'click', function() {
+        // Bind a click function to each of the breadcrumbLink elements that shows
+        // the specified element and refreshes the breadcrumb html.
+        var breadcrumbLinks = YAHOO.util.Selector.query('#catalogBreadcrumbs .breadcrumbLink');
+        for(var i=0; i<breadcrumbLinks.length; i++) {
+            YAHOO.util.Event.on(breadcrumbLinks[i], 'click', function() {
                 // Hide the currently displayed element.  The id of the currently
                 // displayed element should be stored in the most recent entry in
-                // the breadcrum stack.
-                var displayedElement = document.getElementById(THEME.lastBreadcrum()['id']);
+                // the breadcrumb stack.
+                var displayedElement = document.getElementById(THEME.lastBreadcrumb()['id']);
                 THEME.addClass(displayedElement, 'hidden');
                 
                 // Get the target id stored in the link that triggers this function.
@@ -46,14 +46,14 @@
                 var targetElement = document.getElementById(targetId);
                 THEME.removeClass(targetElement, 'hidden');
                 
-                // Rebuild the breadcrums.
-                // First remove elements from the breadcrums stack until we reach
+                // Rebuild the breadcrumbs.
+                // First remove elements from the breadcrumbs stack until we reach
                 // the element that was clicked.
-                while(THEME.lastBreadcrum()['id'] != targetId) {
-                    THEME.breadcrums.pop();
+                while(THEME.lastBreadcrumb()['id'] != targetId) {
+                    THEME.breadcrumbs.pop();
                 }
                 
-                THEME.refreshBreadcrumHTML();
+                THEME.refreshBreadcrumbHTML();
             });
         }
     };
@@ -64,25 +64,28 @@
         for(var i=0; i<navigationLinks.length; i++) {
             YAHOO.util.Event.on(navigationLinks[i], 'click', function() {
                 // Hide the currently displayed element.
-                var displayedElement = document.getElementById(THEME.lastBreadcrum()['id']);
+                var displayedElement = document.getElementById(THEME.lastBreadcrumb()['id']);
                 THEME.addClass(displayedElement, 'hidden');
                 
                 // Show the element specified by the link that triggered this function.
                 var targetId = this.getAttribute('data-id');
-                var targetName = this.innerHTML;
+                var targetName = this.getAttribute('data-name');
+                if(targetName == undefined) {
+                    targetName = this.innerHTML;
+                }
                 var targetElement = document.getElementById(targetId);
                 THEME.removeClass(targetElement, 'hidden');
                 
-                // Add this navigation action to the breadcrum stack by pushing
+                // Add this navigation action to the breadcrumb stack by pushing
                 // the id and name of the link that triggered this function.
-                THEME.breadcrums.push({
+                THEME.breadcrumbs.push({
                     id: targetId,
                     name: targetName
                 });
                 
-                // Rebuild the breadcrum HTML and insert it into the #breadcrum
+                // Rebuild the breadcrumb HTML and insert it into the #breadcrumb
                 // div element.
-                THEME.refreshBreadcrumHTML();
+                THEME.refreshBreadcrumbHTML();
             });
         }
     });
@@ -90,14 +93,19 @@
 </script>
 
 <div id="catalog">
-    
-    <div id="catalogBreadcrums">
-        <span><a class="breadcrumbLink" data-id="rootCategories" href="javascript:void(0)">Catalog Home</a></span>
+    <%@include file="../portal/tableHeader.jspf"%>
+    <div>
+        <div id="searchBoxContainer">
+            <input id="searchBox" type="text" name="search"/>
+        </div>
+        <div id="catalogBreadcrumbs">
+            <span><a class="breadcrumbLink secondaryColor" data-id="rootCategories" href="javascript:void(0)">Catalog Home</a></span>
+        </div>
+        <div class="clear"></div>
     </div>
+    <%@include file="../portal/tableFooter.jspf"%>
 
-    <div id="searchBoxContainer" class="">
-        <input id="searchBox" type="text" name="search"/>
-    </div>
+    <%@include file="../portal/tableHeader.jspf"%>
     <div id="searchContent" style="padding-top: 5px;" class="hidden">
         <div id="searchLoadDisplay" style="font-size: 2em; font-weight: bold; text-align: center;margin-top: 4em;">
             Searching for "<span id="searchLoadDisplayQuery"></span>"... <img alt="Loading Indicator" src="resources/loading.gif">
@@ -106,37 +114,60 @@
     </div>
 
     <div class="" id="rootCategories">
-        <% for (Category category : catalog.getRootCategories(context)) {%>
-        <div class="name">
-            <a class="navigationLink" data-id="<%= category.getId()%>" href="javascript:void(0)"><%= category.getName()%></a>
+        <div class="categoryHeader">Catalog Home</div>
+        <div class="categoryDescription"><%= catalog.getDescription()%></div>
+        <div class="subcategoriesHeader">Categories</div>
+        <%  String styleClass;
+            Category[] rootCategories = catalog.getRootCategories(context);
+            for (int i = 0; i < rootCategories.length; i++) {
+                Category category = rootCategories[i];
+                if (i % 2 == 0) {
+                    styleClass = "even";
+                } else {
+                    styleClass = "odd";
+                }%>
+        <div class="rootCategory navigationLink <%= styleClass%>" data-id="<%= category.getId()%>" data-name="<%= category.getName()%>">
+            <div class="name"><%= category.getName()%></div>
+            <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
+            <div class="description"><%= category.getDescription()%></div>
         </div>
-        <div class="description"><%= category.getDescription()%></div>
         <% }%>
+        <div class="clear"></div>
     </div>
 
     <% for (Category category : catalog.getAllCategories(context)) {%>
     <div class="category hidden" id="<%= category.getId()%>">
-        <div class="header">
-            <div class="name"><%= category.getName()%></div>
-            <div class="description"><%= category.getDescription()%></div>
-        </div>
+        <div class="categoryHeader"><%= category.getName()%></div>
+        <div class="categoryDescription"><%= category.getDescription()%></div>
+
+        <% if (category.hasSubcategories()) {%>
         <div class="subcategories">
-            <% for (Category subcategory : category.getSubcategories()) {%>
-            <div class="subcategory">
-                <div class="name">
-                    <a class="navigationLink" data-id="<%= subcategory.getId()%>" data-type="category" href="javascript:void(0)"><%= subcategory.getName()%></a>
-                </div>
-                <div class="description">
-                    <%= subcategory.getDescription()%>
-                </div>
+            <div class="subcategoriesHeader">Subcategories</div>
+            <%
+                Category[] subcategories = category.getSubcategories();
+                for (int i = 0; i < subcategories.length; i++) {
+                    if (i % 2 == 0) {
+                        styleClass = "even";
+                    } else {
+                        styleClass = "odd";
+                    }%>
+            <div class="subcategory navigationLink <%= styleClass%>" data-id="<%= subcategories[i].getId()%>" data-name="<%= subcategories[i].getName()%>">
+                <div class="name secondaryColor"><%= subcategories[i].getName()%></div>
+                <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
+                <div class="description"><%= subcategories[i].getDescription()%></div>
             </div>
             <% }%>
+            <div class="clear"></div>
         </div>
+        <% }%>
+
+        <% if (category.hasTemplates()) {%>
         <div class="templates">
+            <div class="templatesHeader">Service Items</div>
             <% for (Template template : category.getTemplates()) {%>
             <div class="template">
                 <div class="name">
-                    <a class="navigationLink" data-id="<%= template.getId()%>" data-type="template" href="javascript:void(0)"><%= template.getName()%></a>
+                    <a class="primaryColor" href="javascript:void(0)"><%= template.getName()%></a>
                 </div>
                 <div class="description">
                     <%= template.getDescription()%>
@@ -144,20 +175,9 @@
             </div>
             <% }%>
         </div>
-        <div class="clear"></div>
-        <!-- If there should be more content besides the subcategories and templates
-        it should go hear after the .clear div element -->
+        <% }%>
     </div>
     <% }%>
-
-    <% for (Template template : catalog.getTemplates(context)) {%>
-    <div class="template hidden" id="<%= template.getId()%>">
-        <div class="header">
-            <div class="name"><%= template.getName()%></div>
-        </div>
-        <div class="description"><%= template.getDescription()%></div>
-        <div class="link"><a href="javascript:void(0)">Request This</a></div>
-    </div>
-    <% }%>
+    <%@include file="../portal/tableFooter.jspf"%>
 
 </div>
