@@ -117,6 +117,9 @@ if (typeof THEME == "undefined") {
         THEME.addClass = function(element, className) {
             YAHOO.util.Dom.addClass(element, className);
         }
+        THEME.hasClass = function(element, className) {
+            return YAHOO.util.Dom.hasClass(element, className);
+        }
         THEME.removeClass = function(element, className) {
             YAHOO.util.Dom.removeClass(element, className);
         }
@@ -183,6 +186,19 @@ if (typeof THEME == "undefined") {
                 THEME.show(element);
             } else {
                 THEME.hide(element);
+            }
+        }
+        THEME.toggleClass = function(element, className, toggledClassName) {
+            if (YAHOO.util.Dom.hasClass(element, className)) {
+                if (toggledClassName) {
+                    THEME.addClass(element, toggledClassName);
+                }
+                THEME.removeClass(element, className);
+            } else {
+                if (toggledClassName) {
+                    THEME.removeClass(element, toggledClassName);
+                }
+                THEME.addClass(element, className);
             }
         }
 
