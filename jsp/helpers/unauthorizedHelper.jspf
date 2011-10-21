@@ -1,0 +1,9 @@
+<%!
+    public static class UnauthorizedHelper {
+        public static void sendUnauthorizedResponse(javax.servlet.http.HttpServletResponse response) throws java.io.IOException {
+            response.setStatus(response.SC_UNAUTHORIZED);
+            response.setHeader("X-KD-ErrorMessage", "Please log in.");
+            response.getWriter().write("Please log in.");
+        }
+    }
+%>

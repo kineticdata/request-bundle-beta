@@ -1,8 +1,61 @@
-#searchBoxContainer {
-    float: right;
-    width: 13em;
+body {min-width: 900px;}
+
+#portalBody .title {
+    background-image: url('../../images/secondaryHeader.png');
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    color: white;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 4px;
+    text-align: center;
 }
-#searchBox {
+
+#portalBody .subtitle {
+    background-image: url('../../images/auxillaryHeader.png');
+    background-position: 0 0;
+    background-repeat: repeat-x;
+    color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 1px;
+    text-align: center;
+}
+
+.submissionPaginator {
+    text-align: right;
+}
+
+#searchBoxContainer {
+    height: 30px;
+    width: 20em;
+    float: right;
+}
+
+#searchBoxContainer input {
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    height: 26px;
+    width: 12em;
+    float: right;
+    margin-right: 4px;
+    line-height: 20px;
+}
+
+#searchBoxContainer .buttonn {
+    background: #fcae09 url('../../images/button_bg.png');
+    border: 1px solid #999;
+    cursor: pointer;
+    float: right;
+    font-size: 1px;
+    padding: 4px 12px;
+}
+
+#searchBoxContainer .buttonn:hover {
+    background: #ffd043 url('../../images/button_hover_bg.png');
 }
 
 #recentSubmissions .submissionStatus {
@@ -10,6 +63,10 @@
 }
 #recentSubmissions .name {
     font-weight: bold;
+}
+
+#home #siteReference {
+    padding-top: 4em;
 }
 
 #siteReference {
@@ -159,6 +216,7 @@
     float: right;
 }
 #catalog #catalogBreadcrumbs {
+    line-height: 26px;
     margin-right: 20em;
 }
 #catalog #catalogBreadcrumbs .breadcrumbDivider {

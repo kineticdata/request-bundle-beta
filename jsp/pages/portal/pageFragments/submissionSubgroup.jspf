@@ -11,5 +11,10 @@
         </div>
     </div>
     <div id="<%= list.getNameDigest() %>-DataTable" style="text-align: center;"></div>
+    <div id="<%= list.getNameDigest() %>-Paginator" class="submissionPaginator"></div>
+    <div>
+        <a href="javascript:void(0)" onclick="PAGE.paginators['<%= list.getNameDigest() %>'].goTo(THEME.getValue('<%= list.getNameDigest() %>-GoTo'))">Go To:</a>
+        <input id="<%= list.getNameDigest() %>-GoTo" type="text"/>
+    </div>
 </div>
 <% }%>

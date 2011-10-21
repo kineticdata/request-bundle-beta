@@ -119,7 +119,7 @@
         </div>
 
         <div class="" id="portalRightColumn">
-            <div class="portalSection auxiliaryColorBackground tertiaryColorBorder">
+            <div class="portalSection">
                 <!-- Render the logo and site name -->
                 <div id="siteReference">
                     <div id="siteLogo" class="logo"></div>
@@ -167,7 +167,23 @@
             %>
             <div class="content hidden">
                 <%@include file="portal/tableHeader.jspf"%>
-                <h1><%= submissionGroups[i]%></h1>
+                <div>
+                    <div id="searchBoxContainer">
+                        <div class="buttonn">
+                            <img src="<%= ThemeConfig.get("root") %>/resources/famfamfam-images/icons/magnifier.png" alt="Search">
+                        </div>
+                        <input id="searchBox" type="text" name="searchBox" />
+                        <div class="clear"></div>
+                    </div>
+                    <div id="catalogBreadcrumbs">
+                        <span><a class="breadcrumbLink secondaryColor" data-id="rootCategories" href="javascript:void(0)">Catalog Home</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <%@include file="portal/tableFooter.jspf"%>
+
+                <%@include file="portal/tableHeader.jspf"%>
+                <div class="primaryColor title"><%= submissionGroups[i]%></div>
                 <%@include file="portal/pageFragments/submissionGroup.jspf"%>
                 <%@include file="portal/tableFooter.jspf"%>
             </div>

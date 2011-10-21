@@ -53,7 +53,18 @@
             return templates.toArray(new Template[templates.size()]);
         }
         public boolean hasTemplates() {
-            return templates.size() > 0;
+            boolean hasTemplates = false;
+            if (templates.size() > 0) {
+                hasTemplates = true;
+            } else {
+                for (Category category : getSubcategories()) {
+                    if (category.hasTemplates()) {
+                        hasTemplates = true;
+                        break;
+                    }
+                }
+            }
+            return hasTemplates;
         }
         public boolean hasSubcategories() {
             return subcategories.size() > 0;

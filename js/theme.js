@@ -49,9 +49,22 @@ if (typeof THEME == "undefined") {
         // Initialize the THEME configuration hash.
         THEME.config = {};
 
+        THEME.bind = function bind(variables, method) {
+            if (!(variables instanceof Array)) {
+                variables = [variables];
+            }
+            return function() {
+                return method.apply(this, variables);
+            }();
+        };
+
         THEME.displayError = function(message) {
             alert(message);
-        }
+        };
+
+        THEME.requestLogin = function() {
+            alert('Please log in.');
+        };
 
         THEME.activateNavigation = function(config) {
             var navigationElements = YAHOO.util.Selector.query(config['navigationSelector']);
@@ -110,6 +123,15 @@ if (typeof THEME == "undefined") {
 
         THEME.get = function(element) {
             return YAHOO.util.Dom.get(element);
+        }
+        THEME.getValue = function(element) {
+            element = YAHOO.util.Dom.get(element) || element;
+            if (element && element.value) {
+                return element.value;
+            } else {
+                THEME.displayError('The element '+element+' does not have a value.');
+                throw 'ERROR: The element '+element+' does not have a value.';
+            }
         }
 
         THEME.retrieve = function(selector, root) {

@@ -1,3 +1,6 @@
+var PAGE = {};
+PAGE.paginators = {};
+
 THEME.onPageLoad(function() {
     var config = {
         defaultSortColumn: "date",
@@ -59,6 +62,32 @@ THEME.onPageLoad(function() {
         // Customize request sent to server to be able to set total # of records
         var generateRequest = buildGenerateRequestFunction(groupName, subgroupName, config.pageSize);
 
+        // Build the paginator
+        var paginator = new YAHOO.widget.Paginator({
+            containers: [subgroupNameDigest+'-Paginator'],
+            rowsPerPage: config.pageSize,
+            firstPageLinkLabel: '<<',
+            previousPageLinkLabel: 'Previous',
+            nextPageLinkLabel: 'Next',
+            lastPageLinkLabel: '>>',
+            template: '{PreviousPageLink} {CurrentPageReport} {NextPageLink}'
+        });
+        paginator.goTo = function(pageNumber) {
+            if (!YAHOO.widget.Paginator.isNumeric(pageNumber)) {
+                THEME.displayError("Page number '"+pageNumber+"' is not a number.");
+            }
+            pageNumber = YAHOO.widget.Paginator.toNumber(pageNumber);
+            if (pageNumber < 1) {
+                THEME.displayError("Page number '"+pageNumber+"' is not valid.");
+            } else if (pageNumber > this.getTotalPages()) {
+                THEME.displayError("Page number '"+pageNumber+"' is not valid.  Please select a number between 1 and "+this.getTotalPages());
+            } else if (pageNumber != this.getCurrentPage()) {
+                this.setPage(pageNumber);
+            }
+        }
+        // Add the paginator to our page configuration
+        PAGE.paginators[subgroupNameDigest] = paginator;
+
         // DataTable configuration
         var dataTableConfiguration = {
             // Specify
@@ -77,9 +106,7 @@ THEME.onPageLoad(function() {
                     YAHOO.widget.DataTable.CLASS_ASC
             },
             // Confgure the pagination
-            paginator: new YAHOO.widget.Paginator({
-                rowsPerPage: config.pageSize
-            })
+            paginator: paginator
         };
 
         // Initialize the DataTable instance with the configuration objects.
@@ -89,12 +116,37 @@ THEME.onPageLoad(function() {
             dataSource,
             dataTableConfiguration);
 
+        // Subscribe to events for row selection
+        dataTable.subscribe("rowMouseoverEvent", dataTable.onEventHighlightRow);
+        dataTable.subscribe("rowMouseoutEvent", dataTable.onEventUnhighlightRow);
+        dataTable.subscribe("rowClickEvent", function(event) {
+            var data = this.getRecord(event.target).getData();
+            alert(data.requestId);
+        });
+
+        dataTable.doBeforePaginatorChange = THEME.bind(subgroupNameDigest,
+            function(subgroupNameDigest) {
+                return function(oPaginatorState) {
+                    console.log(subgroupNameDigest);
+                    return true;
+                };
+            });
+
         // Update totalRecords on the fly with values from server
-        dataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
-            oPayload.totalRecords = oResponse.meta.totalRecords;
-            oPayload.pagination.recordOffset = oResponse.meta.startIndex;
-            return oPayload;
-        };
+        dataTable.doBeforeLoadData = THEME.bind(subgroupNameDigest,
+            function(subgroupNameDigest) {
+                return function(oRequest, oResponse, oPayload) {
+                    if (oResponse.status == 401) {
+                        THEME.requestLogin();
+                        dataTable.load({datasource: dataSource});
+                        return false;
+                    }
+                    console.log(subgroupNameDigest);
+                    oPayload.totalRecords = oResponse.meta.totalRecords;
+                    oPayload.pagination.recordOffset = oResponse.meta.startIndex;
+                    return oPayload;
+                };
+            });
 
         // Manually load the data table with the initial data
         dataTable.load({datasource: initialDataSource});
@@ -111,10 +163,11 @@ THEME.onPageLoad(function() {
 //    });
 });
 
+
 function buildGenerateRequestFunction(groupName, subgroupName, pageSize) {
     return function(oState) {
         //
-        oState = oState || { pagination: null, sortedBy: null };
+        oState = oState || {pagination: null, sortedBy: null};
         var sort = (oState.sortedBy) ? oState.sortedBy.key : config.defaultSortColumn;
         var order = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
         var recordOffset = (oState.pagination) ? oState.pagination.recordOffset : 0;

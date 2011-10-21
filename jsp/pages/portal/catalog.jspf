@@ -96,7 +96,11 @@
     <%@include file="../portal/tableHeader.jspf"%>
     <div>
         <div id="searchBoxContainer">
-            <input id="searchBox" type="text" name="search"/>
+            <div class="buttonn">
+                <img src="<%= ThemeConfig.get("root") %>/resources/famfamfam-images/icons/magnifier.png" alt="Search">
+            </div>
+            <input id="searchBox" type="text" name="searchBox" />
+            <div class="clear"></div>
         </div>
         <div id="catalogBreadcrumbs">
             <span><a class="breadcrumbLink secondaryColor" data-id="rootCategories" href="javascript:void(0)">Catalog Home</a></span>

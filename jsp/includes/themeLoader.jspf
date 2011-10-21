@@ -14,6 +14,7 @@
 --%>
 <%@include file="../helpers/dateHelper.jspf" %>
 <%@include file="../helpers/themeHelper.jspf" %>
+<%@include file="../helpers/unauthorizedHelper.jspf" %>
 
 <%--
     Include the models.

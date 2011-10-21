@@ -18,8 +18,7 @@
 <%@include file="../configuration/listConfiguration.jspf"%>
 <%
     if (ThemeConfig.get("context") == null) {
-        response.setStatus(response.SC_UNAUTHORIZED);
-        response.getWriter().write("Please log in.");
+        UnauthorizedHelper.sendUnauthorizedResponse(response);
     } else {
         HelperContext context = (HelperContext)ThemeConfig.get("context");
         String catalogName = request.getParameter("catalogName");
