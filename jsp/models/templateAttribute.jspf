@@ -1,0 +1,31 @@
+<%!
+    // Indexed Fields: SurveyTemplate +
+    public static class TemplateAttribute {
+        public static final String FORM_NAME = "KS_SRV_SurveyTemplateAttrInstance_join";
+
+        public static final String FIELD_ATTRIBUTE_NAME = "710000069";
+        public static final String FIELD_ATTRIBUTE_VALUE = "710000073";
+        public static final String FIELD_CATALOG_NAME = "600000500";
+        public static final String FIELD_TEMPLATE_NAME = "700001000";
+        public static final String[] FIELD_IDS = new String[]{
+            FIELD_ATTRIBUTE_NAME, FIELD_ATTRIBUTE_VALUE, FIELD_TEMPLATE_NAME};
+
+        private SimpleEntry entry = null;
+
+        public static TemplateAttribute[] findByCatalog(HelperContext context, String catalogName) {
+            TemplateAttribute[] result = null;
+
+            String qualification = "'"+FIELD_CATALOG_NAME+"' = \""+catalogName+"\"";
+
+            SimpleEntry[] entries = Base.find(context, FORM_NAME, qualification, FIELD_IDS);
+            if (entries != null && entries.length > 0) {
+                results = new TemplateAttribute[entries.length];
+                for(int i=0;i<results.length;i++) {
+                    results[i] = new Template(entries[i]);
+                }
+            }
+
+            return results;
+        }
+    }
+%>

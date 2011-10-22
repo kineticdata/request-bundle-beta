@@ -1,0 +1,20 @@
+<%!
+    public static class CycleHelper {
+        private String[] cycles = null;
+        private int index = 0;
+
+        public CycleHelper(String[] cycles) {
+            this.cycles = cycles;
+        }
+
+        public String cycle() {
+            String result = cycles[index];
+            index = (index+1) % cycles.length;
+            return result;
+        }
+
+        public void reset() {
+            index = 0;
+        }
+    }
+%>
