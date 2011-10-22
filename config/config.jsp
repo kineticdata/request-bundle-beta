@@ -5,4 +5,6 @@
 <%
     ThemeConfig.put("companyName", "ACME");
     ThemeConfig.put("portalName", "Service Portal");
+
+    ThemeConfig.put("searchableAttributes", new String[] {"Keyword"});
 %>

@@ -39,7 +39,7 @@ THEME.onPageLoad(function() {
             searchLoadDisplayQuery.innerHTML = searchBox.value;
 
             // Hide the presently displayed content tab
-            THEME.hide("categories");
+            THEME.hide("catalogContent");
             THEME.hide(searchContent);
 
             // Ensure the proper Search Result display is visible

@@ -30,9 +30,7 @@ body {min-width: 900px;}
 }
 
 #portalBody .title {
-    background-image: url('../../images/secondaryHeader.png');
-    background-position: 0 0;
-    background-repeat: repeat-x;
+    background: #88A7C3 url('../../images/background_blue_3B6E9C_88A7C3.png') repeat-x;
     color: white;
     font-size: 1.4em;
     font-weight: bold;
@@ -42,9 +40,7 @@ body {min-width: 900px;}
 }
 
 #portalBody .subtitle {
-    background-image: url('../../images/background_grey_A1A1A1_C6C6C6.png');
-    background-position: 0 0;
-    background-repeat: repeat-x;
+    background: #C6C6C6 url('../../images/background_grey_A1A1A1_C6C6C6.png') repeat-x;
     color: white;
     font-size: 1.1em;
     font-weight: bold;
@@ -75,7 +71,7 @@ body {min-width: 900px;}
 }
 
 #searchBoxContainer .buttonn {
-    background: #fcae09 url('../../images/button_bg.png');
+    background: #C6C6C6 url("../../images/background_blue_3B6E9C_88A7C3.png") repeat-x center;
     border: 1px solid #999;
     cursor: pointer;
     float: right;
@@ -84,7 +80,7 @@ body {min-width: 900px;}
 }
 
 #searchBoxContainer .buttonn:hover {
-    background: #ffd043 url('../../images/button_hover_bg.png');
+    background: #D2D2D2 url('../../images/background_light_blue_628BAF_A0B9CE.png') repeat-x center;
 }
 
 #recentSubmissions .submissionStatus {

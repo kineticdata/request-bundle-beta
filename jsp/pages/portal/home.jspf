@@ -1,3 +1,8 @@
+<%--
+    TODO: Description
+--%>
+
+<!-- BEGIN {themeRoot}/jsp/pages/portal/home.jsp -->
 <script src="http://yui.yahooapis.com/2.9.0/build/carousel/carousel.js"></script>
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/carousel/assets/skins/sam/carousel.css">
 <style>
@@ -54,19 +59,6 @@ body.home #portalBody .content {margin-right: 0;}
 .itemDate {float: left;padding-right: 0.5em;}
 .itemLink {float: right;}
 .linkList ul li {padding: 0.25em 0;}
-
-#home .header {
-    background-image: url('<%= ThemeConfig.get("root")%>/images/secondaryHeader.png');
-    background-position: 0 0;
-    background-repeat: repeat-x;
-}
-
-.linkList .title {
-    background-image: url('<%= ThemeConfig.get("root")%>/images/secondaryHeader.png');
-    background-position: 0 0;
-    background-repeat: repeat-x;
-}
-
 </style>
 
 <script>
@@ -86,7 +78,7 @@ body.home #portalBody .content {margin-right: 0;}
 </script>
 
 <div id="home">
-    <div class="header secondaryColorBackground"><%= ThemeConfig.get("portalName") %> Home</div>
+    <div class="title secondaryColorBackground"><%= ThemeConfig.get("portalName") %> Home</div>
 
     <div>
         <div id="carouselContainer" style="float: left;">
@@ -191,3 +183,4 @@ body.home #portalBody .content {margin-right: 0;}
     </div>
     <div class="clear"></div>
 </div>
+<!-- END {themeRoot}/jsp/pages/portal/home.jsp -->

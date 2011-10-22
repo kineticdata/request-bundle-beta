@@ -169,7 +169,7 @@
                 <div>
                     <div id="searchBoxContainer">
                         <div class="buttonn">
-                            <img src="<%= ThemeConfig.get("root") %>/resources/famfamfam-images/icons/magnifier.png" alt="Search">
+                            <img src="<%= ThemeConfig.get("root") %>/images/search16x16-FFFFFF.png" alt="Search">
                         </div>
                         <input id="searchBox" type="text" name="searchBox" />
                         <div class="clear"></div>
