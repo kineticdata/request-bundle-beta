@@ -1,3 +1,5 @@
+html {overflow-y:scroll;}
+
 body {
     color: #333;
     margin: 0;
@@ -55,44 +57,44 @@ ul.horizontalNavigation li {
     background: #FFF url('../images/4x1000Fade-e6e6e6-ffffff.jpg') 0 0 repeat-x;
 }
 
-.tableShell td.topLeft {
+.shadowBox td.topLeft {
     background-image: url('../images/shadows/shadow_corner_tl.png');
     background-repeat: no-repeat;
     height: 16px;
     width: 16px;
 }
-.tableShell td.topMiddle {
+.shadowBox td.topMiddle {
     background-image: url('../images/shadows/shadow_middle_top.png');
     height: 10px;
 }
-.tableShell td.topRight {
+.shadowBox td.topRight {
     background-image: url('../images/shadows/shadow_corner_tr.png');
     background-repeat: no-repeat;
     height: 16px;
     width: 21px;
 }
-.tableShell td.middleLeft {
+.shadowBox td.middleLeft {
     background-image: url('../images/shadows/shadow_middle_left.png');
     width: 10px;
 }
-.tableShell td.middleMiddle {
+.shadowBox td.middleMiddle {
     background: white;
 }
-.tableShell td.middleRight {
+.shadowBox td.middleRight {
     background-image: url('../images/shadows/shadow_middle_right.png');
     width: 10px;
 }
-.tableShell td.bottomLeft {
+.shadowBox td.bottomLeft {
     background-image: url('../images/shadows/shadow_corner_bl.png');
     background-repeat: no-repeat;
     height: 21px;
     width: 16px;
 }
-.tableShell td.bottomMiddle {
+.shadowBox td.bottomMiddle {
     background-image: url('../images/shadows/shadow_middle_bottom.png');
     height: 10px;
 }
-.tableShell td.bottomRight {
+.shadowBox td.bottomRight {
     background-image: url('../images/shadows/shadow_corner_br.png');
     background-repeat: no-repeat;
     height: 21px;

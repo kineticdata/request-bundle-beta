@@ -7,7 +7,6 @@
     Include the theme configuration file.  This
 --%>
 <%@include file="../includes/themeLoader.jspf"%>
-
 <%--
     Initialize the reference to the ThemeConfig (HashMap) bean.  This bean is
     initialized in the THEME_ROOT/config/config.jsp file and further attributes
@@ -102,18 +101,18 @@
                     <a href="javascript:void(0)"><%= submissionGroup%></a>
                 </div>
                 <% }%>
+                <div class="divider"></div>
             </div>
             <div id="accountNavigation">
-                <div class="navigationItem">
-                    <a href="#">Settings</a>
+                <div class="divider"></div>
+                <div class="inactive navigationItem" id="userInfo" style="position:relative;">
+                    <jsp:include page="../pageFragments/userInfo.jsp"/>
                 </div>
                 <div class="divider"></div>
-                <div class="navigationItem">
-                    Logged in as Some User
-                </div>
-                <div class="divider"></div>
-                <div class="navigationItem">
-                    <a href="KSAuthenticationServlet?Logout=true">Logout</a>
+                <div class="navigationItem" title="Logout">
+                    <a href="KSAuthenticationServlet?Logout=true">
+                        <img src="<%=ThemeConfig.get("root")%>/images/logout.png" alt="Logout">
+                    </a>
                 </div>
             </div>
         </div>
@@ -154,9 +153,9 @@
 
         <div id="portalBody">
             <div class="content">
-                <%@include file="portal/tableHeader.jspf"%>
+                <%@include file="../pageFragments/shadowBoxBegin.jspf"%>
                 <%@include file="portal/home.jspf"%>
-                <%@include file="portal/tableFooter.jspf"%>
+                <%@include file="../pageFragments/shadowBoxEnd.jspf"%>
             </div>
             <div class="content hidden">
                 <%@include file="portal/catalog.jspf"%>
@@ -166,7 +165,7 @@
                     SubmissionList[] subgroups = SubmissionGroupManager.getSubmissionLists(submissionGroups[i]);
             %>
             <div class="content hidden">
-                <%@include file="portal/tableHeader.jspf"%>
+                <%@include file="../pageFragments/shadowBoxBegin.jspf"%>
                 <div>
                     <div id="searchBoxContainer">
                         <div class="buttonn">
@@ -180,12 +179,12 @@
                     </div>
                     <div class="clear"></div>
                 </div>
-                <%@include file="portal/tableFooter.jspf"%>
+                <%@include file="../pageFragments/shadowBoxEnd.jspf"%>
 
-                <%@include file="portal/tableHeader.jspf"%>
+                <%@include file="../pageFragments/shadowBoxBegin.jspf"%>
                 <div class="primaryColor title"><%= submissionGroups[i]%></div>
                 <%@include file="portal/pageFragments/submissionGroup.jspf"%>
-                <%@include file="portal/tableFooter.jspf"%>
+                <%@include file="../pageFragments/shadowBoxEnd.jspf"%>
             </div>
             <% }%>
         </div>

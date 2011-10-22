@@ -1,0 +1,42 @@
+<%!
+    public static class User {
+        public static final String FORM_NAME = "KS_SAMPLE_People";
+        public static final String FIELD_LOGIN_NAME = "240000005";
+        public static final String FIELD_DEPARTMENT = "200000006";
+        public static final String FIELD_EMAIL = "260000002";
+        public static final String FIELD_FIRST_NAME = "240000004";
+        public static final String FIELD_LAST_NAME = "240000003";
+        public static final String FIELD_PHONE_NUMBER = "240000002";
+
+        public static final String[] FIELD_IDS = new String[]{
+        	FIELD_LOGIN_NAME, FIELD_DEPARTMENT, FIELD_EMAIL, FIELD_FIRST_NAME, FIELD_LAST_NAME, FIELD_PHONE_NUMBER};
+
+        private SimpleEntry entry = null;
+        private List<User> users = new ArrayList();
+
+        public User(SimpleEntry entry) {
+            this.entry = entry;
+        }
+
+        public static User findByID(HelperContext context, String loginName) {
+            User user = null;
+
+            String qualification =
+                "'"+FIELD_LOGIN_NAME+"' = \""+loginName+"\"";
+
+            SimpleEntry entry = Base.findSingle(context, FORM_NAME, qualification, FIELD_IDS);
+            if (entry != null) {
+                user = new User(entry);
+            }
+
+            return user;
+        }
+
+        public String getLoginNamw() { return entry.getEntryFieldValue(FIELD_LOGIN_NAME); }
+        public String getDepartment() { return entry.getEntryFieldValue(FIELD_DEPARTMENT); }
+        public String getEmail() {return entry.getEntryFieldValue(FIELD_EMAIL);}
+        public String getFirstName() {return entry.getEntryFieldValue(FIELD_FIRST_NAME);}
+        public String getLastName() {return entry.getEntryFieldValue(FIELD_LAST_NAME);}
+        public String getPhoneNumber() {return entry.getEntryFieldValue(FIELD_PHONE_NUMBER);}
+    }
+%>

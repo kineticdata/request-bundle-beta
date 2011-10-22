@@ -17,17 +17,10 @@
     HelperContext context = (HelperContext)ThemeConfig.get("context");
 %>
 <style>
-    #searchResults h1 {
-        padding-bottom: 0.5em;
+    #searchResults .title {
+        margin-bottom: 0.5em;
     }
-    #searchResults h2 {
-        border-bottom: 1px dotted #A1A1A1;
-        color: #777;
-        font-size: 1.4em;
-        font-weight: normal;
-        padding: 5px 0px 5px 0px;
-    }
-    .highlighted {background: khaki;}
+    .highlighted {background: khaki; padding:2px;}
 
     .allMatchesLink {float: right;padding-right: 2em;}
     .resultType {clear: right;padding-bottom: 2em;position: relative;}
@@ -129,25 +122,49 @@
             }
         }
 %>
-<h1>
+<div class="title">
     Search Results:
     <% for (String segment : segments) { %>
-    <span class="highlighted"><%= segment %></span>
+    <span class="highlighted secondaryColor"><%= segment %></span>
     <% } %>
-</h1>
+</div>
 <div id="searchResults">
     <div class="resultType">
     <% if (matchingTemplates.size() == 0) { %>
-        <h2>There are no matching templates.</h2>
+        <div class="subtitle">There are no matching templates.</div>
     <% } else { %>
-        <h2>Matching Service Items</h2>
+        <div class="subtitle">Matching Service Categories</div>
+        <div class="subcategory navigationLink even" data-id="KS4e908f26d30ec805fac83f200101c8ac24" data-name="Ipsum">
+            <div class="name">Ipsum</div>
+            <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
+            <div class="description"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+        </div>
+        <div class="subcategory navigationLink odd" data-id="KS4e908f26d30ec805fac83f200101c8ac24" data-name="Ipsum">
+            <div class="name">Ipsum</div>
+            <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
+            <div class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+        </div>
+        <div class="subcategory navigationLink even" data-id="KS4e908f26d30ec805fac83f200101c8ac24" data-name="Ipsum">
+            <div class="name">Ipsum</div>
+            <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
+            <div class="description"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+        </div>
+        <div class="subcategory navigationLink odd" data-id="KS4e908f26d30ec805fac83f200101c8ac24" data-name="Ipsum">
+            <div class="name">Ipsum</div>
+            <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
+            <div class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="subtitle">Matching Service Items</div>
         <% for (TemplateMatch match : templateMatches) { %>
         <div class="templateMatch">
-            <div class="templateName"><a class="secondaryColor" href="#"><%= match.getName() %></a></div>
+            <div class="templateName"><a class="primaryColor" href="#"><%= match.getName() %></a></div>
             <div class="matchingAttributes">&nbsp;</div>
             <div class="templateDescription"><%= match.getDescription() %></div>
         </div>
         <% } %>
+        <div class="clear"></div>
     <% } %>
 <!--
         <h2>Matching Service Names</h2>

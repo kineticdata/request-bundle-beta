@@ -1,5 +1,34 @@
 body {min-width: 900px;}
 
+.noSelect {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#userInfo #userInfoContent {
+    font-size: 0.8em;
+    padding: 0.5em;
+}
+
+.navigationItem.active .inactiveImage {
+    display: none;
+}
+
+.navigationItem.inactive .activeImage,
+.navigationItem.inactive #userInfoContent {
+    display: none;
+}
+
+#userInfo #userInfoContent .info .label {
+    font-weight: bold;
+}
+#userInfo #userInfoContent .info .value {
+    margin-left: 0.5em;
+}
+
 #portalBody .title {
     background-image: url('../../images/secondaryHeader.png');
     background-position: 0 0;
@@ -13,7 +42,7 @@ body {min-width: 900px;}
 }
 
 #portalBody .subtitle {
-    background-image: url('../../images/auxillaryHeader.png');
+    background-image: url('../../images/background_grey_A1A1A1_C6C6C6.png');
     background-position: 0 0;
     background-repeat: repeat-x;
     color: white;
@@ -164,7 +193,6 @@ body {min-width: 900px;}
 #portalHeader .navigationItem {
     float: left;
     font-size: 1.3em;
-    height: 38px;
     padding: 5px 10px;
 }
 #portalHeader .navigationItem a {
@@ -174,6 +202,7 @@ body {min-width: 900px;}
 }
 #portalHeader .navigationItemActive {
     background: url("../../images/nav_bg_active.png") no-repeat scroll center top transparent;
+    height: 38px;
 }
 
 #portalBody {
@@ -211,6 +240,7 @@ body {min-width: 900px;}
 }
 #catalog .even {
     float: left;
+    clear: both;
 }
 #catalog .odd {
     float: right;
@@ -225,6 +255,7 @@ body {min-width: 900px;}
     margin: 0px 5px;
 }
 
+/** TODO: Reuse? */
 #catalog .category .categoryHeader, #catalog #rootCategories .categoryHeader {
     background-image: url('../../images/secondaryHeader.png');
     background-position: 0 0;
@@ -239,6 +270,7 @@ body {min-width: 900px;}
 #catalog .category .categoryDescription, #catalog #rootCategories .categoryDescription {
     margin-bottom: 10px;
 }
+/** TODO: Reuse? */
 #catalog .category .subcategories .subcategoriesHeader, #catalog .category .templates .templatesHeader, #catalog #rootCategories .subcategoriesHeader {
     background-image: url('../../images/secondaryHeader.png');
     background-position: 0 0;
@@ -250,7 +282,35 @@ body {min-width: 900px;}
     text-align: center;
 }
 
-#catalog .category .subcategories .subcategory, #catalog #rootCategories .rootCategory {
+/** REFACTOR */
+    /** PART 1 (proper namespace) */
+#catalog .subcategory {
+    background-color: #EEEEEE;
+    border: 1px dotted #A1A1A1;
+    margin-bottom: 10px;
+    width: 49%;
+}
+#catalog .subcategory:hover {
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+#catalog .subcategory .description {
+    padding: 5px;
+}
+#catalog .subcategory .image {
+    float: right;
+    padding: 5px;
+}
+#catalog .subcategory .name{
+    border-bottom: 1px dotted #A1A1A1;
+    color: #00427E;
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+    /** PART 2 */
+/*#catalog .category .subcategories .subcategory, #catalog #rootCategories .rootCategory {
     background-color: #EEEEEE;
     border: 1px dotted #A1A1A1;
     margin-bottom: 10px;
@@ -273,7 +333,9 @@ body {min-width: 900px;}
     font-weight: bold;
     margin-bottom: 5px;
     padding: 5px;
-}
+}*/
+/** END REFACTOR */
+
 
 #catalog .category .templates .template {
     margin-bottom: 10px;

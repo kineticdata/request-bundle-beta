@@ -1,8 +1,0 @@
-<%@include file="../models/base.jspf" %>
-<%@include file="../models/catalog.jspf" %>
-<%@include file="../models/category.jspf" %>
-<%@include file="../models/submission.jspf" %>
-<%@include file="../models/submissionList.jspf" %>
-<%@include file="../models/task.jspf" %>
-<%@include file="../models/taskMessage.jspf" %>
-<%@include file="../models/template.jspf" %>

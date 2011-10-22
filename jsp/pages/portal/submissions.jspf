@@ -1,9 +1,14 @@
+<%--
+    TODO: DESCRIPTION
+--%>
+
+<!-- BEGIN {themeRoot}/jsp/pages/portal/submissions.jsp -->
 <%
     String qualification = "'Submitter'=\"" + context.getUserName() + "\"";
     Submission[] submissions = Submission.find(context, qualification);
 %>
 
-<%@include file="tableHeader.jspf"%>
+<%@include file="../../pageFragments/shadowBoxBegin.jspf"%>
 
 <div class="header">Submissions <%= submissions.length%></div>
 <div id="submissionTableContainer">
@@ -43,4 +48,5 @@
     </table>
 </div>
 
-<%@include file="tableFooter.jspf"%>
+<%@include file="../../pageFragments/shadowBoxEnd.jspf"%>
+<!-- END{themeRoot}/jsp/pages/portal/submissions.jsp -->
