@@ -4,7 +4,7 @@
 
 <!-- BEGIN {themeRoot}/jsp/pages/portal/catalog.jspf -->
 <div id="catalog">
-    
+
     <%@include file="../../pageFragments/shadowBoxBegin.jspf"%>
     <%-- CATALOG NAVIGATION (Breadcrumbs, Search) --%>
     <div>
@@ -16,9 +16,7 @@
             <div class="clear"></div>
         </div>
         <div id="catalogBreadcrumbs">
-            <div class="breadcrumb activeBreadcrumb">
-                <a class="breadcrumbLink" data-id="rootCategories" href="javascript:void(0)">Catalog Home</a>
-            </div>
+            <div class="breadcrumb activeBreadcrumb" data-id="rootCategories" >Catalog Home</div>
         </div>
         <div class="clear"></div>
     </div>
