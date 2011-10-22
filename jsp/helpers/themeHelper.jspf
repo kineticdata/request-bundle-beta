@@ -1,3 +1,6 @@
+<%@page import="java.util.regex.Matcher"%>
+<%@page import="java.util.regex.MatchResult"%>
+<%@page import="java.util.regex.Pattern"%>
 <%!
     public static class ThemeHelper {
         public static boolean isBlank(Object object) {
@@ -14,6 +17,16 @@
                 result = object.toString();
             }
             return result;
+        }
+
+        private static String replaceAll(Pattern pattern, String string) {
+            StringBuffer buffer = new StringBuffer();
+            Matcher matcher = pattern.matcher(string);
+            while (matcher.find()) {
+                matcher.appendReplacement(buffer, matcher.group(1)+"<span class=\"highlighted\">"+matcher.group(2)+"</span>"+matcher.group(3));
+            }
+            matcher.appendTail(buffer);
+            return buffer.toString();
         }
     }
 %>

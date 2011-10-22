@@ -88,7 +88,7 @@
     <body class="yui-skin-sam home fadedBackground2">
         <div id="portalHeader">
             <div id="mainNavigation">
-                <div id="homeTab" class="navigationItem navigationItemActive">
+                <div id="homeTab" class="navigationItem navigationItemActive" title="<%= ThemeConfig.get("portalName")%> Home">
                     <a href="javascript:void(0)"><img src="<%= ThemeConfig.get("root")%>/images/home.png" /></a>
                 </div>
                 <div class="divider"></div>

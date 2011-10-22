@@ -15,6 +15,7 @@
         public static final String[] SORT_FIELD_IDS = new String[]{
             FIELD_SORT_ORDER, FIELD_NAME};
 
+        private String name;
         private SimpleEntry entry = null;
         private List<Category> subcategories = new ArrayList();
         private List<Template> templates = new ArrayList();
@@ -74,8 +75,11 @@
         public String getFullName() {return entry.getEntryFieldValue(FIELD_NAME);}
         public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
         public String getName() {
-            String[] trail = getNameTrail();
-            return trail[trail.length-1];
+            if (name == null) {
+                String[] trail = getNameTrail();
+                name = trail[trail.length-1];
+            }
+            return name;
         }
         public String[] getNameTrail() {
             return entry.getEntryFieldValue(FIELD_NAME).split(" :: ");

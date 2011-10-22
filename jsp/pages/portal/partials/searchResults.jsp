@@ -36,15 +36,13 @@
     .templateName {float: right; position: absolute; left: 0;}
     .templateDescription {clear: right;}
 </style>
-<%@page import="java.util.regex.Matcher"%>
-<%@page import="java.util.regex.MatchResult"%>
-<%@page import="java.util.regex.Pattern"%>
+
 <%
     String catalogName = request.getParameter("catalogName");
     ThemeConfig.put("catalogName", catalogName);
     Catalog catalog = Catalog.findByName(context, catalogName);
     catalog.preload(context);
-
+    
     /**
      * The following code accepts the HTTP parameter "query", breaks it into
      * segments (by splitting on the space character), and replaces 
@@ -63,23 +61,84 @@
 <div>Error: Search is limited to 10 search terms.</div>
 <%
     } else {
-        // Build a pattern for each of the segments
+        // Build a pattern for each of the segments.  These segments are used to
+        // determine which of the models being searched matches ALL of the
+        // query segments that were passed.
         Pattern[] patterns = new Pattern[segments.length];
         for (int i=0;i<segments.length;i++) {
             patterns[i] = Pattern.compile(".*"+Pattern.quote(segments[i])+".*", Pattern.CASE_INSENSITIVE);
         }
 
+        // Build a Regex Pattern for matching any of the query segments.  This
+        // is used after the models results have been found to highlight the
+        // matching query segments.
+        StringBuilder patternBuilder = new StringBuilder();
+        patternBuilder.append("(.*?)(");
+        for (int i=0;i<segments.length;i++) {
+            // If this is not the first segment, append a '|' (Regex OR) character
+            if (i!=0) patternBuilder.append("|");
+            patternBuilder.append(Pattern.quote(segments[i]));
+        }
+        patternBuilder.append(")(.*?)");
+        Pattern combinedPattern = Pattern.compile(patternBuilder.toString(), Pattern.CASE_INSENSITIVE);
+
+
+        /***********************************************************************
+         * BUILD LIST OF MATCHING CATEGORIES
+         **********************************************************************/
+
         // Define a list of categories that match the pattern
         List<Category> matchingCategories = new ArrayList();
+
+        // For each of the categories
         for(Category category : catalog.getAllCategories(context)) {
             // If the category has any templates viewable by the searcher (if it
             // does not have any templates, it doesn't make sense to display it
             // in the search results).
             if (category.hasTemplates()) {
+                // Assume the category matches all segments until a pattern that
+                // does not match is encountered.
+                boolean matchesAllQueryItems = true;
 
+                // For each of the patterns
+                for(Pattern pattern : patterns) {
+                    // Build a matcher for each item that we are matching
+                    Matcher nameMatcher = pattern.matcher(category.getName());
+                    Matcher descriptionMatcher = pattern.matcher(category.getDescription());
+
+                    // If the templacategoryte name, description, or category
+                    // does not match the current query Item
+                    if (!nameMatcher.matches() && !descriptionMatcher.matches()) {
+                        // Specify that the category does not match all query items
+                        matchesAllQueryItems = false;
+                        // Break out of the loop
+                        break;
+                    }
+                }
+
+                // If the current category still matches all query items after
+                // iterating over each of them
+                if (matchesAllQueryItems) {
+                    matchingCategories.add(category);
+                }
             }
         }
 
+        /***********************************************************************
+         * BUILD LIST OF CATEGORY MATCH RESULTS
+         *   Hashmap of displayed attribute names to values (with highlighting).
+         **********************************************************************/
+
+        // For each of the matching templates
+        for(Category category: matchingCategories) {
+            //Category.setName(ThemeHelper.replaceAll(combinedPattern, category.getName()));
+            //Category.setDescription(ThemeHelper.replaceAll(combinedPattern, category.getDescription()));
+        }
+
+
+        /***********************************************************************
+         * BUILD LIST OF MATCHING TEMPLATES
+         **********************************************************************/
 
         // Define a list of templates that match the pattern
         List<Template> matchingTemplates = new ArrayList();
@@ -114,195 +173,62 @@
             }
         }
 
+        /***********************************************************************
+         * BUILD LIST OF TEMPLATE MATCH RESULTS
+         *   Hashmap of displayed attribute names to values (with highlighting).
+         **********************************************************************/
+
         // Build up a list of TemplateMatches if there were any matching templates
-        List<TemplateMatch> templateMatches = new ArrayList();
-        if (matchingTemplates.size() > 0) {
-            // Build a Regex Pattern for matching any of the query segments
-            StringBuilder patternBuilder = new StringBuilder();
-            patternBuilder.append("(.*?)(");
-            for (int i=0;i<segments.length;i++) {
-                // If this is not the first segment, append a '|' (Regex OR) character
-                if (i!=0) patternBuilder.append("|");
-                patternBuilder.append(Pattern.quote(segments[i]));
-            }
-            patternBuilder.append(")(.*?)");
-            Pattern combinedPattern = Pattern.compile(patternBuilder.toString(), Pattern.CASE_INSENSITIVE);
-
-            // For each of the matching templates
-            for(Template template : matchingTemplates) {
-                String name = replaceAll(combinedPattern, template.getName());
-                String description = replaceAll(combinedPattern, template.getDescription());
-
-                templateMatches.add(new TemplateMatch(template.getId(), name, description));
-            }
+        List<Map> templateMatchResults = new ArrayList();
+        // For each of the matching templates
+        for(Template template : matchingTemplates) {
+            Map<String,String> templateResult = new HashMap();
+            templateResult.put("name", ThemeHelper.replaceAll(combinedPattern, template.getName()));
+            templateResult.put("description", ThemeHelper.replaceAll(combinedPattern, template.getDescription()));
+            templateMatchResults.add(templateResult);
         }
+
 %>
 <div id="searchResults" class="activeHighlighting">
     <div class="title">
         Search Results:
         <% for (String segment : segments) { %>
-        <span id="searchQuery" class="highlighted secondaryColor" onclick="THEME.toggleClass('searchResults', 'activeHighlighting');"><%= segment %></span>
+        <span id="searchQuery" class="highlighted secondaryColor" title="Click to toggle highlighting." onclick="THEME.toggleClass('searchResults', 'activeHighlighting');"><%= segment %></span>
         <% } %>
     </div>
 
-    <div class="resultType">
-    <% if (matchingTemplates.size() == 0) { %>
-        <div class="subtitle">There are no matching templates.</div>
-    <% } else { %>
+    <div>
+    <%-- If there were any matching categories, display them. --%>
+    <% if (matchingCategories.size() > 0) { %>
         <div class="subtitle">Matching Service Categories</div>
-        <div class="subcategory navigationLink even" data-id="KS4e908f26d30ec805fac83f200101c8ac24" data-name="Ipsum">
-            <div class="name">Ipsum</div>
+        <% CycleHelper toggle = new CycleHelper(new String[] {"even", "odd"}); %>
+        <% for(Category category : matchingCategories) { %>
+        <div class="subcategory navigationLink <%= toggle.cycle() %>" data-id="<%=category.getId()%>" data-name="<%=category.getName()%>" onclick="THEME.navigateTo(this);">
+            <div class="name"><%= ThemeHelper.replaceAll(combinedPattern, category.getName()) %></div>
             <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
-            <div class="description"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-        </div>
-        <div class="subcategory navigationLink odd" data-id="KS4e908f26d30ec805fac83f200101c8ac24" data-name="Ipsum">
-            <div class="name">Ipsum</div>
-            <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
-            <div class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-        </div>
-        <div class="subcategory navigationLink even" data-id="KS4e908f26d30ec805fac83f200101c8ac24" data-name="Ipsum">
-            <div class="name">Ipsum</div>
-            <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
-            <div class="description"> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-        </div>
-        <div class="subcategory navigationLink odd" data-id="KS4e908f26d30ec805fac83f200101c8ac24" data-name="Ipsum">
-            <div class="name">Ipsum</div>
-            <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
-            <div class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
-        </div>
-        <div class="clear"></div>
-
-        <div class="subtitle">Matching Service Items</div>
-        <% for (TemplateMatch match : templateMatches) { %>
-        <div class="templateMatch">
-            <div class="templateName"><a class="primaryColor" href="#"><%= match.getName() %></a></div>
-            <div class="matchingAttributes">&nbsp;</div>
-            <div class="templateDescription"><%= match.getDescription() %></div>
+            <div class="description"><%= ThemeHelper.replaceAll(combinedPattern, category.getDescription()) %></div>
         </div>
         <% } %>
         <div class="clear"></div>
     <% } %>
-<!--
-        <h2>Matching Service Names</h2>
-        <div class="templateMatch">
-            <div class="templateName"><a class="secondaryColor" href="#"><span class="highlighted">Lorem</span> Ipsum</a></div>
-            <div class="matchingAttributes">&nbsp;</div>
-            <div class="templateDescription">
-                Mauris vel eros libero. Nullam et lacus nec neque auctor sodales. Nulla a mi orci, at tincidunt lorem.
-            </div>
-        </div>
-        <div class="templateMatch">
-            <div class="templateName"><a class="secondaryColor" href="#"><span class="highlighted">Lorem</span> ipsum dolor sit</a></div>
-            <div class="matchingAttributes">&nbsp;</div>
-            <div class="templateDescription">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et lacus nec neque auctor sodales. Nulla a mi orci, at tincidunt lorem.
-            </div>
-        </div>
-        <div class="templateMatch">
-            <div class="templateName"><a class="secondaryColor" href="#"><span class="highlighted">Lorem</span> Template Name</a></div>
-            <div class="matchingAttributes">&nbsp;</div>
-            <div class="templateDescription">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel eros libero.
-            </div>
-        </div>
-        <div class="templateMatch">
-            <div class="templateName"><a class="secondaryColor" href="#">Mauris <span class="highlighted">Lorem</span></a></div>
-            <div class="matchingAttributes">&nbsp;</div>
-            <div class="templateDescription">
-                Mauris vel eros libero.
-            </div>
-        </div>
-        <div class="templateMatch">
-            <div class="templateName"><a class="secondaryColor" href="#"><span class="highlighted">Lorem</span> <span class="highlighted">Lorem</span> <span class="highlighted">Lorem</span></a></div>
-            <div class="matchingAttributes">&nbsp;</div>
-            <div class="templateDescription">
-                Nulla a mi orci, consectetur adipiscing elit. Mauris vel eros libero.
-            </div>
-        </div>
-        <div class="allMatchesLink"><a class="primaryColor" href="#">See 10 more...</a></div>
-    </div>
 
-    <div class="resultType">
-        <h2>Matching Service Descriptions</h2>
-        <div class="templateMatch">
-            <div class="templateName"><a class="secondaryColor" href="#">Template Name</a></div>
-            <div class="matchingAttributes">&nbsp;</div>
-            <div class="templateDescription">
-                Mauris vel eros libero. Nullam et lacus nec neque auctor sodales. Nulla a mi orci, at tincidunt <span class="highlighted">lorem</span>.
-            </div>
-        </div>
-        <div class="templateMatch">
-            <div class="templateName"><a class="secondaryColor" href="#">Template Name</a></div>
-            <div class="matchingAttributes">&nbsp;</div>
-            <div class="templateDescription">
-                <span class="highlighted">Lorem</span> ipsum dolor sit amet, consectetur adipiscing elit. Nullam et lacus nec neque auctor sodales. Nulla a mi orci, at tincidunt <span class="highlighted">lorem</span>.
-            </div>
-        </div>
-        <div class="templateMatch">
-            <div class="templateName"><a class="secondaryColor" href="#">Template Name</a></div>
-            <div class="matchingAttributes">&nbsp;</div>
-            <div class="templateDescription">
-                <span class="highlighted">Lorem</span> ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel eros libero.
-            </div>
-        </div>
 
-        <div class="allMatchesLink"><a class="primaryColor" href="#">See 25 more...</a></div>
-    </div>
-
-    <div class="resultType">
-        <h2>Matching Service Attributes</h2>
+    <%-- If there were no matching templates, display that there are no matching templates. --%>
+    <% if (matchingTemplates.size() == 0) { %>
+        <div class="subtitle">There are no matching templates.</div>
+    <%-- If there were any matching templates, display them. --%>
+    <% } else { %>
+        <div class="subtitle">Matching Service Items</div>
+        <% for (Map templateResult : templateMatchResults) { %>
         <div class="templateMatch">
-            <div class="templateName"><a class="secondaryColor" href="#">Template Name</a></div>
-            <div class="matchingAttributes"><b>Attributes: </b><span class="highlighted">Keyword</span></div>
-            <div class="templateDescription">
-                Mauris vel eros libero. Nullam et lacus nec neque auctor sodales. Nulla a mi orci, at tincidunt lorem.
-            </div>
-        </div>
-        <div class="templateMatch">
-            <div class="templateName"><a class="secondaryColor" href="#">Template Name</a></div>
+            <div class="templateName"><a class="primaryColor" href="#"><%= templateResult.get("name") %></a></div>
             <div class="matchingAttributes"><b>Attributes: </b><span class="highlighted">Category</span>, <span class="highlighted">Keyword</span></div>
-            <div class="templateDescription">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam et lacus nec neque auctor sodales. Nulla a mi orci, at tincidunt lorem.
-            </div>
+            <div class="templateDescription"><%= templateResult.get("description") %></div>
         </div>
-        <div class="templateMatch">
-            <div class="templateName"><a class="secondaryColor" href="#">Template Name</a></div>
-            <div class="matchingAttributes"><b>Attributes: </b><span class="highlighted">Category (2)</span></div>
-            <div class="templateDescription">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris vel eros libero.
-            </div>
-        </div>
-
-        <div class="allMatchesLink"><a class="primaryColor" href="#">See 3 more...</a></div>
-    </div>
--->
+        <% } %>
+        <div class="clear"></div>
+    <% } %>
 </div>
 <% 
-    }
-%>
-<%!
-    private static String replaceAll(Pattern pattern, String string) {
-        StringBuffer buffer = new StringBuffer();
-        Matcher matcher = pattern.matcher(string);
-        while (matcher.find()) {
-            matcher.appendReplacement(buffer, matcher.group(1)+"<span class=\"highlighted\">"+matcher.group(2)+"</span>"+matcher.group(3));
-        }
-        matcher.appendTail(buffer);
-        return buffer.toString();
-    }
-    private static class TemplateMatch {
-        private String id;
-        private String name;
-        private String description;
-
-        public TemplateMatch(String id, String name, String description) {
-            this.id = id;
-            this.name = name;
-            this.description = description;
-        }
-
-        public String getId() {return id;}
-        public String getName() {return name;}
-        public String getDescription() {return description;}
     }
 %>

@@ -12,6 +12,7 @@
 <%--
     Include the helper files.
 --%>
+<%@include file="../helpers/cycleHelper.jspf" %>
 <%@include file="../helpers/dateHelper.jspf" %>
 <%@include file="../helpers/themeHelper.jspf" %>
 <%@include file="../helpers/unauthorizedHelper.jspf" %>
