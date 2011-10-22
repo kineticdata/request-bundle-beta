@@ -184,7 +184,6 @@
         <!-- Render the template contents and request information. -->
         <div id="request">
             <jsp:include page="../includes/application/templateContent.jsp"/>
-            <jsp:include page="../includes/application/requestInfo.jsp"/>
         </div>
     </body>
 </html>
