@@ -81,9 +81,9 @@ THEME.onPageLoad(function() {
 
 
 THEME.breadcrumbs = [{
-        name: 'Catalog Home',
-        id: 'rootCategories'
-    }];
+    name: 'Catalog Home',
+    id: 'rootCategories'
+}];
 
 THEME.lastBreadcrumb = function() {
     return THEME.breadcrumbs[THEME.breadcrumbs.length - 1];
@@ -96,14 +96,22 @@ THEME.refreshBreadcrumbHTML = function() {
         var name = THEME.breadcrumbs[i]['name'];
         var id = THEME.breadcrumbs[i]['id'];
         if (i>0) {
-            HTML += '<span class="breadcrumbDivider">></span>';
+            if (i != THEME.breadcrumbs.length-1) {
+                HTML += '<div class="divider dividerNormalNormal"></div>';
+            } else {
+                HTML += '<div class="divider dividerNormalBlue"></div>';
+            }
         }
-        HTML += '<span class="breadcrumb">';
-        HTML += '<a class="breadcrumbLink secondaryColor" ';
+        if (i != THEME.breadcrumbs.length-1) {
+            HTML += '<div class="breadcrumb inactiveBreadcrumb">';
+        } else {
+            HTML += '<div class="breadcrumb activeBreadcrumb">';
+        }
+        HTML += '<a class="breadcrumbLink" ';
         HTML += 'data-id="' + id + '" ';
         HTML += 'href="javascript:void(0)">';
         HTML += name;
-        HTML += '</a></span>';
+        HTML += '</a></div>';
     }
 
     // Set the HTML to the correct div element
@@ -135,6 +143,39 @@ THEME.refreshBreadcrumbHTML = function() {
             }
 
             THEME.refreshBreadcrumbHTML();
+        });
+    }
+
+    var breadcrumbDivs = YAHOO.util.Selector.query('#catalogBreadcrumbs .breadcrumb');
+    for(var i=0; i<breadcrumbDivs.length-1; i++) {
+        YAHOO.util.Event.on(breadcrumbDivs[i], 'mouseenter', function() {
+            var previousSibling = YAHOO.util.Dom.getPreviousSibling(this);
+            var nextSibling = YAHOO.util.Dom.getNextSibling(this);
+
+            YAHOO.util.Dom.removeClass(previousSibling, 'dividerNormalNormal');
+            YAHOO.util.Dom.addClass(previousSibling, 'dividerNormalHighlight');
+            if (YAHOO.util.Dom.hasClass(nextSibling, 'dividerNormalNormal')) {
+                YAHOO.util.Dom.removeClass(nextSibling, 'dividerNormalNormal');
+                YAHOO.util.Dom.addClass(nextSibling, 'dividerHighlightNormal');
+            } else {
+                YAHOO.util.Dom.removeClass(nextSibling, 'dividerNormalBlue');
+                YAHOO.util.Dom.addClass(nextSibling, 'dividerHighlightBlue');
+            }
+        });
+        YAHOO.util.Event.on(breadcrumbDivs[i], 'mouseleave', function() {
+            var previousSibling = YAHOO.util.Dom.getPreviousSibling(this);
+            var nextSibling = YAHOO.util.Dom.getNextSibling(this);
+
+            YAHOO.util.Dom.removeClass(previousSibling, 'dividerNormalHighlight');
+            YAHOO.util.Dom.addClass(previousSibling, 'dividerNormalNormal');
+
+            if (YAHOO.util.Dom.hasClass(nextSibling, 'dividerHighlightNormal')) {
+                YAHOO.util.Dom.removeClass(nextSibling, 'dividerHighlightNormal');
+                YAHOO.util.Dom.addClass(nextSibling, 'dividerNormalNormal');
+            } else {
+                YAHOO.util.Dom.removeClass(nextSibling, 'dividerHighlightBlue');
+                YAHOO.util.Dom.addClass(nextSibling, 'dividerNormalBlue');
+            }
         });
     }
 };
