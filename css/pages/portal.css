@@ -70,7 +70,7 @@ body {min-width: 900px;}
     line-height: 20px;
 }
 
-#searchBoxContainer .buttonn {
+#searchBoxContainer .searchButton {
     background: #C6C6C6 url("../../images/background_blue_3B6E9C_88A7C3.png") repeat-x center;
     border: 1px solid #999;
     cursor: pointer;
@@ -79,7 +79,7 @@ body {min-width: 900px;}
     padding: 4px 12px;
 }
 
-#searchBoxContainer .buttonn:hover {
+#searchBoxContainer .searchButton:hover {
     background: #D2D2D2 url('../../images/background_light_blue_628BAF_A0B9CE.png') repeat-x center;
 }
 

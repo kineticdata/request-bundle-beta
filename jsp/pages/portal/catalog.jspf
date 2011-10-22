@@ -9,7 +9,7 @@
     <%-- CATALOG NAVIGATION (Breadcrumbs, Search) --%>
     <div>
         <div id="searchBoxContainer">
-            <div class="buttonn">
+            <div id="catalogSearchButton" class="searchButton">
                 <img src="<%= ThemeConfig.get("root")%>/images/search16x16-FFFFFF.png" alt="Search">
             </div>
             <input id="searchBox" type="text" name="searchBox" />

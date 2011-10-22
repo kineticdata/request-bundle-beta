@@ -6,63 +6,14 @@ THEME.onPageLoad(function() {
     });
 
     var searchBox = THEME.get("searchBox");
+    var searchButton = THEME.get("catalogSearchButton");
+    YAHOO.util.Event.addListener(searchButton, "click", THEME.searchCatalog);
     
     var searchListener = new YAHOO.util.KeyListener(
         searchBox,
         {
             keys: [YAHOO.util.KeyListener.KEY.ENTER]
-        },
-        function() {
-            // Do breadcrumb stuff here
-            // Hide the currently displayed element.
-            var displayedElement = document.getElementById(THEME.lastBreadcrumb()['id']);
-            THEME.addClass(displayedElement, 'hidden');
-            
-            THEME.breadcrumbs = [];
-            THEME.breadcrumbs.push({
-                name: 'Catalog Home',
-                id: 'rootCategories'
-            });
-            THEME.breadcrumbs.push({
-                id: "searchContent",
-                name: "Search Results"
-            });
-            THEME.refreshBreadcrumbHTML();
-            
-            
-            var searchContent = THEME.get("searchContent");
-            var searchLoadDisplay = THEME.get("searchLoadDisplay");
-            var searchLoadDisplayQuery = THEME.get("searchLoadDisplayQuery");
-            var searchResultsDisplay = THEME.get("searchResultsDisplay");
-
-            // Set the Search Load Display content
-            searchLoadDisplayQuery.innerHTML = searchBox.value;
-
-            // Hide the presently displayed content tab
-            THEME.hide("catalogContent");
-            THEME.hide(searchContent);
-
-            // Ensure the proper Search Result display is visible
-            THEME.hide(searchResultsDisplay);
-            THEME.show(searchLoadDisplay);
-            // Show the search content pane
-            THEME.show(searchContent);
-
-            // Replace the search results content
-            THEME.replace(
-                searchResultsDisplay,
-                "/jsp/pages/portal/partials/searchResults.jsp?catalogName="+THEME.config.catalogName+"&query="+searchBox.value,
-                {
-                    callback: function() {
-                        THEME.hide(searchLoadDisplay);
-                        THEME.show(searchResultsDisplay);
-                    }
-                }
-                );
-                
-            searchBox.value = '';
-        }
-        );
+        }, THEME.searchCatalog);
     searchListener.enable();
 
     /**
@@ -226,4 +177,54 @@ THEME.navigateTo = function(element) {
     // Rebuild the breadcrumb HTML and insert it into the #breadcrumb
     // div element.
     THEME.refreshBreadcrumbHTML();
+};
+
+THEME.searchCatalog = function() {
+    // Do breadcrumb stuff here
+    // Hide the currently displayed element.
+    var displayedElement = document.getElementById(THEME.lastBreadcrumb()['id']);
+    THEME.addClass(displayedElement, 'hidden');
+            
+    THEME.breadcrumbs = [];
+    THEME.breadcrumbs.push({
+        name: 'Catalog Home',
+        id: 'rootCategories'
+    });
+    THEME.breadcrumbs.push({
+        id: "searchContent",
+        name: "Search Results"
+    });
+    THEME.refreshBreadcrumbHTML();
+            
+    var searchBox = THEME.get("searchBox");
+    var searchContent = THEME.get("searchContent");
+    var searchLoadDisplay = THEME.get("searchLoadDisplay");
+    var searchLoadDisplayQuery = THEME.get("searchLoadDisplayQuery");
+    var searchResultsDisplay = THEME.get("searchResultsDisplay");
+
+    // Set the Search Load Display content
+    searchLoadDisplayQuery.innerHTML = searchBox.value;
+
+    // Hide the presently displayed content tab
+    THEME.hide(searchContent);
+
+    // Ensure the proper Search Result display is visible
+    THEME.hide(searchResultsDisplay);
+    THEME.show(searchLoadDisplay);
+    // Show the search content pane
+    THEME.show(searchContent);
+
+    // Replace the search results content
+    THEME.replace(
+        searchResultsDisplay,
+        "/jsp/pages/portal/partials/searchResults.jsp?catalogName="+THEME.config.catalogName+"&query="+searchBox.value,
+        {
+            callback: function() {
+                THEME.hide(searchLoadDisplay);
+                THEME.show(searchResultsDisplay);
+            }
+        }
+        );
+                
+    searchBox.value = '';
 };
