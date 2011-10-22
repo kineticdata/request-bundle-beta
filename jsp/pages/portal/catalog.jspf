@@ -5,12 +5,12 @@
 <!-- BEGIN {themeRoot}/jsp/pages/portal/catalog.jspf -->
 <div id="catalog">
     
-    <%-- CATALOG NAVIGATION (Breadcrumbs, Search) --%>
     <%@include file="../../pageFragments/shadowBoxBegin.jspf"%>
+    <%-- CATALOG NAVIGATION (Breadcrumbs, Search) --%>
     <div>
         <div id="searchBoxContainer">
             <div class="buttonn">
-                <img src="<%= ThemeConfig.get("root")%>/resources/famfamfam-images/icons/magnifier.png" alt="Search">
+                <img src="<%= ThemeConfig.get("root")%>/images/search16x16-FFFFFF.png" alt="Search">
             </div>
             <input id="searchBox" type="text" name="searchBox" />
             <div class="clear"></div>
@@ -24,8 +24,81 @@
     </div>
     <%@include file="../../pageFragments/shadowBoxEnd.jspf"%>
 
-    <%-- CATALOG CONTENT (Catalog Home, Category Views, Search Results) --%>
+    
     <%@include file="../../pageFragments/shadowBoxBegin.jspf"%>
+    <%-- CATALOG CONTENT (Catalog Home, Category Views) --%>
+    <div id="catalogContent">
+        <%-- CATALOG HOME (Catalog Description, Root Categories) --%>
+        <div id="rootCategories">
+            <div class="title">Catalog Home</div>
+            <div class="categoryDescription"><%= catalog.getDescription()%></div>
+            <div class="subtitle">Categories</div>
+            <%  String styleClass;
+                Category[] rootCategories = catalog.getRootCategories(context);
+                for (int i = 0; i < rootCategories.length; i++) {
+                    Category category = rootCategories[i];
+                    if (i % 2 == 0) {
+                        styleClass = "even";
+                    } else {
+                        styleClass = "odd";
+                    }%>
+            <div class="subcategory navigationLink <%= styleClass%>" data-id="<%= category.getId()%>" data-name="<%= category.getName()%>">
+                <div class="name"><%= category.getName()%></div>
+                <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
+                <div class="description"><%= category.getDescription()%></div>
+            </div>
+            <% }%>
+            <div class="clear"></div>
+        </div>
+
+        <%-- CATEGORY VIEWS --%>
+        <div id="categoryViews">
+            <% for (Category category : catalog.getAllCategories(context)) {%>
+            <div class="category hidden" id="<%= category.getId()%>">
+                <div class="title"><%= category.getName()%></div>
+                <div class="categoryDescription"><%= category.getDescription()%></div>
+
+                <% if (category.hasSubcategories()) {%>
+                <div class="subcategories">
+                    <div class="subtitle">Subcategories</div>
+                    <%
+                        Category[] subcategories = category.getSubcategories();
+                        for (int i = 0; i < subcategories.length; i++) {
+                            if (i % 2 == 0) {
+                                styleClass = "even";
+                            } else {
+                                styleClass = "odd";
+                            }%>
+                    <div class="subcategory navigationLink <%= styleClass%>" data-id="<%= subcategories[i].getId()%>" data-name="<%= subcategories[i].getName()%>">
+                        <div class="name secondaryColor"><%= subcategories[i].getName()%></div>
+                        <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
+                        <div class="description"><%= subcategories[i].getDescription()%></div>
+                    </div>
+                    <% }%>
+                    <div class="clear"></div>
+                </div>
+                <% }%>
+
+                <% if (category.hasTemplates()) {%>
+                <div class="templates">
+                    <div class="subtitle">Service Items</div>
+                    <% for (Template template : category.getTemplates()) {%>
+                    <div class="template">
+                        <div class="name">
+                            <a class="primaryColor" href="javascript:void(0)"><%= template.getName()%></a>
+                        </div>
+                        <div class="description">
+                            <%= template.getDescription()%>
+                        </div>
+                    </div>
+                    <% }%>
+                </div>
+                <% }%>
+            </div>
+            <% }%>
+        </div>
+    </div>
+
     <%-- SEARCH RESULTS (hidden by default)--%>
     <div id="searchContent" style="padding-top: 5px;" class="hidden">
         <div id="searchLoadDisplay" style="font-size: 2em; font-weight: bold; text-align: center;margin-top: 4em;">
@@ -34,73 +107,6 @@
         <div id="searchResultsDisplay"></div>
     </div>
 
-    <%-- CATALOG HOME (Catalog Description, Root Categories) --%>
-    <div id="rootCategories">
-        <div class="categoryHeader">Catalog Home</div>
-        <div class="categoryDescription"><%= catalog.getDescription()%></div>
-        <div class="subcategoriesHeader">Categories</div>
-        <%  String styleClass;
-            Category[] rootCategories = catalog.getRootCategories(context);
-            for (int i = 0; i < rootCategories.length; i++) {
-                Category category = rootCategories[i];
-                if (i % 2 == 0) {
-                    styleClass = "even";
-                } else {
-                    styleClass = "odd";
-                }%>
-        <div class="subcategory navigationLink <%= styleClass%>" data-id="<%= category.getId()%>" data-name="<%= category.getName()%>">
-            <div class="name"><%= category.getName()%></div>
-            <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
-            <div class="description"><%= category.getDescription()%></div>
-        </div>
-        <% }%>
-        <div class="clear"></div>
-    </div>
-
-    <%-- CATEGORY VIEWS --%>
-    <% for (Category category : catalog.getAllCategories(context)) {%>
-    <div class="category hidden" id="<%= category.getId()%>">
-        <div class="categoryHeader"><%= category.getName()%></div>
-        <div class="categoryDescription"><%= category.getDescription()%></div>
-
-        <% if (category.hasSubcategories()) {%>
-        <div class="subcategories">
-            <div class="subcategoriesHeader">Subcategories</div>
-            <%
-                Category[] subcategories = category.getSubcategories();
-                for (int i = 0; i < subcategories.length; i++) {
-                    if (i % 2 == 0) {
-                        styleClass = "even";
-                    } else {
-                        styleClass = "odd";
-                    }%>
-            <div class="subcategory navigationLink <%= styleClass%>" data-id="<%= subcategories[i].getId()%>" data-name="<%= subcategories[i].getName()%>">
-                <div class="name secondaryColor"><%= subcategories[i].getName()%></div>
-                <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
-                <div class="description"><%= subcategories[i].getDescription()%></div>
-            </div>
-            <% }%>
-            <div class="clear"></div>
-        </div>
-        <% }%>
-
-        <% if (category.hasTemplates()) {%>
-        <div class="templates">
-            <div class="templatesHeader">Service Items</div>
-            <% for (Template template : category.getTemplates()) {%>
-            <div class="template">
-                <div class="name">
-                    <a class="primaryColor" href="javascript:void(0)"><%= template.getName()%></a>
-                </div>
-                <div class="description">
-                    <%= template.getDescription()%>
-                </div>
-            </div>
-            <% }%>
-        </div>
-        <% }%>
-    </div>
-    <% }%>
     <%@include file="../../pageFragments/shadowBoxEnd.jspf"%>
 
 </div>

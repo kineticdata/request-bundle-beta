@@ -30,9 +30,7 @@ body {min-width: 900px;}
 }
 
 #portalBody .title {
-    background-image: url('../../images/secondaryHeader.png');
-    background-position: 0 0;
-    background-repeat: repeat-x;
+    background: #88A7C3 url('../../images/background_blue_3B6E9C_88A7C3.png') repeat-x;
     color: white;
     font-size: 1.4em;
     font-weight: bold;
@@ -42,9 +40,7 @@ body {min-width: 900px;}
 }
 
 #portalBody .subtitle {
-    background-image: url('../../images/background_grey_A1A1A1_C6C6C6.png');
-    background-position: 0 0;
-    background-repeat: repeat-x;
+    background: #C6C6C6 url('../../images/background_grey_A1A1A1_C6C6C6.png') repeat-x;
     color: white;
     font-size: 1.1em;
     font-weight: bold;
@@ -75,7 +71,7 @@ body {min-width: 900px;}
 }
 
 #searchBoxContainer .buttonn {
-    background: #fcae09 url('../../images/button_bg.png');
+    background: #C6C6C6 url("../../images/background_blue_3B6E9C_88A7C3.png") repeat-x center;
     border: 1px solid #999;
     cursor: pointer;
     float: right;
@@ -84,7 +80,7 @@ body {min-width: 900px;}
 }
 
 #searchBoxContainer .buttonn:hover {
-    background: #ffd043 url('../../images/button_hover_bg.png');
+    background: #D2D2D2 url('../../images/background_light_blue_628BAF_A0B9CE.png') repeat-x center;
 }
 
 #recentSubmissions .submissionStatus {
@@ -258,35 +254,6 @@ body {min-width: 900px;}
     margin: 0px 5px;
 }
 
-/** TODO: Reuse? */
-#catalog .category .categoryHeader, #catalog #rootCategories .categoryHeader {
-    background-image: url('../../images/secondaryHeader.png');
-    background-position: 0 0;
-    background-repeat: repeat-x;
-    color: white;
-    font-size: 1.4em;
-    font-weight: bold;
-    margin-bottom: 10px;
-    padding: 4px;
-    text-align: center;
-}
-#catalog .category .categoryDescription, #catalog #rootCategories .categoryDescription {
-    margin-bottom: 10px;
-}
-/** TODO: Reuse? */
-#catalog .category .subcategories .subcategoriesHeader, #catalog .category .templates .templatesHeader, #catalog #rootCategories .subcategoriesHeader {
-    background-image: url('../../images/secondaryHeader.png');
-    background-position: 0 0;
-    background-repeat: repeat-x;color: white;
-    font-size: 1.1em;
-    font-weight: bold;
-    margin-bottom: 10px;
-    padding: 1px;
-    text-align: center;
-}
-
-/** REFACTOR */
-    /** PART 1 (proper namespace) */
 #catalog .subcategory {
     background-color: #EEEEEE;
     border: 1px dotted #A1A1A1;
@@ -311,33 +278,6 @@ body {min-width: 900px;}
     margin-bottom: 5px;
     padding: 5px;
 }
-
-    /** PART 2 */
-/*#catalog .category .subcategories .subcategory, #catalog #rootCategories .rootCategory {
-    background-color: #EEEEEE;
-    border: 1px dotted #A1A1A1;
-    margin-bottom: 10px;
-    width: 49%;
-}
-#catalog .category .subcategories .subcategory:hover, #catalog #rootCategories .rootCategory:hover {
-    background-color: #FFFFFF;
-    cursor: pointer;
-}
-#catalog .category .subcategories .subcategory .description, #catalog #rootCategories .rootCategory .description {
-    padding: 5px;
-}
-#catalog .category .subcategories .subcategory .image, #catalog #rootCategories .rootCategory .image {
-    float: right;
-    padding: 5px;
-}
-#catalog .category .subcategories .subcategory .name, #catalog #rootCategories .rootCategory .name {
-    border-bottom: 1px dotted #A1A1A1;
-    color: #00427E;
-    font-weight: bold;
-    margin-bottom: 5px;
-    padding: 5px;
-}*/
-/** END REFACTOR */
 
 
 #catalog .category .templates .template {

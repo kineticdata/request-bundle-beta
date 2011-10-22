@@ -17,10 +17,13 @@
     HelperContext context = (HelperContext)ThemeConfig.get("context");
 %>
 <style>
+    #searchResults #searchQuery {
+        cursor: pointer;
+    }
     #searchResults .title {
         margin-bottom: 0.5em;
     }
-    .highlighted {background: khaki; padding:2px;}
+    #searchResults.activeHighlighting .highlighted {background: khaki;}
 
     .allMatchesLink {float: right;padding-right: 2em;}
     .resultType {clear: right;padding-bottom: 2em;position: relative;}
@@ -65,6 +68,18 @@
         for (int i=0;i<segments.length;i++) {
             patterns[i] = Pattern.compile(".*"+Pattern.quote(segments[i])+".*", Pattern.CASE_INSENSITIVE);
         }
+
+        // Define a list of categories that match the pattern
+        List<Category> matchingCategories = new ArrayList();
+        for(Category category : catalog.getAllCategories(context)) {
+            // If the category has any templates viewable by the searcher (if it
+            // does not have any templates, it doesn't make sense to display it
+            // in the search results).
+            if (category.hasTemplates()) {
+
+            }
+        }
+
 
         // Define a list of templates that match the pattern
         List<Template> matchingTemplates = new ArrayList();
@@ -122,13 +137,14 @@
             }
         }
 %>
-<div class="title">
-    Search Results:
-    <% for (String segment : segments) { %>
-    <span class="highlighted secondaryColor"><%= segment %></span>
-    <% } %>
-</div>
-<div id="searchResults">
+<div id="searchResults" class="activeHighlighting">
+    <div class="title">
+        Search Results:
+        <% for (String segment : segments) { %>
+        <span id="searchQuery" class="highlighted secondaryColor" onclick="THEME.toggleClass('searchResults', 'activeHighlighting');"><%= segment %></span>
+        <% } %>
+    </div>
+
     <div class="resultType">
     <% if (matchingTemplates.size() == 0) { %>
         <div class="subtitle">There are no matching templates.</div>
