@@ -286,7 +286,7 @@ body {min-width: 900px;}
 }
 
 /** REFACTOR */
-    /** PART 1 (proper namespace) */
+/** PART 1 (proper namespace) */
 #catalog .subcategory {
     background-color: #EEEEEE;
     border: 1px dotted #A1A1A1;
@@ -312,7 +312,7 @@ body {min-width: 900px;}
     padding: 5px;
 }
 
-    /** PART 2 */
+/** PART 2 */
 /*#catalog .category .subcategories .subcategory, #catalog #rootCategories .rootCategory {
     background-color: #EEEEEE;
     border: 1px dotted #A1A1A1;
@@ -349,30 +349,40 @@ body {min-width: 900px;}
 
 #catalog .breadcrumb {
     background-color: white;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-style: solid;
     color:white;
     cursor: pointer;
     float: left;
+    font-weight: bold;
     line-height: 30px;
     padding: 0 5px;
 }
-#catalog .inactiveBreadcrumb {
-    border-top: 1px solid #A1A1A1;
-    border-bottom: 1px solid #A1A1A1;
+#catalog .breadcrumb.leftBreadcrumb {
+    border-left-width: 1px;
+}
+#catalog .breadcrumb.searchBreadcrumb {
+    margin-left: 5px;
+    border-left-width: 1px;
+}
+#catalog .breadcrumb.inactiveBreadcrumb {
+    border-color: #A1A1A1;
     background-image: url("../../images/background_grey_A1A1A1_C6C6C6.png");
     background-repeat: repeat-x;
     background-position: center;
 }
-#catalog .inactiveBreadcrumb:hover {
-    border-top: 1px solid #B4B4B4;
-    border-bottom: 1px solid #B4B4B4;
+#catalog .breadcrumb.inactiveBreadcrumb:hover {
+    border-color: #B4B4B4;
     background-image: url("../../images/background_light_grey_B4B4B4_D2D2D2.png");
     background-repeat: repeat-x;
     background-position: center;
 }
-#catalog .activeBreadcrumb {
-    border-top: 1px solid #3B6E9C;
-    border-bottom: 1px solid #3B6E9C;
-    border-right: 1px solid #3B6E9C;
+#catalog .breadcrumb.activeBreadcrumb {
+    border-color: #3B6E9C;
+    border-right-width: 1px;
     background-image: url("../../images/background_blue_3B6E9C_88A7C3.png");
     background-repeat: repeat-x;
     background-position: center;

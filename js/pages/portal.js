@@ -13,6 +13,23 @@ THEME.onPageLoad(function() {
             keys: [YAHOO.util.KeyListener.KEY.ENTER]
         },
         function() {
+            // Do breadcrumb stuff here
+            // Hide the currently displayed element.
+            var displayedElement = document.getElementById(THEME.lastBreadcrumb()['id']);
+            THEME.addClass(displayedElement, 'hidden');
+            
+            THEME.breadcrumbs = [];
+            THEME.breadcrumbs.push({
+                name: 'Catalog Home',
+                id: 'rootCategories'
+            });
+            THEME.breadcrumbs.push({
+                id: "searchContent",
+                name: "Search Results"
+            });
+            THEME.refreshBreadcrumbHTML();
+            
+            
             var searchContent = THEME.get("searchContent");
             var searchLoadDisplay = THEME.get("searchLoadDisplay");
             var searchLoadDisplayQuery = THEME.get("searchLoadDisplayQuery");
@@ -100,53 +117,35 @@ THEME.refreshBreadcrumbHTML = function() {
         var name = THEME.breadcrumbs[i]['name'];
         var id = THEME.breadcrumbs[i]['id'];
         if (i>0) {
-            if (i != THEME.breadcrumbs.length-1) {
-                HTML += '<div class="divider dividerNormalNormal"></div>';
-            } else {
-                HTML += '<div class="divider dividerNormalBlue"></div>';
+            if (THEME.breadcrumbs[i]['id'] != 'searchContent') {
+                if (i != THEME.breadcrumbs.length-1) {
+                    HTML += '<div class="divider dividerNormalNormal"></div>';
+                } else {
+                    HTML += '<div class="divider dividerNormalBlue"></div>';
+                }
             }
         }
         HTML += '<div class="breadcrumb ';
+        if (THEME.breadcrumbs[i]['id'] == 'rootCategories') {
+            HTML += 'leftBreadcrumb ';
+        }
+        if (THEME.breadcrumbs[i]['id'] == 'searchContent') {
+            HTML += 'searchBreadcrumb ';
+        }
         if (i != THEME.breadcrumbs.length-1) {
             HTML += 'inactiveBreadcrumb"';
         } else {
             HTML += 'activeBreadcrumb"';
         }
-        HTML += 'data-id="' + id + '">' + name + '</div>';
+        HTML += 'data-id="' + id + '" onclick="THEME.breadcrumbTo(this)">' + name + '</div>';
     }
 
     // Set the HTML to the correct div element
     var breadcrumbElement = document.getElementById('catalogBreadcrumbs');
     breadcrumbElement.innerHTML = HTML;
-
+    
+    // Bind some mouseenter and mouseleave events to the breadcrumb divs
     var breadcrumbDivs = YAHOO.util.Selector.query('#catalogBreadcrumbs .breadcrumb');
-    // Bind a click function to each of the breadcrumbLink elements that shows
-    // the specified element and refreshes the breadcrumb html.
-    for(var i=0; i<breadcrumbDivs.length; i++) {
-        YAHOO.util.Event.on(breadcrumbDivs[i], 'click', function() {
-            // Hide the currently displayed element.  The id of the currently
-            // displayed element should be stored in the most recent entry in
-            // the breadcrumb stack.
-            var displayedElement = document.getElementById(THEME.lastBreadcrumb()['id']);
-            THEME.addClass(displayedElement, 'hidden');
-
-            // Get the target id stored in the link that triggers this function.
-            // Then retrieve and show the element.
-            var targetId = this.getAttribute('data-id');
-            var targetElement = document.getElementById(targetId);
-            THEME.removeClass(targetElement, 'hidden');
-
-            // Rebuild the breadcrumbs.
-            // First remove elements from the breadcrumbs stack until we reach
-            // the element that was clicked.
-            while(THEME.lastBreadcrumb()['id'] != targetId) {
-                THEME.breadcrumbs.pop();
-            }
-
-            THEME.refreshBreadcrumbHTML();
-        });
-    }
-
     for(var i=0; i<breadcrumbDivs.length-1; i++) {
         YAHOO.util.Event.on(breadcrumbDivs[i], 'mouseenter', function() {
             var previousSibling = YAHOO.util.Dom.getPreviousSibling(this);
@@ -180,34 +179,51 @@ THEME.refreshBreadcrumbHTML = function() {
     }
 };
 
+THEME.breadcrumbTo = function(element) {
+    // Hide the currently displayed element.  The id of the currently
+    // displayed element should be stored in the most recent entry in
+    // the breadcrumb stack.
+    var displayedElement = document.getElementById(THEME.lastBreadcrumb()['id']);
+    THEME.addClass(displayedElement, 'hidden');
 
-THEME.onPageLoad(function() {
-    var navigationLinks = YAHOO.util.Selector.query('#catalog .navigationLink');
-    for(var i=0; i<navigationLinks.length; i++) {
-        YAHOO.util.Event.on(navigationLinks[i], 'click', function() {
-            // Hide the currently displayed element.
-            var displayedElement = document.getElementById(THEME.lastBreadcrumb()['id']);
-            THEME.addClass(displayedElement, 'hidden');
+    // Get the target id stored in the link that triggers this function.
+    // Then retrieve and show the element.
+    var targetId = element.getAttribute('data-id');
+    var targetElement = document.getElementById(targetId);
+    THEME.removeClass(targetElement, 'hidden');
 
-            // Show the element specified by the link that triggered this function.
-            var targetId = this.getAttribute('data-id');
-            var targetName = this.getAttribute('data-name');
-            if(targetName == undefined) {
-                targetName = this.innerHTML;
-            }
-            var targetElement = document.getElementById(targetId);
-            THEME.removeClass(targetElement, 'hidden');
-
-            // Add this navigation action to the breadcrumb stack by pushing
-            // the id and name of the link that triggered this function.
-            THEME.breadcrumbs.push({
-                id: targetId,
-                name: targetName
-            });
-
-            // Rebuild the breadcrumb HTML and insert it into the #breadcrumb
-            // div element.
-            THEME.refreshBreadcrumbHTML();
-        });
+    // Rebuild the breadcrumbs.
+    // First remove elements from the breadcrumbs stack until we reach
+    // the element that was clicked.
+    while(THEME.lastBreadcrumb()['id'] != targetId) {
+        THEME.breadcrumbs.pop();
     }
-});
+
+    THEME.refreshBreadcrumbHTML();
+}
+
+THEME.navigateTo = function(element) {
+    // Hide the currently displayed element.
+    var displayedElement = document.getElementById(THEME.lastBreadcrumb()['id']);
+    THEME.addClass(displayedElement, 'hidden');
+
+    // Show the element specified by the link that triggered this function.
+    var targetId = element.getAttribute('data-id');
+    var targetName = element.getAttribute('data-name');
+    if(targetName == undefined) {
+        targetName = this.innerHTML;
+    }
+    var targetElement = document.getElementById(targetId);
+    THEME.removeClass(targetElement, 'hidden');
+
+    // Add this navigation action to the breadcrumb stack by pushing
+    // the id and name of the link that triggered this function.
+    THEME.breadcrumbs.push({
+        id: targetId,
+        name: targetName
+    });
+
+    // Rebuild the breadcrumb HTML and insert it into the #breadcrumb
+    // div element.
+    THEME.refreshBreadcrumbHTML();
+};

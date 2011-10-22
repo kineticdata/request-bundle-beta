@@ -16,7 +16,7 @@
             <div class="clear"></div>
         </div>
         <div id="catalogBreadcrumbs">
-            <div class="breadcrumb activeBreadcrumb" data-id="rootCategories" >Catalog Home</div>
+            <div class="breadcrumb leftBreadcrumb activeBreadcrumb" data-id="rootCategories" onclick="THEME.navigateTo(this)">Catalog Home</div>
         </div>
         <div class="clear"></div>
     </div>
@@ -46,7 +46,7 @@
                 } else {
                     styleClass = "odd";
                 }%>
-        <div class="subcategory navigationLink <%= styleClass%>" data-id="<%= category.getId()%>" data-name="<%= category.getName()%>">
+                <div class="subcategory navigationLink <%= styleClass%>" data-id="<%= category.getId()%>" data-name="<%= category.getName()%>" onclick="THEME.navigateTo(this)">
             <div class="name"><%= category.getName()%></div>
             <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
             <div class="description"><%= category.getDescription()%></div>
@@ -72,7 +72,7 @@
                     } else {
                         styleClass = "odd";
                     }%>
-            <div class="subcategory navigationLink <%= styleClass%>" data-id="<%= subcategories[i].getId()%>" data-name="<%= subcategories[i].getName()%>">
+            <div class="subcategory navigationLink <%= styleClass%>" data-id="<%= subcategories[i].getId()%>" data-name="<%= subcategories[i].getName()%>" onclick="THEME.navigateTo(this)">
                 <div class="name secondaryColor"><%= subcategories[i].getName()%></div>
                 <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
                 <div class="description"><%= subcategories[i].getDescription()%></div>
