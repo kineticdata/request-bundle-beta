@@ -1,4 +1,8 @@
 <%--
+    TODO: Description of file.
+--%>
+
+<%--
     Configuration setting that trims all of the whitespace that is created by
     using JSP comments (such as this one) and other JSP tags.
 --%>

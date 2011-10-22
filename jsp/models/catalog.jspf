@@ -24,8 +24,10 @@
         private Map<String,Category> sortedCategoryMap = new TreeMap();
         private Category[] categories = null;
         private List<Category> rootCategories = new ArrayList();
-        private Map<String,Template> templateMap = new LinkedHashMap();
+        private Map<String,Template> templateIdMap = new LinkedHashMap();
+        private Map<String,Template> templateNameMap = new LinkedHashMap();
         private Template[] templates = null;
+        private TemplateAttribute[] templateAttributes = null;
 
         public Catalog(SimpleEntry entry) {
             this.entry = entry;
@@ -49,7 +51,7 @@
         public void preload(HelperContext context) {
             Category[] categories = this.getAllCategories(context);
             Template[] templates = this.getTemplates(context);
-
+            
             String categorizationQualification =
                 "'"+CATEGORIZATION_FIELD_CATELOG_ID+"' = \""+this.getName()+"\"";
 
@@ -63,10 +65,25 @@
                 String templateId = categorization.getEntryFieldValue(CATEGORIZATION_FIELD_TEMPLATE_ID);
 
                 Category category = this.categoryMap.get(categoryId);
-                Template template = this.templateMap.get(templateId);
+                Template template = this.templateIdMap.get(templateId);
                 category.addTemplate(template);
                 template.addCategory(category);
             }
+
+            TemplateAttribute[] templateAttributes = this.getTemplateAttributes(context);
+            for (TemplateAttribute templateAttribute : templateAttributes) {
+                Template template = this.templateNameMap.get(templateAttribute.getTemplateName());
+                if (template != null) {
+                    template.addTemplateAttribute(templateAttribute);
+                }
+            }
+        }
+
+        public TemplateAttribute[] getTemplateAttributes(HelperContext context) {
+            if (templateAttributes == null) {
+                templateAttributes = TemplateAttribute.findByCatalogName(context, getName());
+            }
+            return templateAttributes;
         }
 
         public Category[] getAllCategories(HelperContext context) {
@@ -118,7 +135,8 @@
             if (templates == null) {
                 templates = Template.findByCatalogName(context, getName());
                 for(Template template : templates) {
-                    templateMap.put(template.getId(), template);
+                    templateIdMap.put(template.getId(), template);
+                    templateNameMap.put(template.getName(), template);
                 }
             }
 

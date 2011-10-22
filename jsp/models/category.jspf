@@ -70,6 +70,16 @@
         public boolean hasSubcategories() {
             return subcategories.size() > 0;
         }
+        public boolean hasNonEmptySubcategories() {
+            boolean result = false;
+            for (Category subcategory : getSubcategories()) {
+                if (subcategory.hasTemplates()) {
+                    result = true;
+                    break;
+                }
+            }
+            return result;
+        }
 
         public String getDescription() { return entry.getEntryFieldValue(FIELD_DESCRIPTION); }
         public String getFullName() {return entry.getEntryFieldValue(FIELD_NAME);}

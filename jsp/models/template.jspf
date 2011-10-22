@@ -13,6 +13,7 @@
 
         private SimpleEntry entry = null;
         private List<Category> categories = new ArrayList();
+        private Map<String, List<TemplateAttribute>> templateAttributesMap = new LinkedHashMap();
 
         public static Template findByDisplayName(HelperContext context, String catalogName, String displayName) {
             Template result = null;
@@ -55,7 +56,7 @@
         public Category[] getCategories() {
             return categories.toArray(new Category[categories.size()]);
         }
-        public boolean hasTemplates() {
+        public boolean hasCategories() {
             return categories.size() > 0;
         }
 
@@ -69,6 +70,32 @@
                 result.append(category.getName());
             }
             return result.toString();
+        }
+
+        public void addTemplateAttribute(TemplateAttribute templateAttribute) {
+            List<TemplateAttribute> templateAttributeList = templateAttributesMap.get(templateAttribute.getName());
+            if (templateAttributeList == null) {
+                templateAttributeList = new ArrayList();
+                templateAttributesMap.put(templateAttribute.getName(), templateAttributeList);
+            }
+            templateAttributeList.add(templateAttribute);
+        }
+        public Map<String,List<TemplateAttribute>> getTemplateAttributesMap() {
+            return templateAttributesMap;
+        }
+        public String[] getTemplateAttributeNames() {
+            return templateAttributesMap.keySet().toArray(new String[templateAttributesMap.size()]);
+        }
+        public String[] getTemplateAttributeValues(String attributeName) {
+            String[] results = new String[0];
+            List<TemplateAttribute> attributes = templateAttributesMap.get(attributeName);
+            if (attributes != null) {
+                results = new String[attributes.size()];
+                for (int i=0;i<results.length;i++) {
+                    results[i] = attributes.get(i).getValue();
+                }
+            }
+            return results;
         }
 
         public String getAnonymousUrl() {return entry.getEntryFieldValue(FIELD_ANONYMOUS_URL);}

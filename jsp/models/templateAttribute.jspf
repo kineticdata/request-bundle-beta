@@ -8,12 +8,17 @@
         public static final String FIELD_CATALOG_NAME = "600000500";
         public static final String FIELD_TEMPLATE_NAME = "700001000";
         public static final String[] FIELD_IDS = new String[]{
-            FIELD_ATTRIBUTE_NAME, FIELD_ATTRIBUTE_VALUE, FIELD_TEMPLATE_NAME};
+            FIELD_ATTRIBUTE_NAME, FIELD_ATTRIBUTE_VALUE, FIELD_CATALOG_NAME,
+            FIELD_TEMPLATE_NAME};
 
         private SimpleEntry entry = null;
 
-        public static TemplateAttribute[] findByCatalog(HelperContext context, String catalogName) {
-            TemplateAttribute[] result = null;
+        public TemplateAttribute(SimpleEntry entry) {
+            this.entry = entry;
+        }
+
+        public static TemplateAttribute[] findByCatalogName(HelperContext context, String catalogName) {
+            TemplateAttribute[] results = null;
 
             String qualification = "'"+FIELD_CATALOG_NAME+"' = \""+catalogName+"\"";
 
@@ -21,11 +26,27 @@
             if (entries != null && entries.length > 0) {
                 results = new TemplateAttribute[entries.length];
                 for(int i=0;i<results.length;i++) {
-                    results[i] = new Template(entries[i]);
+                    results[i] = new TemplateAttribute(entries[i]);
                 }
             }
 
             return results;
+        }
+
+        public String getCatalogName() {return entry.getEntryFieldValue(FIELD_CATALOG_NAME);}
+        public String getName() {return entry.getEntryFieldValue(FIELD_ATTRIBUTE_NAME);}
+        public String getTemplateName() {return entry.getEntryFieldValue(FIELD_TEMPLATE_NAME);}
+        public String getValue() {return entry.getEntryFieldValue(FIELD_ATTRIBUTE_VALUE);}
+
+        public String toJson() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("{");
+            builder.append("catalogName: '").append(getCatalogName()).append("'").append(",");
+            builder.append("name: '").append(getName()).append("'").append(",");
+            builder.append("templateName: '").append(getTemplateName()).append("'").append(",");;
+            builder.append("value: '").append(getValue()).append("'");
+            builder.append("}");
+            return builder.toString();
         }
     }
 %>

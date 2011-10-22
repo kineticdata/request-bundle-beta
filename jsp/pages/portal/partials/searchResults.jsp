@@ -125,69 +125,85 @@
         }
 
         /***********************************************************************
-         * BUILD LIST OF CATEGORY MATCH RESULTS
-         *   Hashmap of displayed attribute names to values (with highlighting).
-         **********************************************************************/
-
-        // For each of the matching templates
-        for(Category category: matchingCategories) {
-            //Category.setName(ThemeHelper.replaceAll(combinedPattern, category.getName()));
-            //Category.setDescription(ThemeHelper.replaceAll(combinedPattern, category.getDescription()));
-        }
-
-
-        /***********************************************************************
          * BUILD LIST OF MATCHING TEMPLATES
          **********************************************************************/
 
         // Define a list of templates that match the pattern
         List<Template> matchingTemplates = new ArrayList();
 
+        // Define a mapping of search state information
+        Map<String,Set<String>> matchingTemplateAttributes = new LinkedHashMap();
+
         // For each of the templates
         for(Template template : catalog.getTemplates(context)) {
-            // Assume the template matches all segments until a pattern that
-            // does not match is encountered.
-            boolean matchesAllQueryItems = true;
+            // If the template is categorized
+            if (template.hasCategories()) {
+                // Assume the template matches all segments until a pattern that
+                // does not match is encountered.
+                boolean matchesAllQueryItems = true;
 
-            // For each of the patterns
-            for(Pattern pattern : patterns) {
-                // Build a matcher for each item that we are matching
-                Matcher nameMatcher = pattern.matcher(template.getName());
-                Matcher descriptionMatcher = pattern.matcher(template.getDescription());
-                Matcher categoryMatcher = pattern.matcher(template.getCategorizationString());
+                // Retrieve the configured searchable attributes
+                String[] searchableAttributes = (String[])ThemeConfig.get("searchableAttributes");
+                // If the searchable attributes configuration value is null, assume all attributes are searchable
+                if (searchableAttributes == null) {
+                    searchableAttributes = template.getTemplateAttributeNames();
+                }
 
-                // If the template name, description, or category does not match
-                // the current query Item
-                if (!nameMatcher.matches() && !descriptionMatcher.matches() && !categoryMatcher.matches()) {
-                    // Specify that the template does not match all query items
-                    matchesAllQueryItems = false;
-                    // Break out of the loop
-                    break;
+                matchingTemplateAttributes.put(template.getId(), new LinkedHashSet());
+
+                // For each of the patterns
+                for(Pattern pattern : patterns) {
+                    // Build a matcher for each item that we are matching
+                    Matcher nameMatcher = pattern.matcher(template.getName());
+                    Matcher descriptionMatcher = pattern.matcher(template.getDescription());
+                    Matcher categoryMatcher = pattern.matcher(template.getCategorizationString());
+
+                    // Initialize the set of matching attributes and add it to the
+                    // matchingAttributes map for use in the search results
+                    Set<String> matchingAttributes = new LinkedHashSet();
+                    // For each of the attributes configured to be searchable
+                    for (String attributeName : searchableAttributes) {
+                        // Retrieve the attribute values for the attribute
+                        String[] attributeValues = template.getTemplateAttributeValues(attributeName);
+                        System.out.println(template.getName() + ": "+attributeName +" ("+attributeValues.length+")");
+
+                        // For each of the attribute values
+                        for (String attributeValue : attributeValues) {
+                            System.out.println("  "+attributeValue);
+                            // Add the attribute to the matchingAttributes set if it
+                            // matches.
+                            Matcher attributeValueMatcher = pattern.matcher(attributeValue);
+                            if (attributeValueMatcher.matches()) {
+                                matchingAttributes.add(attributeName);
+                                break;
+                            }
+                        }
+                    }
+
+                    // If there are no attributes matching the current query item,
+                    // and the template name, description, or category does not
+                    // match the current query item either
+                    if (matchingAttributes.size() == 0 && !nameMatcher.matches() && !descriptionMatcher.matches() && !categoryMatcher.matches()) {
+                        // Specify that the template does not match all query items
+                        matchesAllQueryItems = false;
+                        // Break out of the loop
+                        break;
+                    }
+                    // If one of the matchable items matches the current query item
+                    else {
+                        // Add the set of attributes that match the current query
+                        // item to the list of attributes that match any query item.
+                        matchingTemplateAttributes.get(template.getId()).addAll(matchingAttributes);
+                    }
+                }
+
+                // If the current template still matches all query items after iterating
+                // over each of them
+                if (matchesAllQueryItems) {
+                    matchingTemplates.add(template);
                 }
             }
-
-            // If the current template still matches all query items after iterating
-            // over each of them
-            if (matchesAllQueryItems) {
-                matchingTemplates.add(template);
-            }
         }
-
-        /***********************************************************************
-         * BUILD LIST OF TEMPLATE MATCH RESULTS
-         *   Hashmap of displayed attribute names to values (with highlighting).
-         **********************************************************************/
-
-        // Build up a list of TemplateMatches if there were any matching templates
-        List<Map> templateMatchResults = new ArrayList();
-        // For each of the matching templates
-        for(Template template : matchingTemplates) {
-            Map<String,String> templateResult = new HashMap();
-            templateResult.put("name", ThemeHelper.replaceAll(combinedPattern, template.getName()));
-            templateResult.put("description", ThemeHelper.replaceAll(combinedPattern, template.getDescription()));
-            templateMatchResults.add(templateResult);
-        }
-
 %>
 <div id="searchResults" class="activeHighlighting">
     <div class="title">
@@ -219,11 +235,24 @@
     <%-- If there were any matching templates, display them. --%>
     <% } else { %>
         <div class="subtitle">Matching Service Items</div>
-        <% for (Map templateResult : templateMatchResults) { %>
+        <% for (Template template : matchingTemplates) { %>
         <div class="templateMatch">
-            <div class="templateName"><a class="primaryColor" href="#"><%= templateResult.get("name") %></a></div>
-            <div class="matchingAttributes"><b>Attributes: </b><span class="highlighted">Category</span>, <span class="highlighted">Keyword</span></div>
-            <div class="templateDescription"><%= templateResult.get("description") %></div>
+            <div class="templateName">
+                <a class="primaryColor" href="#">
+                    <%= ThemeHelper.replaceAll(combinedPattern, template.getName()) %>
+                </a>
+            </div>
+            <div class="matchingAttributes">
+                <% if (matchingTemplateAttributes.get(template.getId()).size() > 0) { %>
+                <b>Attributes: </b>
+                <% for (String matchingAttributeName : matchingTemplateAttributes.get(template.getId())) { %>
+                <span class="highlighted"><%= matchingAttributeName %> </span>
+                <% } %>
+                <% } %>
+            </div>
+            <div class="templateDescription">
+                <%= ThemeHelper.replaceAll(combinedPattern, template.getDescription()) %>
+            </div>
         </div>
         <% } %>
         <div class="clear"></div>

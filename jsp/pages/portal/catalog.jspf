@@ -29,21 +29,15 @@
         <div class="title">Catalog Home</div>
         <div class="categoryDescription"><%= catalog.getDescription()%></div>
         <div class="subtitle">Categories</div>
-        <%  String styleClass;
-            Category[] rootCategories = catalog.getRootCategories(context);
-            for (int i = 0; i < rootCategories.length; i++) {
-                Category category = rootCategories[i];
-                if (i % 2 == 0) {
-                    styleClass = "even";
-                } else {
-                    styleClass = "odd";
-                }
-        %>
-            <div class="subcategory navigationLink <%= styleClass%>" data-id="<%= category.getId()%>" data-name="<%= category.getName()%>" onclick="THEME.navigateTo(this)">
-            <div class="name"><%= category.getName()%></div>
-            <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
-            <div class="description"><%= category.getDescription()%></div>
-        </div>
+        <% CycleHelper rootToggle = new CycleHelper(new String[] {"even", "odd"}); %>
+        <% for (Category category : catalog.getRootCategories(context)) { %>
+            <% if (category.hasTemplates()) { %>
+            <div class="subcategory navigationLink <%= rootToggle.cycle() %>" data-id="<%= category.getId()%>" data-name="<%= category.getName()%>" onclick="THEME.navigateTo(this)">
+                <div class="name"><%= category.getName()%></div>
+                <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
+                <div class="description"><%= category.getDescription()%></div>
+            </div>
+            <% } %>
         <% }%>
         <div class="clear"></div>
     </div>
@@ -51,48 +45,45 @@
     <%-- CATEGORY VIEWS --%>
     <div id="categoryViews">
         <% for (Category category : catalog.getAllCategories(context)) {%>
-        <div class="category hidden" id="<%= category.getId()%>">
-            <div class="title"><%= category.getName()%></div>
-            <div class="categoryDescription"><%= category.getDescription()%></div>
+            <% if (category.hasTemplates()) { %>
+            <div class="category hidden" id="<%= category.getId()%>">
+                <div class="title"><%= category.getName()%></div>
+                <div class="categoryDescription"><%= category.getDescription()%></div>
 
-            <% if (category.hasSubcategories()) {%>
-            <div class="subcategories">
-                <div class="subtitle">Subcategories</div>
-                <%
-                    Category[] subcategories = category.getSubcategories();
-                    for (int i = 0; i < subcategories.length; i++) {
-                        if (i % 2 == 0) {
-                            styleClass = "even";
-                        } else {
-                            styleClass = "odd";
-                        }
-                %>
-                <div class="subcategory navigationLink <%= styleClass%>" data-id="<%= subcategories[i].getId()%>" data-name="<%= subcategories[i].getName()%>" onclick="THEME.navigateTo(this)">
-                    <div class="name secondaryColor"><%= subcategories[i].getName()%></div>
-                    <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
-                    <div class="description"><%= subcategories[i].getDescription()%></div>
+                <% if (category.hasNonEmptySubcategories()) {%>
+                <div class="subcategories">
+                    <div class="subtitle">Subcategories</div>
+                    <% CycleHelper toggle = new CycleHelper(new String[] {"even", "odd"}); %>
+                    <% for (Category subcategory : category.getSubcategories()) { %>
+                        <% if (subcategory.hasTemplates()) { %>
+                        <div class="subcategory navigationLink <%= toggle.cycle() %>" data-id="<%= subcategory.getId()%>" data-name="<%= subcategory.getName()%>" onclick="THEME.navigateTo(this)">
+                            <div class="name secondaryColor"><%= subcategory.getName()%></div>
+                            <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
+                            <div class="description"><%= subcategory.getDescription()%></div>
+                        </div>
+                        <% }%>
+                    <% }%>
+                    <div class="clear"></div>
                 </div>
                 <% }%>
-                <div class="clear"></div>
-            </div>
-            <% }%>
 
-            <% if (category.hasTemplates()) {%>
-            <div class="templates">
-                <div class="subtitle">Service Items</div>
-                <% for (Template template : category.getTemplates()) {%>
-                <div class="template">
-                    <div class="name">
-                        <a class="primaryColor" href="javascript:void(0)"><%= template.getName()%></a>
+                <% if (category.hasTemplates()) {%>
+                <div class="templates">
+                    <div class="subtitle">Service Items</div>
+                    <% for (Template template : category.getTemplates()) {%>
+                    <div class="template">
+                        <div class="name">
+                            <a class="primaryColor" href="javascript:void(0)"><%= template.getName()%></a>
+                        </div>
+                        <div class="description">
+                            <%= template.getDescription()%>
+                        </div>
                     </div>
-                    <div class="description">
-                        <%= template.getDescription()%>
-                    </div>
+                    <% }%>
                 </div>
                 <% }%>
             </div>
             <% }%>
-        </div>
         <% }%>
     </div>
 

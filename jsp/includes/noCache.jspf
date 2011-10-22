@@ -1,3 +1,6 @@
+<%--
+    TODO: Description of file.
+--%>
 <%
     // Configure the header values necessary to prevent caching.
     response.setDateHeader ("EXPIRES", 0); // Prevents caching at the proxy server
