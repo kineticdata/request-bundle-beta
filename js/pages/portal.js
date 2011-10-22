@@ -9,7 +9,9 @@ THEME.onPageLoad(function() {
     
     var searchListener = new YAHOO.util.KeyListener(
         searchBox,
-        { keys: [YAHOO.util.KeyListener.KEY.ENTER] },
+        {
+            keys: [YAHOO.util.KeyListener.KEY.ENTER]
+        },
         function() {
             var searchContent = THEME.get("searchContent");
             var searchLoadDisplay = THEME.get("searchLoadDisplay");
@@ -33,15 +35,17 @@ THEME.onPageLoad(function() {
             THEME.replace(
                 searchResultsDisplay,
                 "/jsp/pages/portal/partials/searchResults.jsp?catalogName="+THEME.config.catalogName+"&query="+searchBox.value,
-                {callback: function() {
-                    THEME.hide(searchLoadDisplay);
-                    THEME.show(searchResultsDisplay);
-                }}
-            );
+                {
+                    callback: function() {
+                        THEME.hide(searchLoadDisplay);
+                        THEME.show(searchResultsDisplay);
+                    }
+                }
+                );
                 
             searchBox.value = '';
         }
-    );
+        );
     searchListener.enable();
 
     /**
@@ -102,27 +106,24 @@ THEME.refreshBreadcrumbHTML = function() {
                 HTML += '<div class="divider dividerNormalBlue"></div>';
             }
         }
+        HTML += '<div class="breadcrumb ';
         if (i != THEME.breadcrumbs.length-1) {
-            HTML += '<div class="breadcrumb inactiveBreadcrumb">';
+            HTML += 'inactiveBreadcrumb"';
         } else {
-            HTML += '<div class="breadcrumb activeBreadcrumb">';
+            HTML += 'activeBreadcrumb"';
         }
-        HTML += '<a class="breadcrumbLink" ';
-        HTML += 'data-id="' + id + '" ';
-        HTML += 'href="javascript:void(0)">';
-        HTML += name;
-        HTML += '</a></div>';
+        HTML += 'data-id="' + id + '">' + name + '</div>';
     }
 
     // Set the HTML to the correct div element
     var breadcrumbElement = document.getElementById('catalogBreadcrumbs');
     breadcrumbElement.innerHTML = HTML;
 
+    var breadcrumbDivs = YAHOO.util.Selector.query('#catalogBreadcrumbs .breadcrumb');
     // Bind a click function to each of the breadcrumbLink elements that shows
     // the specified element and refreshes the breadcrumb html.
-    var breadcrumbLinks = YAHOO.util.Selector.query('#catalogBreadcrumbs .breadcrumbLink');
-    for(var i=0; i<breadcrumbLinks.length; i++) {
-        YAHOO.util.Event.on(breadcrumbLinks[i], 'click', function() {
+    for(var i=0; i<breadcrumbDivs.length; i++) {
+        YAHOO.util.Event.on(breadcrumbDivs[i], 'click', function() {
             // Hide the currently displayed element.  The id of the currently
             // displayed element should be stored in the most recent entry in
             // the breadcrumb stack.
@@ -146,7 +147,6 @@ THEME.refreshBreadcrumbHTML = function() {
         });
     }
 
-    var breadcrumbDivs = YAHOO.util.Selector.query('#catalogBreadcrumbs .breadcrumb');
     for(var i=0; i<breadcrumbDivs.length-1; i++) {
         YAHOO.util.Event.on(breadcrumbDivs[i], 'mouseenter', function() {
             var previousSibling = YAHOO.util.Dom.getPreviousSibling(this);
