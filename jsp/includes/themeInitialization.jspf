@@ -38,7 +38,7 @@
      * Example (assuming Kinetic SR was installed to an alternate location):
      *   /services/portfolio/themes/THEME_NAME
      */
-    ThemeConfig.put("root", getThemeRoot(request));
+    ThemeConfig.put("root", PathHelper.getThemeRoot(request));
 
     /** Set the name of the catalog that this page is using. */
     ThemeConfig.put("catalogName", customerSurvey.getCategory());
@@ -50,28 +50,32 @@
         ThemeConfig.put("defaultContext", customerSurvey.getRemedyHandler().getDefaultHelperContext());
     }
 
-    ThemeConfig.put("context", UserContext.getArContext());
-%>
-
-
-<%--
-    Define the set of functions available to all JSP pages.
---%>
-<%!
-    /**
-     * Returns a String representing the path to the root of the themes.
-     *
-     * Example (assuming a default installation):
-     *   /kinetic/themes/THEME_NAME
-     * Example (assuming Kinetic SR was installed to an alternate location):
-     *   /services/portfolio/themes/THEME_NAME
-     */
-    public static String getThemeRoot(HttpServletRequest request) {
-        String requestUri = request.getRequestURI();
-        int startOfThemeName = requestUri.indexOf("/themes/")+"/themes/".length();
-        int endOfThemeName = requestUri.indexOf("/", startOfThemeName);
-        String themeRoot = requestUri.substring(0, endOfThemeName);
-
-        return themeRoot;
+    /** Set the current user context */
+    HelperContext context = null;
+    if (UserContext != null) {
+        context = UserContext.getArContext();
     }
 %>
+
+<%--
+    Include the helper files.
+--%>
+<%@include file="../helpers/CycleHelper.jspf" %>
+<%@include file="../helpers/DateHelper.jspf" %>
+<%@include file="../helpers/PathHelper.jspf" %>
+<%@include file="../helpers/ThemeHelper.jspf" %>
+<%@include file="../helpers/UnauthorizedHelper.jspf" %>
+
+<%--
+    Include the models.
+--%>
+<%@include file="../models/ArsBase.jspf" %>
+<%@include file="../models/kineticRequest/Catalog.jspf" %>
+<%@include file="../models/kineticRequest/Category.jspf" %>
+<%@include file="../models/kineticRequest/Submission.jspf" %>
+<%@include file="../models/kineticRequest/Template.jspf" %>
+<%@include file="../models/kineticRequest/TemplateAttribute.jspf" %>
+<%@include file="../models/kineticSample/User.jspf" %>
+<%@include file="../models/kineticTask/Task.jspf" %>
+<%@include file="../models/kineticTask/TaskMessage.jspf" %>
+<%@include file="../models/theme/SubmissionList.jspf" %>

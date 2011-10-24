@@ -1,7 +1,0 @@
-<!-- BEGIN {themeRoot}/jsp/pages/portal/catalog/subcategory.jspf -->
-<div class="subcategory navigationLink <%= styleClass %>" data-id="<%= category.getId()%>" data-name="<%= category.getName()%>">
-    <div class="name"><%= category.getName()%></div>
-    <div class="image"><img src="<%=ThemeConfig.get("root")%>/images/favorites32x32.png"/></div>
-    <div class="description"><%= category.getDescription()%></div>
-</div>
-<!-- END {themeRoot}/jsp/pages/portal/catalog/subcategory.jspf -->

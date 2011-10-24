@@ -1,18 +1,10 @@
+<%-- Set the page content type, ensuring that UTF-8 is used. --%>
+<%@page contentType="text/html; charset=UTF-8"%>
+
 <%--
-    Configure the theme.  This sets multiple theme attributes on the request.
-    For more information, see the themeInitialization.jsp file.
+    TODO: Document
 --%>
-<jsp:include page="../includes/themeInitialization.jsp"/>
-<%--
-    Include the theme configuration file.  This
---%>
-<%@include file="../includes/themeLoader.jspf"%>
-<%--
-    Initialize the reference to the ThemeConfig (HashMap) bean.  This bean is
-    initialized in the THEME_ROOT/config/config.jsp file and further attributes
-    are added by the THEME_ROOT/jsp/includes/themeInitialization.jsp file.
---%>
-<jsp:useBean id="ThemeConfig" scope="request" class="java.util.LinkedHashMap"/>
+<%@include file="../includes/themeInitialization.jspf"%>
 
 <%-- Set the HTML DOCTYPE. --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"

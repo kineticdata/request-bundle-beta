@@ -5,22 +5,10 @@
 
 <!-- BEGIN {themeRoot}/jsp/includes/applicationHeaders.jsp -->
 <%--
-    Configure the theme.  This sets multiple theme attributes on the request.
-    For more information, see the themeInitialization.jsp file.
+    TODO: Document
 --%>
-<jsp:include page="../includes/themeInitialization.jsp"/>
-<%--
-    Include the theme configuration file.  This
---%>
-<%@include file="../includes/themeLoader.jspf"%>
-<%--
-    Initialize the reference to the ThemeConfig (HashMap) bean.  This bean is
-    initialized in the THEME_ROOT/config/config.jsp file and further attributes
-    are added by the THEME_ROOT/jsp/includes/themeInitialization.jsp file.
---%>
-<jsp:useBean id="ThemeConfig" scope="request" class="java.util.LinkedHashMap"/>
+<%@include file="../includes/themeInitialization.jspf"%>
 <%
-    HelperContext context = (HelperContext) ThemeConfig.get("context");
     if (context != null) {
         User user = User.findByID(context, context.getUserName());
 %>
