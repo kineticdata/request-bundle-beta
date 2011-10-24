@@ -40,7 +40,7 @@
                 "'"+FIELD_STATUS+"' = \"Active\" AND "+
                 "'"+FIELD_NAME+"' = \""+name+"\"";
 
-            SimpleEntry entry = Base.findSingle(context, FORM_NAME, qualification, FIELD_IDS);
+            SimpleEntry entry = ArsBase.findSingle(context, FORM_NAME, qualification, FIELD_IDS);
             if (entry != null) {
                 catalog = new Catalog(entry);
             }
@@ -55,7 +55,7 @@
             String categorizationQualification =
                 "'"+CATEGORIZATION_FIELD_CATELOG_ID+"' = \""+this.getName()+"\"";
 
-            SimpleEntry[] categorizations = Base.find(context,
+            SimpleEntry[] categorizations = ArsBase.find(context,
                 CATEGORIZATION_FORM_NAME,
                 categorizationQualification,
                 CATEGORIZATION_FIELD_IDS);

@@ -22,7 +22,7 @@
                 "'"+FIELD_CATELOG+"' = \""+catalogName+"\" AND "+
                 "'"+FIELD_DISPLAY_NAME+"' = \""+displayName+"\"";
 
-            SimpleEntry entry = Base.findSingle(context, FORM_NAME, qualification, FIELD_IDS);
+            SimpleEntry entry = ArsBase.findSingle(context, FORM_NAME, qualification, FIELD_IDS);
             if (entry != null) {
                 result = new Template(entry);
             }
@@ -35,7 +35,7 @@
 
             String qualification = "'"+FIELD_CATELOG+"' = \""+catalogName+"\"";
 
-            SimpleEntry[] entries = Base.find(context, FORM_NAME, qualification, FIELD_IDS);
+            SimpleEntry[] entries = ArsBase.find(context, FORM_NAME, qualification, FIELD_IDS);
             if (entries != null && entries.length > 0) {
                 results = new Template[entries.length];
                 for(int i=0;i<results.length;i++) {

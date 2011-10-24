@@ -5,7 +5,7 @@
 <!-- BEGIN {themeRoot}/jsp/pages/portal/catalog.jspf -->
 <div id="catalog">
 
-    <%@include file="../../pageFragments/shadowBoxBegin.jspf"%>
+    <%@include file="../../shared/shadowBoxBegin.jspf"%>
     <%-- CATALOG NAVIGATION (Breadcrumbs, Search) --%>
     <div>
         <div id="searchBoxContainer">
@@ -20,10 +20,10 @@
         </div>
         <div class="clear"></div>
     </div>
-    <%@include file="../../pageFragments/shadowBoxEnd.jspf"%>
+    <%@include file="../../shared/shadowBoxEnd.jspf"%>
 
     
-    <%@include file="../../pageFragments/shadowBoxBegin.jspf"%>
+    <%@include file="../../shared/shadowBoxBegin.jspf"%>
     <%-- CATALOG HOME (Catalog Description, Root Categories) --%>
     <div id="rootCategories">
         <div class="title">Catalog Home</div>
@@ -95,7 +95,7 @@
         <div id="searchResultsDisplay"></div>
     </div>
 
-    <%@include file="../../pageFragments/shadowBoxEnd.jspf"%>
+    <%@include file="../../shared/shadowBoxEnd.jspf"%>
 
 </div>
 <!-- END {themeRoot}/jsp/pages/portal/catalog.jspf -->

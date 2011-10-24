@@ -1,52 +1,113 @@
-Suggestions:
- * Set the Portal Page as the logout action.  This will display the login page,
-   but the user will be directed to the Portal page right after login (rather
-   than redisplaying the log in page).
+%WEBAPP_ROOT%/themes/%THEME_NAME%
 
+== /config
+This directory is intended to contain any applicable "configuration" files.
+This may include a CSS file containing color classes (such as .primaryColor or
+.secondaryColor), a Javascript file containing necessary variables, a JSP file
+configuring variables used throughout the Theme, or any other appropriate
+content.  This directory may be ignored if the theme is not intended to be
+configurable outside of the modification of the theme files themselves.
 
+== /css
+This directory includes the CSS files that are used by the theme.  Typically,
+this will include a "theme.css" file for the core CSS configuration used
+throughout the site (such as default fonts, colors, and re-usable classes) and a
+subdirectory for page specific CSS.
 
-== Config
-Directory with three configuration files: configCSS.jspf, config.js, and config.jspf.
-These files are used to set variables and other configuration values that allow
-the theme to be copied and reconfigured quickly.
+  === /css/pages
+  This directory includes the CSS files that are used by specific JSP pages
+  (such as the Portal page, Login page, or a Service Item page template).
+  Typically this will include a css file named based on the page that it styles.
+  For example, the CSS for the "portal.jsp" page would likely be "portal.css".
 
-The config.css and config.js files typically split into two sections, a variable
-configuration section and a section of code intended to overwrite or extend the
-behavior of the base theme.
+== /images
+This directory includes any of the images that are generated specifically for
+use with the theme.
 
-== CSS
-Directory where the custom theme CSS files are located.
+== /js
+This directory includes the Javascript files that are used by the theme.
+Typically this will include a "theme.js" file for the core Javascript used
+throughout the site and a subdirectory for page specific Javascript.
 
-== Images
-Directory where the custom theme image files are stored.
+  === /js/pages
+  This directory includes the Javascript files that are used by specific JSP
+  pages (such as the Portal page, Login page, or a Service Item page template).
+  Typically this will include Javascript files named by the page that it is
+  associated to.  For example, the Javascript for the "portal.jsp" page would
+  likely be portal.js.
 
-== JS
-Directory where the custom theme javascript files are stored.
+== /jsp
+This directory includes the bulk of the rendering logic for the site.  Typically
+there will not be any files included directly in this folder, but there are
+multiple subdirectories used to organize the theme.
 
-== JSP
-Callbacks: JSP that render content for AJAX requests (not server side catalog pages).
-Helpers*: JSP code used for helper functions (such as date manipulation or other Java heavy segments).
-Includes*: Fragments used in the page JSPs (such as collections of header content).
- - Include an kineticInitialize.jspf
- - Include a themeInitialize.jspf
- - Include a models.jspf
-Models*:
-Page Fragments*: Reusable code fragments that are shared between pages (and potentially callbacks).
-Pages: JSP pages representing service catalog pages.
- - Should include subdirectories (named the same as the jsp pages) for page pieces.
+  === /jsp/helpers
+  This directory includes a series of JSP files that define Java classes
+  intended to abstract complicated logic into methods that are simpler to use in
+  the rendered JSP pages.
 
-* Indicates directories that should only have jspf.
+  === /jsp/includes
+  This directory includes the files that initialize the environment.   At
+  minimum, this will include a "themeInitialization.jsp", which prepares the
+  variables used during the rendering of the requested JSP page, and a
+  "themeLoader.jspf", which prepares the requested page JSP and loads the helper
+  and model files.
 
-Directory where the custom theme JSP files are stored.  This directory typically
-includes an 'includes' and a 'partials' subdirectory.  These JSP files can be
-used to define a single location for header (IE javascript and css links)
-information, reusable HTML blocks, or other pieces of display information that
-are used throughout the full JSP pages.
+    === /jsp/includes/application
+    This directory includes two special JSP partials that are necessary for
+    Kinetic Request to function properly.  The "headerContent.jsp" should be
+    included in the HTML head element of all JSP pages that are used to render
+    Kinetic Request forms.    This file includes the Javascript and CSS files
+    used by the Kinetic Request application.  The "templateContent.jsp" should
+    be included somewhere in the HTML body element of all JSP pages.  This file
+    renders the actual Form question content that is defined in the Kinetic
+    Request Catalog Console.
 
-The JSP partials should start and end with a "BEGIN" and "END" HTML comment (at
-least for sample themes) to make picking them out easier.
+  === /jsp/models
+  This directory includes the "base" definitions of Java class definitions
+  intended to interact with serialized data.  For most sites, this directory
+  will include a single Java class that defines the basic interaction with the
+  BMC Remedy and a collection of directories that correspond to the Remedy
+  applications that are interacted with.  Subdirectories in this folder include
+  Java class definitions that specify the mapping of BMC Remedy forms and fields
+  to simplified Java objects.
 
-== Resources
+    === /jsp/models/kineticSample
+    This directory includes a collection of model classes that correspond to
+    KS_SAMPLE_* form records.
+
+    === /jsp/models/kineticRequest
+    This directory includes a collection of model classes that correspond to
+    Kinetic Request records.
+
+    === /jsp/models/kineticTask
+    This directory includes a collection of model classes that correspond to
+    Kinetic Task records.
+
+  === /jsp/pages
+  This directory includes the JSP pages that are rendered when a request is
+  made.  The directory will typically include a "portal.jsp" that defines the
+  Catalog Home page, a "login.jsp" that defines the primary Login page, a
+  "display.jsp" file that defines the page that Service Items are rendered with,
+  and any other JSP pages that are used by the bundle.  Additionally, this
+  directory may contain subdirectories of content used in a specific PAGE.
+
+    === /jsp/pages/PAGE
+    These subdirectories are typically named the same as their associated JSP
+    file (the "portal.jsp" file will typically have an associated "portal"
+    directory in the /jsp/pages folder), and are used to logically break apart
+    page sections or fragments.
+
+      === /jsp/pages/PAGE/callbacks
+      This subdirectory will not be included in every PAGE directory, but is
+      used to signify that the contents render responses to AJAX requests.
+
+  === /jsp/shared
+  This directory includes various JSP page fragments or partials that are shared
+  between multiple pages.  Examples include common header or footer images, HTML
+  head content, or any other re-usable section of code.
+
+== /resources
 Directory used to store CSS, images, and javascript libraries that are not
 customized as part of the theme.  This could include css templates (such as
 company templates or the YUI reset CSS), image libraries, or javascript

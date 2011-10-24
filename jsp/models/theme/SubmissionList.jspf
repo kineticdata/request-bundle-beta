@@ -22,7 +22,7 @@
             if (submissions != null) {
                 count = submissions.length;
             } else if (count == null) {
-                count = Base.count(context, Submission.FORM_NAME, qualification);
+                count = ArsBase.count(context, Submission.FORM_NAME, qualification);
             }
             
             return count;

@@ -29,7 +29,7 @@
 
             String qualification = "'"+FIELD_CATELOG+"' = \""+catalogName+"\"";
 
-            SimpleEntry[] entries = Base.find(context, FORM_NAME, qualification, FIELD_IDS, SORT_FIELD_IDS);
+            SimpleEntry[] entries = ArsBase.find(context, FORM_NAME, qualification, FIELD_IDS, SORT_FIELD_IDS);
             if (entries != null && entries.length > 0) {
                 results = new Category[entries.length];
                 for(int i=0;i<results.length;i++) {

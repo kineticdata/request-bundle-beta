@@ -24,7 +24,7 @@
             String qualification =
                 "'"+FIELD_LOGIN_NAME+"' = \""+loginName+"\"";
 
-            SimpleEntry entry = Base.findSingle(context, FORM_NAME, qualification, FIELD_IDS);
+            SimpleEntry entry = ArsBase.findSingle(context, FORM_NAME, qualification, FIELD_IDS);
             if (entry != null) {
                 user = new User(entry);
             }

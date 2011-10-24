@@ -12,7 +12,7 @@
 <jsp:useBean id="ThemeConfig" scope="request" class="java.util.LinkedHashMap"/>
 
 <%-- Include the ThemeHelper class. --%>
-<%@include file="../../helpers/themeHelper.jspf" %>
+<%@include file="../../helpers/ThemeHelper.jspf" %>
 
 <%--
   CSS

@@ -106,7 +106,7 @@
             <div id="accountNavigation">
                 <div class="divider"></div>
                 <div class="inactive navigationItem" id="userInfo" style="position:relative;">
-                    <jsp:include page="../pageFragments/userInfo.jsp"/>
+                    <jsp:include page="../shared/userInfo.jsp"/>
                 </div>
                 <div class="divider"></div>
                 <div class="navigationItem" title="Logout">
@@ -153,9 +153,9 @@
 
         <div id="portalBody">
             <div class="content">
-                <%@include file="../pageFragments/shadowBoxBegin.jspf"%>
+                <%@include file="../shared/shadowBoxBegin.jspf"%>
                 <%@include file="portal/home.jspf"%>
-                <%@include file="../pageFragments/shadowBoxEnd.jspf"%>
+                <%@include file="../shared/shadowBoxEnd.jspf"%>
             </div>
             <div class="content hidden">
                 <%@include file="portal/catalog.jspf"%>
@@ -165,7 +165,7 @@
                     SubmissionList[] subgroups = SubmissionGroupManager.getSubmissionLists(submissionGroups[i]);
             %>
             <div class="content hidden">
-                <%@include file="../pageFragments/shadowBoxBegin.jspf"%>
+                <%@include file="../shared/shadowBoxBegin.jspf"%>
                 <div>
                     <div id="searchBoxContainer">
                         <div class="buttonn">
@@ -179,12 +179,12 @@
                     </div>
                     <div class="clear"></div>
                 </div>
-                <%@include file="../pageFragments/shadowBoxEnd.jspf"%>
+                <%@include file="../shared/shadowBoxEnd.jspf"%>
 
-                <%@include file="../pageFragments/shadowBoxBegin.jspf"%>
+                <%@include file="../shared/shadowBoxBegin.jspf"%>
                 <div class="primaryColor title"><%= submissionGroups[i]%></div>
                 <%@include file="portal/pageFragments/submissionGroup.jspf"%>
-                <%@include file="../pageFragments/shadowBoxEnd.jspf"%>
+                <%@include file="../shared/shadowBoxEnd.jspf"%>
             </div>
             <% }%>
         </div>

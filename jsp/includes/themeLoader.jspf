@@ -16,21 +16,22 @@
 <%--
     Include the helper files.
 --%>
-<%@include file="../helpers/cycleHelper.jspf" %>
-<%@include file="../helpers/dateHelper.jspf" %>
-<%@include file="../helpers/themeHelper.jspf" %>
-<%@include file="../helpers/unauthorizedHelper.jspf" %>
+<%@include file="../helpers/CycleHelper.jspf" %>
+<%@include file="../helpers/DateHelper.jspf" %>
+<%@include file="../helpers/ThemeHelper.jspf" %>
+<%@include file="../helpers/UnauthorizedHelper.jspf" %>
 
 <%--
     Include the models.
 --%>
-<%@include file="../models/base.jspf" %>
-<%@include file="../models/catalog.jspf" %>
-<%@include file="../models/category.jspf" %>
-<%@include file="../models/submission.jspf" %>
-<%@include file="../models/submissionList.jspf" %>
-<%@include file="../models/task.jspf" %>
-<%@include file="../models/taskMessage.jspf" %>
-<%@include file="../models/template.jspf" %>
-<%@include file="../models/templateAttribute.jspf" %>
-<%@include file="../models/user.jspf" %>
+<%@include file="../models/ArsBase.jspf" %>
+
+<%@include file="../models/kineticRequest/Catalog.jspf" %>
+<%@include file="../models/kineticRequest/Category.jspf" %>
+<%@include file="../models/kineticRequest/Submission.jspf" %>
+<%@include file="../models/kineticRequest/Template.jspf" %>
+<%@include file="../models/kineticRequest/TemplateAttribute.jspf" %>
+<%@include file="../models/kineticSample/User.jspf" %>
+<%@include file="../models/kineticTask/Task.jspf" %>
+<%@include file="../models/kineticTask/TaskMessage.jspf" %>
+<%@include file="../models/theme/SubmissionList.jspf" %>

@@ -1,8 +1,8 @@
-<!-- BEGIN {themeRoot}/jsp/pageFragments/sessionMessage.jsfp -->
+<!-- BEGIN {themeRoot}/jsp/shared/sessionMessage.jsfp -->
 <% if (!ThemeHelper.isBlank(UserContext.getErrorMessage())) { %>
 <div class="errorMessage">
     <jsp:getProperty name="UserContext" property="errorMessage"/>
 </div>
 <jsp:setProperty name="UserContext" property="errorMessage" value=""/>
 <% } %>
-<!-- END {themeRoot}/jsp/pageFragments/sessionMessage.jsfp -->
+<!-- END {themeRoot}/jsp/shared/sessionMessage.jsfp -->

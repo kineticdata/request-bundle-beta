@@ -74,9 +74,9 @@
     </head>
     <body class="yui-skin-sam">
         <div id="contentPageSection" class="contentPageSection ">
-            <%@include file="../pageFragments/header.jspf" %>
+            <%@include file="../shared/header.jspf" %>
             <jsp:include page="../includes/application/templateContent.jsp"/>
-            <%@include file="../pageFragments/footer.jspf" %>
+            <%@include file="../shared/footer.jspf" %>
         </div>
     </body>
 </html>

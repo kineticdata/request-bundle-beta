@@ -2,7 +2,7 @@
 <%@page import="com.kd.arsHelpers.*"%>
 <%@page import="java.util.*"%>
 <%!
-    public abstract static class Base {
+    public abstract static class ArsBase {
         private static HelperContext defaultHelperContext = null;
         private static Map<String,Field[]> formFields = new HashMap();
 

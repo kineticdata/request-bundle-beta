@@ -8,7 +8,7 @@
     Submission[] submissions = Submission.find(context, qualification);
 %>
 
-<%@include file="../../pageFragments/shadowBoxBegin.jspf"%>
+<%@include file="../../shared/shadowBoxBegin.jspf"%>
 
 <div class="header">Submissions <%= submissions.length%></div>
 <div id="submissionTableContainer">
@@ -48,5 +48,5 @@
     </table>
 </div>
 
-<%@include file="../../pageFragments/shadowBoxEnd.jspf"%>
+<%@include file="../../shared/shadowBoxEnd.jspf"%>
 <!-- END{themeRoot}/jsp/pages/portal/submissions.jsp -->
