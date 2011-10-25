@@ -1,14 +1,28 @@
 <%!
     public static class CycleHelper {
+        private static int SKIP_FIRST_CYCLE = 1;
+
         private String[] cycles = null;
         private int index = 0;
+
+        public CycleHelper(String value, int options) {
+            this(new String[] {value}, options);
+        }
+
+        public CycleHelper(String[] cycles, int options) {
+            this.cycles = cycles;
+            this.index = -1;
+        }
 
         public CycleHelper(String[] cycles) {
             this.cycles = cycles;
         }
 
         public String cycle() {
-            String result = cycles[index];
+            String result = "";
+            if (index >= 0) {
+                result = cycles[index];
+            }
             index = (index+1) % cycles.length;
             return result;
         }

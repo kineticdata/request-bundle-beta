@@ -1,0 +1,27 @@
+<%!
+    public static class SubmissionManager {
+        private Map<String,SubmissionGroup> submissionGroupMap = new LinkedHashMap();
+
+        public SubmissionList getSubmissionList(String groupName, String listName) {
+            SubmissionList result = null;
+            SubmissionGroup group = getGroup(groupName);
+            if (group != null) {
+                result = group.getList(listName);
+            }
+            return result;
+        }
+
+        public SubmissionGroup getGroup(String groupName) {
+            SubmissionGroup group = submissionGroupMap.get(groupName);
+            if (group == null) {
+                group = new SubmissionGroup(groupName);
+                submissionGroupMap.put(groupName, group);
+            }
+            return group;
+        }
+
+        public SubmissionGroup[] getSubmissionGroups() {
+            return submissionGroupMap.values().toArray(new SubmissionGroup[submissionGroupMap.size()]);
+        }
+    }
+%>

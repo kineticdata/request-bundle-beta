@@ -1,0 +1,73 @@
+<%
+    /**
+     * This file configures the Submission groupings.  Submission groupings
+     * control how the Kinetic Request submission lists are displayed within
+     * the Service Portal page.  Submission groups are the high level 
+     * collections of submissions, each containing one or more subgroupings.
+     * 
+     * Submission groups will be rendered as Portal header links and Submission
+     * subgroups will be rendered as tabs within their parent group's page.
+     * Each subgroup will display the total count and a table of most recent X 
+     * submissions (configurable below).
+     */
+
+    SubmissionManager submissionManager = new SubmissionManager();
+
+    // Define the base Qualification, this will be appended to the following
+    // qualifications.
+    String baseQualification =
+        "'"+Submission.FIELD_CATALOG_NAME+"' = \""+ThemeConfig.get("catalogName")+"\" AND "+
+        "'"+Submission.FIELD_SUBMITTER+"' = \""+context.getUserName()+"\"";
+
+    // Define the Requests group
+    SubmissionGroup requests = submissionManager.getGroup("Requests");
+    // Define the Parked Requests list
+    requests.setList("Parked",
+        baseQualification + " AND " +
+            "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+            "'"+Submission.FIELD_STATUS+"' = \"In Progress\" AND " +
+            "'"+Submission.FIELD_SUBMIT_TYPE+"' = $NULL$"
+    );
+    // Define the Active Requests list
+    requests.setList("Active",
+        baseQualification + " AND " +
+            "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+            "'"+Submission.FIELD_STATUS+"' = \"Completed\" AND " +
+            "'"+Submission.FIELD_SUBMIT_TYPE+"' = $NULL$"
+    );
+    // Define the Closed Requests list
+    requests.setList("Closed",
+        baseQualification + " AND " +
+            "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Closed\" AND " +
+            "'"+Submission.FIELD_SUBMIT_TYPE+"' = $NULL$"
+    );
+
+    // Define the Work Items list
+    SubmissionGroup workItems = submissionManager.getGroup("Work Items");
+    workItems.setList("Open",
+        baseQualification + " AND " +
+            "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+            "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Work Item\""
+    );
+    // Define the Complete Work Items list
+    workItems.setList("Complete",
+        baseQualification + " AND " +
+            "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Closed\" AND " +
+            "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Work Item\""
+    );
+
+    // Define the Approvals list
+    SubmissionGroup approvals = submissionManager.getGroup("Approvals");
+    // Define the Awaiting Approval Approvals list
+    approvals.setList("Pending",
+        baseQualification + " AND " +
+            "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Open\" AND " +
+            "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\""
+    );
+    // Define the Complete Approvals list
+    approvals.setList("Complete",
+        baseQualification + " AND " +
+            "'"+Submission.FIELD_REQUEST_STATUS+"' = \"Closed\" AND " +
+            "'"+Submission.FIELD_SUBMIT_TYPE+"' = \"Approval\""
+    );
+%>

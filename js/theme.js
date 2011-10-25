@@ -67,8 +67,8 @@ if (typeof THEME == "undefined") {
         };
 
         THEME.activateNavigation = function(config) {
-            var navigationElements = YAHOO.util.Selector.query(config['navigationSelector']);
-            var contentElements = YAHOO.util.Selector.query(config['contentSelector']);
+            var navigationElements = YAHOO.util.Selector.query(config['navigationSelector'], config['navigationRootElement']);
+            var contentElements = YAHOO.util.Selector.query(config['contentSelector'], config['contentRootElement']);
 
             // Validate the configuration passed to this function
             if (navigationElements.length == 0) {
@@ -112,6 +112,10 @@ if (typeof THEME == "undefined") {
                     });
                 }
             }
+        }
+        
+        THEME.getData = function (element, dataName) {
+            return YAHOO.util.Dom.get(element).getAttribute('data-'+dataName);
         }
 
         THEME.addClass = function(element, className) {
