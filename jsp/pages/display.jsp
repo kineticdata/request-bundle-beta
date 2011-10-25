@@ -16,11 +16,11 @@
 
 <%-- Set the HTML DOCTYPE. --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+    "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
     <head>
-<%-- Document the HTTP Content-Type header value within the HTML. --%>
+        <%-- Document the HTTP Content-Type header value within the HTML. --%>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%-- Specify that modern IE versions should render the page with their
              own rendering engine (as opposed to falling back to compatibility
@@ -40,10 +40,8 @@
 
 
         <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/theme.css" type="text/css">
-        <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/pages/portal.css" type="text/css">
-        <link rel="stylesheet" type="text/css" href="<%=ThemeConfig.get("root") + "/config/config.css"%>" >
-
-        <link rel="stylesheet" type="text/css" href="<%=ThemeConfig.get("root") + "/js/pages/portal.js"%>">
+        <link rel="stylesheet" href="<%=ThemeConfig.get("root") + "/config/config.css"%>" type="text/css">
+        <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/pages/display.css" type="text/css">
 
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/dom/dom-min.js"></script>
@@ -72,11 +70,19 @@
             THEME.config.catalogName = '<%=ThemeConfig.get("catalogName")%>';
         </script>
     </head>
-    <body class="yui-skin-sam">
-        <div id="contentPageSection" class="contentPageSection ">
-            <%@include file="../shared/header.jspf" %>
-            <jsp:include page="../includes/application/templateContent.jsp"/>
-            <%@include file="../shared/footer.jspf" %>
+    <body class="yui-skin-sam fadedBackground2">
+        <div id="display">
+            <%@include file="../shared/shadowBoxBegin.jspf"%>
+            <div class="displayHeader">
+                <%@include file="../shared/header.jspf"%>
+            </div>
+            <div class="displayContent">
+                <jsp:include page="../includes/application/templateContent.jsp"/>
+            </div>
+            <div class="displayFooter">
+                <%@include file="../shared/footer.jspf"%>
+            </div>
+            <%@include file="../shared/shadowBoxEnd.jspf"%>
         </div>
     </body>
 </html>

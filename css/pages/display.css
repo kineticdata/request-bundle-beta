@@ -1,0 +1,74 @@
+#display {
+    margin: auto;
+    margin-top: 15px;
+    width: 750px;
+}
+#display table {
+    width: 100%;
+}
+
+#display .headerLinks {
+    float: right;
+}
+
+.displayFooter {
+    border-top: 1px solid #3B6E9C;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.displayContent {
+}
+
+.displayContent .description {
+    font-size: 1.1em;
+    margin: 10px 0px;
+    padding: 5px;
+}
+
+.displayContent .title {
+    background: #88A7C3 url('../../images/background_blue_3B6E9C_88A7C3.png') repeat-x center;
+    border: 1px solid #3B6E9C;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    line-height: 26px;
+    margin: 10px 0px;
+    text-align: center;
+}
+
+.displayContent .subtitle {
+    background: #C6C6C6 url('../../images/background_grey_A1A1A1_C6C6C6.png') repeat-x center;
+    border: 1px solid #A1A1A1;
+    color: white;
+    font-weight: bold;
+    line-height: 20px;
+    margin: 10px 0px;
+    padding: 0px 5px;
+}
+
+.displayContent .questionLayer {
+    border-bottom: 1px solid #A1A1A1;
+    padding: 15px 0px 5px 5px;
+    font-size: 1.1em;
+}
+.displayContent .questionLayer:hover {
+    background: #FFFFFF url('../../images/fade.png') repeat-x bottom;
+}
+
+.displayContent .questionLayer .questionLabel {
+    color: #A1A1A1;
+    float: left;
+    font-weight: bold;
+    width: 40%;
+}
+.displayContent .questionLayer:hover .questionLabel {
+    color: #88A7C3;
+}
+.displayContent .questionLayer .questionAnswer {
+    margin-left: 40%;
+}
+
+.templateButton {
+    margin-top: 10px;
+}
