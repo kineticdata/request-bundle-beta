@@ -110,12 +110,8 @@
 
         <div class="" id="portalRightColumn">
             <div class="portalSection">
-                <!-- Render the logo and site name -->
-                <div id="siteReference">
-                    <div id="siteLogo" class="logo"></div>
-                    <h1 id="siteName" class="primaryColor"><%= ThemeConfig.get("companyName")%><br><%= ThemeConfig.get("portalName")%></h1>
-                    <div class="clear"></div>
-                </div>
+                <%-- Render the site logo, company name, and portal name. --%>
+                <%@include file="../shared/siteReference.jspf" %>
 
                 <div><%= catalog.getDescription()%></div>
             </div>
@@ -137,17 +133,18 @@
                 </div>
             </div>
 
-            <jsp:include page="portal/partials/recentSubmissions.jsp"/>
+            <%@include file="portal/recentSubmissions.jspf" %>
 
             <div class="clear"></div>
         </div>
 
+        <%-- Define the portal main content. --%>
         <div id="portalBody">
+            <%-- Home Screen --%>
             <div class="content">
-                <%@include file="../shared/shadowBoxBegin.jspf"%>
                 <%@include file="portal/home.jspf"%>
-                <%@include file="../shared/shadowBoxEnd.jspf"%>
             </div>
+            <%-- Catalog Screen --%>
             <div class="content hidden">
                 <%@include file="portal/catalog.jspf"%>
             </div>

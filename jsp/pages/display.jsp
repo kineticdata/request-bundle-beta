@@ -1,3 +1,7 @@
+<%--
+    TODO: Description
+--%>
+
 <%-- Set the page content type, ensuring that UTF-8 is used. --%>
 <%@page contentType="text/html; charset=UTF-8"%>
 

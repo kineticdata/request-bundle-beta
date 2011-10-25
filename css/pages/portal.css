@@ -91,21 +91,11 @@ body {min-width: 900px;}
     font-weight: bold;
 }
 
-#home #siteReference {
+#home .siteReference {
+    float:left;
+    padding-left: 1em;
     padding-top: 4em;
-}
-
-#siteReference {
-    margin: 0 auto;
-    padding-bottom: 1em;
-}
-
-#siteReference #siteLogo {
-    float: left;
-}
-
-#siteReference #siteName {
-    float: left;
+    width: 275px;
 }
 
 #portalRightColumn #recentSubmissions li {

@@ -105,12 +105,8 @@
         <!-- Render the colored line at the top of the page -->
         <div class="topline primaryColorBackground"></div>
 
-        <!-- Render the logo and site name -->
-        <div id="siteReference">
-            <div id="siteLogo" class="logo"></div>
-            <h1 id="siteName" class="primaryColor"><%= ThemeConfig.get("companyName") %><br><%= ThemeConfig.get("portalName") %></h1>
-            <div class="clear"></div>
-        </div>
+        <%-- Render the site logo, company name, and portal name. --%>
+        <%@include file="../shared/siteReference.jspf" %>
 
         <!-- Render the log in box -->
         <div class="tertiaryColorBorder" id="loginBox">

@@ -52,8 +52,7 @@ body.home #portalBody .content {margin-right: 0;}
     font-weight: bold;
     padding: 5px;
 }
-.siteReference {float: left; width: 275px;}
-.siteText {padding: 1em;}
+#home .siteText {padding: 1em;}
 
 .itemDescription {float: left;}
 .itemDate {float: left;padding-right: 0.5em;}
@@ -77,6 +76,7 @@ body.home #portalBody .content {margin-right: 0;}
     });
 </script>
 
+<%@include file="../../shared/shadowBoxBegin.jspf"%>
 <div id="home">
     <div class="title secondaryColorBackground"><%= ThemeConfig.get("portalName") %> Home</div>
 
@@ -97,12 +97,16 @@ body.home #portalBody .content {margin-right: 0;}
                 </li>
             </ol>
         </div>
-        <!-- Render the logo and site name -->
+
+
+        <%-- Render the site logo, company name, and portal name. --%>
+        <%@include file="../../shared/siteReference.jspf" %>
+<!--         Render the logo and site name
         <div id="siteReference" style="float:left;width: 275px;">
             <div id="siteLogo" class="logo"></div>
             <h1 id="siteName" class="primaryColor"><%= ThemeConfig.get("companyName")%><br><%= ThemeConfig.get("portalName")%></h1>
             <div class="clear"></div>
-        </div>
+        </div>-->
 
         <div class="siteText" style="float: left; width: 275px;">
             Welcome to the <%= ThemeConfig.get("companyName") + " " +ThemeConfig.get("portalName")%>.
@@ -183,4 +187,5 @@ body.home #portalBody .content {margin-right: 0;}
     </div>
     <div class="clear"></div>
 </div>
+<%@include file="../../shared/shadowBoxEnd.jspf"%>
 <!-- END {themeRoot}/jsp/pages/portal/home.jsp -->
