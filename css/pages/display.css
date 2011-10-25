@@ -1,74 +1,102 @@
 #display {
-    margin: auto;
-    margin-top: 15px;
+    margin: 15px auto;
     width: 750px;
 }
 #display table {
     width: 100%;
 }
 
-#display .headerLinks {
-    float: right;
+#display .displayContent textarea {
+    width: 98%;
 }
-
-.displayFooter {
-    border-top: 1px solid #3B6E9C;
-    margin-top: 10px;
-    padding-top: 10px;
-}
-
-.displayContent {
-}
-
-.displayContent .description {
+#display .displayContent .description {
     font-size: 1.1em;
-    margin: 10px 0px;
     padding: 5px;
 }
-
-.displayContent .title {
+#display .displayContent .subtitle {
+    background: #C6C6C6 url('../../images/background_grey_A1A1A1_C6C6C6.png') repeat-x center;
+    border: 1px solid #A1A1A1;
+    color: white;
+    font-weight: bold;
+    line-height: 20px;
+    margin: 20px 0 0 0;
+    padding: 0px 5px;
+}
+#display .displayContent .title {
     background: #88A7C3 url('../../images/background_blue_3B6E9C_88A7C3.png') repeat-x center;
     border: 1px solid #3B6E9C;
     color: white;
     font-size: 1.2em;
     font-weight: bold;
     line-height: 26px;
-    margin: 10px 0px;
+    margin: 0 0 10px 0;
     text-align: center;
 }
-
-.displayContent .subtitle {
-    background: #C6C6C6 url('../../images/background_grey_A1A1A1_C6C6C6.png') repeat-x center;
-    border: 1px solid #A1A1A1;
-    color: white;
-    font-weight: bold;
-    line-height: 20px;
-    margin: 10px 0px;
-    padding: 0px 5px;
-}
-
-.displayContent .questionLayer {
+#display .displayContent .questionLayer {
     border-bottom: 1px solid #A1A1A1;
-    padding: 15px 0px 5px 5px;
+    padding: 5px 5px 5px 5px;
     font-size: 1.1em;
 }
-.displayContent .questionLayer:hover {
-    background: #FFFFFF url('../../images/fade.png') repeat-x bottom;
+#display .displayContent .questionLayer:hover {
+    background-color: #E6E6E6;
 }
-
-.displayContent .questionLayer .questionLabel {
-    color: #A1A1A1;
+#display .displayContent .questionLayer .questionAnswer {
+    margin-left: 40%;
+}
+#display .displayContent .questionLayer .questionAnswer .answerCheckbox input {
+    margin: 5px 10px 5px 0;
+}
+#display .displayContent .questionLayer .questionAnswer input.answerRadio  {
+    margin: 5px 10px 5px 0;
+}
+#display .displayContent .questionLayer .questionLabel {
+    color: #818181;
     float: left;
     font-weight: bold;
     width: 40%;
 }
-.displayContent .questionLayer:hover .questionLabel {
-    color: #88A7C3;
+#display .displayContent .questionLayer:hover .questionLabel {
+    color: #2F587D;
 }
-.displayContent .questionLayer .questionAnswer {
-    margin-left: 40%;
+#display .displayContent .templateButton {
+    background: #88A7C3 url('../../images/background_blue_3B6E9C_88A7C3.png') repeat-x center;
+    border: 1px solid #3B6E9C;
+    color: white;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 5px;
+}
+#display .displayContent .templateButton:hover {
+    background: #A0B9CE url('../../images/background_light_blue_628BAF_A0B9CE.png') repeat-x center;
+    border: 1px solid #628BAF;
 }
 
-.templateButton {
-    margin-top: 10px;
+#display .displayFooter {
+    border-top: 1px solid #3B6E9C;
+    margin-top: 50px;
+    padding-top: 10px;
+}
+
+#display .displayHeader .headerLinks {
+    float: right;
+}
+#display .displayHeader .headerLinks .headerLink {
+    background: #F5B371 url('../../images/background_orange_EE8114_F5B371.png') repeat-x center;
+    border: 1px solid #EE8114;
+    color: white;
+    cursor: pointer;
+    float: right;
+    font-size: 1.1em;
+    margin-left: 10px;
+    padding: 5px;
+    text-decoration: none;
+}
+#display .displayHeader .headerLinks .headerLink:hover {
+    background: #F7C28C url('../../images/background_light_orange_F19A42_F7C28C.png') repeat-x center;
+    border: 1px solid #F19A42;
+}
+#display .displayHeader .siteReference {
+    margin: 0;
 }

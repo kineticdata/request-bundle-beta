@@ -1,16 +1,10 @@
 <div class="headerLinks">
-    <div class="link">
-        <a href="DisplayPage?name=LoremPortal">
-            <%= ThemeConfig.get("companyName")%><%= ThemeConfig.get("portalName")%>
-        </a>
-    </div>
-    <div class="link">
-        <a href="KSAuthenticationServlet?Logout=true">
-            Logout
-        </a>
-    </div>
+    <a class="headerLink" href="KSAuthenticationServlet?Logout=true">
+        Logout
+    </a>
+    <a class="headerLink" href="DisplayPage?name=LoremPortal">
+        <%= ThemeConfig.get("companyName")%>&nbsp;<%= ThemeConfig.get("portalName")%>
+    </a>
 </div>
-<div class="headerContent">
-    <div class="logo"></div>
-</div>
+<%@include file="siteReference.jspf"%>
 <div class="clear"></div>
