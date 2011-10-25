@@ -48,10 +48,9 @@ multiple subdirectories used to organize the theme.
 
   === /jsp/includes
   This directory includes the files that initialize the environment.   At
-  minimum, this will include a "themeInitialization.jsp", which prepares the
-  variables used during the rendering of the requested JSP page, and a
-  "themeLoader.jspf", which prepares the requested page JSP and loads the helper
-  and model files.
+  minimum, this will include a "themeInitialization.jspf", which prepares the
+  variables used during the rendering of the requested JSP page, loads the
+  helper and model files, and configures the page rendering options.
 
     === /jsp/includes/application
     This directory includes two special JSP partials that are necessary for

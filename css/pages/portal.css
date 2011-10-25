@@ -1,3 +1,4 @@
+html {overflow-y: scroll;}
 body {min-width: 900px;}
 
 .noSelect {
@@ -53,13 +54,13 @@ body {min-width: 900px;}
     text-align: right;
 }
 
-#searchBoxContainer {
+.searchBoxContainer {
     height: 30px;
     width: 20em;
     float: right;
 }
 
-#searchBoxContainer input {
+.searchBoxContainer input {
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;
@@ -70,7 +71,7 @@ body {min-width: 900px;}
     line-height: 20px;
 }
 
-#searchBoxContainer .searchButton {
+.searchBoxContainer .searchButton {
     background: #C6C6C6 url("../../images/background_blue_3B6E9C_88A7C3.png") repeat-x center;
     border: 1px solid #999;
     cursor: pointer;
@@ -79,7 +80,7 @@ body {min-width: 900px;}
     padding: 4px 12px;
 }
 
-#searchBoxContainer .searchButton:hover {
+.searchBoxContainer .searchButton:hover {
     background: #D2D2D2 url('../../images/background_light_blue_628BAF_A0B9CE.png') repeat-x center;
 }
 
@@ -90,21 +91,11 @@ body {min-width: 900px;}
     font-weight: bold;
 }
 
-#home #siteReference {
+#home .siteReference {
+    float:left;
+    padding-left: 1em;
     padding-top: 4em;
-}
-
-#siteReference {
-    margin: 0 auto;
-    padding-bottom: 1em;
-}
-
-#siteReference #siteLogo {
-    float: left;
-}
-
-#siteReference #siteName {
-    float: left;
+    width: 275px;
 }
 
 #portalRightColumn #recentSubmissions li {
@@ -168,6 +159,7 @@ body {min-width: 900px;}
     color: #FFFFFF;
     height: 38px;
     left: 0;
+    min-width: 600px;
     position: fixed;
     top: 0px;
     width: 100%;
@@ -233,9 +225,6 @@ body {min-width: 900px;}
 
 #catalog {
     width: 100%;
-}
-#catalog a {
-    color: white;
 }
 #catalog .even {
     float: left;
@@ -405,4 +394,41 @@ body {min-width: 900px;}
 }
 #catalog .dividerNormalBlue {
     background-image: url("../../images/breadcrumbs/divider_normal_blue.png");
+}
+
+#catalogSearchContent {
+    padding-top: 5px;
+}
+#catalogSearchContent #catalogSearchLoadingDisplay {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    margin: 4em 0 5em 0;
+}
+
+#catalogSearchResults .match .templateName {float: left;}
+#catalogSearchResults .match .matchingAttributes {float: right;}
+#catalogSearchResults .match .templateDescription {clear: both; }
+
+.searchResults {
+
+}
+.searchResults .searchQuery {
+    cursor: pointer;
+}
+
+.searchResults .match {padding-top: 0.5em;}
+
+.searchResults .match .matchingAttributes {
+    float: right;
+    text-align: left;
+    width: 40%;
+}
+
+.searchResults .title {
+    margin-bottom: 0.5em;
+}
+
+.searchResults.activeHighlighting .highlighted {
+    background: khaki;
 }

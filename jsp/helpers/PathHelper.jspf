@@ -1,0 +1,20 @@
+<%!
+    public static class PathHelper {
+        /**
+         * Returns a String representing the path to the root of the themes.
+         *
+         * Example (assuming a default installation):
+         *   /kinetic/themes/THEME_NAME
+         * Example (assuming Kinetic SR was installed to an alternate location):
+         *   /services/portfolio/themes/THEME_NAME
+         */
+        public static String getThemeRoot(HttpServletRequest request) {
+            String requestUri = request.getRequestURI();
+            int startOfThemeName = requestUri.indexOf("/themes/")+"/themes/".length();
+            int endOfThemeName = requestUri.indexOf("/", startOfThemeName);
+            String themeRoot = requestUri.substring(0, endOfThemeName);
+
+            return themeRoot;
+        }
+    }
+%>

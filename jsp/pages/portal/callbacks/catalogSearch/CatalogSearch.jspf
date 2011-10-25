@@ -1,0 +1,186 @@
+<%--
+    TODO: Description of file.
+--%>
+<%!
+    public static class CatalogSearch {
+        private HelperContext context;
+        private Catalog catalog;
+        private String[] querySegments;
+        private Pattern[] queryPatterns;
+        
+        private Catalog[] matchingCategories;
+        private Template[] matchingTemplates;
+        private Pattern combinedPattern;
+
+        Map<String,Set<String>> matchingTemplateAttributes = new LinkedHashMap();
+
+        public CatalogSearch(HelperContext context, String catalogName, String[] querySegments) {
+            // Store the helper context
+            this.context = context;
+            // Retrieve the catalog
+            this.catalog = Catalog.findByName(context, catalogName);
+            // Preload the catalog items
+            catalog.preload(context);
+            // Set the query
+            setQuerySegments(querySegments);
+        }
+
+        public void setQuerySegments(String[] querySegments) {
+            // Build a pattern for each of the querySegments.  These querySegments are used to
+            // determine which of the models being searched matches ALL of the
+            // query querySegments that were passed.
+            this.queryPatterns = new Pattern[querySegments.length];
+            for (int i=0;i<querySegments.length;i++) {
+                this.queryPatterns[i] = Pattern.compile(".*"+Pattern.quote(querySegments[i])+".*", Pattern.CASE_INSENSITIVE);
+            }
+
+            // Build a Regex Pattern for matching any of the query querySegments.  This
+            // is used after the models results have been found to highlight the
+            // matching query querySegments.
+            StringBuilder patternBuilder = new StringBuilder();
+            patternBuilder.append("(.*?)(");
+            for (int i=0;i<querySegments.length;i++) {
+                // If this is not the first segment, append a '|' (Regex OR) character
+                if (i!=0) patternBuilder.append("|");
+                patternBuilder.append(Pattern.quote(querySegments[i]));
+            }
+            patternBuilder.append(")(.*?)");
+            this.combinedPattern = Pattern.compile(patternBuilder.toString(), Pattern.CASE_INSENSITIVE);
+        }
+
+
+        public Pattern getCombinedPattern() { return combinedPattern; }
+
+        public String[] getMatchingAttributes(String templateId) {
+            String[] results = new String[0];
+            Set<String> matchingAttributeNames = matchingTemplateAttributes.get(templateId);
+            if (matchingAttributeNames != null && matchingAttributeNames.size() > 0) {
+                results = matchingAttributeNames.toArray(new String[matchingAttributeNames.size()]);
+            }
+            return results;
+        }
+
+        public boolean hasMatchingAttributes(String templateId) {
+            Set<String> matchingAttributeNames = matchingTemplateAttributes.get(templateId);
+            return matchingAttributeNames != null && matchingAttributeNames.size() > 0;
+        }
+
+        public Category[] getMatchingCategories() {
+            // Define a list of categories that match the pattern
+            List<Category> matchingCategories = new ArrayList();
+
+            // For each of the categories
+            for(Category category : catalog.getAllCategories(context)) {
+                // If the category has any templates viewable by the searcher (if it
+                // does not have any templates, it doesn't make sense to display it
+                // in the search results).
+                if (category.hasTemplates()) {
+                    // Assume the category matches all querySegments until a pattern that
+                    // does not match is encountered.
+                    boolean matchesAllQueryItems = true;
+
+                    // For each of the queryPatterns
+                    for(Pattern pattern : queryPatterns) {
+                        // Build a matcher for each item that we are matching
+                        Matcher nameMatcher = pattern.matcher(category.getName());
+                        Matcher descriptionMatcher = pattern.matcher(category.getDescription());
+
+                        // If the templacategoryte name, description, or category
+                        // does not match the current query Item
+                        if (!nameMatcher.matches() && !descriptionMatcher.matches()) {
+                            // Specify that the category does not match all query items
+                            matchesAllQueryItems = false;
+                            // Break out of the loop
+                            break;
+                        }
+                    }
+
+                    // If the current category still matches all query items after
+                    // iterating over each of them
+                    if (matchesAllQueryItems) {
+                        matchingCategories.add(category);
+                    }
+                }
+            }
+
+            return matchingCategories.toArray(new Category[matchingCategories.size()]);
+        }
+
+        public Template[] getMatchingTemplates(String[] searchableAttributes) {
+            // Define a list of templates that match the pattern
+            List<Template> matchingTemplates = new ArrayList();
+
+            // Define a mapping of search state information
+            matchingTemplateAttributes.clear();
+
+            // For each of the templates
+            for(Template template : catalog.getTemplates(context)) {
+                // If the template is categorized
+                if (template.hasCategories()) {
+                    // Assume the template matches all querySegments until a pattern that
+                    // does not match is encountered.
+                    boolean matchesAllQueryItems = true;
+
+                    // If the searchable attributes configuration value is null, assume all attributes are searchable
+                    if (searchableAttributes == null) {
+                        searchableAttributes = template.getTemplateAttributeNames();
+                    }
+
+                    matchingTemplateAttributes.put(template.getId(), new LinkedHashSet());
+
+                    // For each of the queryPatterns
+                    for(Pattern pattern : queryPatterns) {
+                        // Build a matcher for each item that we are matching
+                        Matcher nameMatcher = pattern.matcher(template.getName());
+                        Matcher descriptionMatcher = pattern.matcher(template.getDescription());
+                        Matcher categoryMatcher = pattern.matcher(template.getCategorizationString());
+
+                        // Initialize the set of matching attributes and add it to the
+                        // matchingAttributes map for use in the search results
+                        Set<String> matchingAttributes = new LinkedHashSet();
+                        // For each of the attributes configured to be searchable
+                        for (String attributeName : searchableAttributes) {
+                            // Retrieve the attribute values for the attribute
+                            String[] attributeValues = template.getTemplateAttributeValues(attributeName);
+
+                            // For each of the attribute values
+                            for (String attributeValue : attributeValues) {
+                                // Add the attribute to the matchingAttributes set if it
+                                // matches.
+                                Matcher attributeValueMatcher = pattern.matcher(attributeValue);
+                                if (attributeValueMatcher.matches()) {
+                                    matchingAttributes.add(attributeName);
+                                    break;
+                                }
+                            }
+                        }
+
+                        // If there are no attributes matching the current query item,
+                        // and the template name, description, or category does not
+                        // match the current query item either
+                        if (matchingAttributes.size() == 0 && !nameMatcher.matches() && !descriptionMatcher.matches() && !categoryMatcher.matches()) {
+                            // Specify that the template does not match all query items
+                            matchesAllQueryItems = false;
+                            // Break out of the loop
+                            break;
+                        }
+                        // If one of the matchable items matches the current query item
+                        else {
+                            // Add the set of attributes that match the current query
+                            // item to the list of attributes that match any query item.
+                            matchingTemplateAttributes.get(template.getId()).addAll(matchingAttributes);
+                        }
+                    }
+
+                    // If the current template still matches all query items after iterating
+                    // over each of them
+                    if (matchesAllQueryItems) {
+                        matchingTemplates.add(template);
+                    }
+                }
+            }
+
+            return matchingTemplates.toArray(new Template[matchingTemplates.size()]);
+        }
+    }
+%>

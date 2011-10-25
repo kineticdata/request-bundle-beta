@@ -1,5 +1,3 @@
-html {overflow-y:scroll;}
-
 body {
     color: #333;
     margin: 0;
@@ -100,6 +98,22 @@ ul.horizontalNavigation li {
     height: 21px;
     width: 21px;
 }
+
+.siteReference {
+    height: 100px;
+    margin: 0 auto;
+    width: 400px;
+}
+
+.siteReference .siteLogo {
+    float: left;
+}
+
+.siteReference .siteName {
+    float: left;
+}
+
+
 .topline {
     height: 0.5em;
 }

@@ -5,7 +5,7 @@
 <%@page import="javax.servlet.http.HttpServlet"%>
 <%@page import="javax.servlet.http.HttpServletRequest"%>
 <%@page import="javax.servlet.http.HttpServletResponse"%>
-<%@include file="includes/themeLoader.jspf" %>
+<%@include file="includes/themeInitialization.jspf" %>
 <%
     /**
      * This is a simple routing JSP that allows for package specific URL

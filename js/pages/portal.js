@@ -5,12 +5,12 @@ THEME.onPageLoad(function() {
         THEME.toggleClass(THEME.get('userInfo'), 'active', 'inactive');
     });
 
-    var searchBox = THEME.get("searchBox");
+    var catalogSearchBox = THEME.get("catalogSearchBox");
     var searchButton = THEME.get("catalogSearchButton");
     YAHOO.util.Event.addListener(searchButton, "click", THEME.searchCatalog);
     
     var searchListener = new YAHOO.util.KeyListener(
-        searchBox,
+        catalogSearchBox,
         {
             keys: [YAHOO.util.KeyListener.KEY.ENTER]
         }, THEME.searchCatalog);
@@ -68,7 +68,7 @@ THEME.refreshBreadcrumbHTML = function() {
         var name = THEME.breadcrumbs[i]['name'];
         var id = THEME.breadcrumbs[i]['id'];
         if (i>0) {
-            if (THEME.breadcrumbs[i]['id'] != 'searchContent') {
+            if (THEME.breadcrumbs[i]['id'] != 'catalogSearchContent') {
                 if (i != THEME.breadcrumbs.length-1) {
                     HTML += '<div class="divider dividerNormalNormal"></div>';
                 } else {
@@ -80,7 +80,7 @@ THEME.refreshBreadcrumbHTML = function() {
         if (THEME.breadcrumbs[i]['id'] == 'rootCategories') {
             HTML += 'leftBreadcrumb ';
         }
-        if (THEME.breadcrumbs[i]['id'] == 'searchContent') {
+        if (THEME.breadcrumbs[i]['id'] == 'catalogSearchContent') {
             HTML += 'searchBreadcrumb ';
         }
         if (i != THEME.breadcrumbs.length-1) {
@@ -191,40 +191,40 @@ THEME.searchCatalog = function() {
         id: 'rootCategories'
     });
     THEME.breadcrumbs.push({
-        id: "searchContent",
+        id: "catalogSearchContent",
         name: "Search Results"
     });
     THEME.refreshBreadcrumbHTML();
             
-    var searchBox = THEME.get("searchBox");
-    var searchContent = THEME.get("searchContent");
-    var searchLoadDisplay = THEME.get("searchLoadDisplay");
-    var searchLoadDisplayQuery = THEME.get("searchLoadDisplayQuery");
-    var searchResultsDisplay = THEME.get("searchResultsDisplay");
+    var catalogSearchBox = THEME.get("catalogSearchBox");
+    var catalogSearchContent = THEME.get("catalogSearchContent");
+    var catalogSearchLoadingDisplay = THEME.get("catalogSearchLoadingDisplay");
+    var catalogSearchLoadDisplayQuery = THEME.get("catalogSearchLoadDisplayQuery");
+    var catalogSearchResultsDisplay = THEME.get("catalogSearchResultsDisplay");
 
     // Set the Search Load Display content
-    searchLoadDisplayQuery.innerHTML = searchBox.value;
+    catalogSearchLoadDisplayQuery.innerHTML = catalogSearchBox.value;
 
     // Hide the presently displayed content tab
-    THEME.hide(searchContent);
+    THEME.hide(catalogSearchContent);
 
     // Ensure the proper Search Result display is visible
-    THEME.hide(searchResultsDisplay);
-    THEME.show(searchLoadDisplay);
+    THEME.hide(catalogSearchResultsDisplay);
+    THEME.show(catalogSearchLoadingDisplay);
     // Show the search content pane
-    THEME.show(searchContent);
+    THEME.show(catalogSearchContent);
 
     // Replace the search results content
     THEME.replace(
-        searchResultsDisplay,
-        "/jsp/pages/portal/partials/searchResults.jsp?catalogName="+THEME.config.catalogName+"&query="+searchBox.value,
+        catalogSearchResultsDisplay,
+        "/jsp/pages/portal/callbacks/catalogSearch.html.jsp?catalogName="+THEME.config.catalogName+"&query="+catalogSearchBox.value,
         {
             callback: function() {
-                THEME.hide(searchLoadDisplay);
-                THEME.show(searchResultsDisplay);
+                THEME.hide(catalogSearchLoadingDisplay);
+                THEME.show(catalogSearchResultsDisplay);
             }
         }
         );
                 
-    searchBox.value = '';
+    catalogSearchBox.value = '';
 };

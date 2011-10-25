@@ -8,11 +8,11 @@
     <%@include file="../../shared/shadowBoxBegin.jspf"%>
     <%-- CATALOG NAVIGATION (Breadcrumbs, Search) --%>
     <div>
-        <div id="searchBoxContainer">
+        <div class="searchBoxContainer">
             <div id="catalogSearchButton" class="searchButton">
                 <img src="<%= ThemeConfig.get("root")%>/images/search16x16-FFFFFF.png" alt="Search">
             </div>
-            <input id="searchBox" type="text" name="searchBox" />
+            <input id="catalogSearchBox" type="text" name="searchBox" />
             <div class="clear"></div>
         </div>
         <div id="catalogBreadcrumbs">
@@ -88,11 +88,11 @@
     </div>
 
     <%-- SEARCH RESULTS (hidden by default)--%>
-    <div id="searchContent" style="padding-top: 5px;" class="hidden">
-        <div id="searchLoadDisplay" style="font-size: 2em; font-weight: bold; text-align: center;margin-top: 4em;">
-            Searching for "<span id="searchLoadDisplayQuery"></span>"... <img alt="Loading Indicator" src="resources/loading.gif">
+    <div id="catalogSearchContent" class="hidden">
+        <div id="catalogSearchLoadingDisplay">
+            Searching for "<span id="catalogSearchLoadDisplayQuery"></span>"... <img alt="Loading Indicator" src="resources/loading.gif">
         </div>
-        <div id="searchResultsDisplay"></div>
+        <div id="catalogSearchResultsDisplay"></div>
     </div>
 
     <%@include file="../../shared/shadowBoxEnd.jspf"%>
