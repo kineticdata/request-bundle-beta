@@ -1,14 +1,11 @@
-<!-- BEGIN {themeRoot}/jsp/pages/portal/partials/recentSubmissions.jsp -->
 <%--
     TODO: Document
 --%>
-<%@include file="../../../includes/themeInitialization.jspf"%>
 
+<!-- BEGIN {themeRoot}/jsp/pages/portal/partials/recentSubmissions.jsp -->
 <%
-    String catalogName = (String)ThemeConfig.get("catalogName");
     Submission[] submissions = Submission.findRecentByCatalogName(context, catalogName, 5);
 %>
-
 
 <div id="recentSubmissions" class="contentSection auxiliaryTitleColor">
     <hr>
