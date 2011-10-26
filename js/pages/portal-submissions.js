@@ -237,17 +237,18 @@ PAGE.initializeListData = function(groupName, listName) {
     }
 
     var generateRequest = function(oState) {
-        oState = oState || {pagination: null, sortedBy: null};
-        var sort = (oState.sortedBy) ? oState.sortedBy.key : PAGE.config.settings.defaultSortColumn;
-        var order = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
+        oState = oState || {pagination: null, sortedBy: {
+            key: PAGE.config.settings.defaultSortColumn,
+            dir: PAGE.config.settings.defaultSortOrder}
+        };
         var recordOffset = (oState.pagination) ? oState.pagination.recordOffset : 0;
 
         // Build custom request
         var params = "catalog=" + THEME.config.catalogName +
             "&group=" + groupName +
             "&list=" + listName +
-            "&sort=" + sort +
-            "&order=" + order +
+            "&sort=" + oState.sortedBy.key +
+            "&order=" + oState.sortedBy.dir +
             "&startIndex=" + recordOffset +
             "&pageSize=" + PAGE.config.settings.pageSize;
         return params;
@@ -281,6 +282,22 @@ PAGE.initializeListData = function(groupName, listName) {
         listObject.dataSource,
         dataTableConfiguration);
 
+    listObject.dataTable.doBeforePaginatorChange = function() {
+        alert("Chaingin!");
+        return true;
+    }
+
+    listObject.dataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
+        if (oResponse.status == 401) {
+            THEME.requestLogin();
+            listObject.dataTable.load({datasource: listObject.dataSource});
+            return false;
+        }
+        oPayload.totalRecords = oResponse.meta.totalRecords;
+        oPayload.pagination.recordOffset = oResponse.meta.startIndex;
+        return oPayload;
+    };
+
     // Subscribe to events for row selection
     listObject.dataTable.subscribe("rowMouseoverEvent", listObject.dataTable.onEventHighlightRow);
     listObject.dataTable.subscribe("rowMouseoutEvent", listObject.dataTable.onEventUnhighlightRow);
@@ -312,20 +329,7 @@ PAGE.loadListData = function(groupName, listName) {
 //            });
 //
 //        // Update totalRecords on the fly with values from server
-//        dataTable.doBeforeLoadData = THEME.bind(subgroupNameDigest,
-//            function(subgroupNameDigest) {
-//                return function(oRequest, oResponse, oPayload) {
-//                    if (oResponse.status == 401) {
-//                        THEME.requestLogin();
-//                        dataTable.load({datasource: dataSource});
-//                        return false;
-//                    }
-//                    console.log(subgroupNameDigest);
-//                    oPayload.totalRecords = oResponse.meta.totalRecords;
-//                    oPayload.pagination.recordOffset = oResponse.meta.startIndex;
-//                    return oPayload;
-//                };
-//            });
+        
 //
 //        // Manually load the data table with the initial data
 //        dataTable.load({datasource: initialDataSource});

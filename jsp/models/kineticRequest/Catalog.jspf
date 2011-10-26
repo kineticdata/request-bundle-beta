@@ -3,10 +3,14 @@
         public static final String FORM_NAME = "KS_RQT_ServiceCatalog_base";
         public static final String FIELD_DESCRIPTION = "702020006";
         public static final String FIELD_ID = "179";
+        public static final String FIELD_LOGOUT_ACTION = "700073100";
+        public static final String FIELD_LOGOUT_DESTINATION = "700073102";
         public static final String FIELD_NAME = "600000500";
         public static final String FIELD_STATUS = "7";
+
         public static final String[] FIELD_IDS = new String[] {
-            FIELD_DESCRIPTION, FIELD_ID, FIELD_NAME
+            FIELD_DESCRIPTION, FIELD_ID, FIELD_LOGOUT_ACTION,
+            FIELD_LOGOUT_DESTINATION, FIELD_NAME
         };
 
         private static final String CATEGORIZATION_FORM_NAME = "KS_RQT_SurveyTemplateAttrInst_Category_join";
@@ -143,8 +147,38 @@
             return templates;
         }
 
+        public String getDefaultLogoutUrl(HelperContext context) {
+            // Initialize the result
+            String result = null;
+            // If the catalog has a URL default logout destination
+            if ("Go to URL".equals(getLogoutAction())) {
+                // Redirect to the default logout action
+                result = getLogoutDestination();
+            }
+            // If the catalog has a Template default logout destination
+            if ("Go to Template".equals(getLogoutAction())) {
+                // Retrieve the template
+                Template template = Template.findById(context, getName(), getLogoutDestination());
+                // If the template was not found
+                if (template == null) {
+                    // Throw an error
+                    throw new RuntimeException("The template ("+
+                        getLogoutDestination()+") was not found.  "+
+                        "Unable to determine default logout action.");
+                }
+                // If the template was found
+                else {
+                    result = template.getAnonymousUrl();
+                }
+            }
+            // Return the result
+            return result;
+        }
+
         public String getDescription() {return entry.getEntryFieldValue(FIELD_DESCRIPTION);}
         public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
+        public String getLogoutAction() {return entry.getEntryFieldValue(FIELD_LOGOUT_ACTION);}
+        public String getLogoutDestination() {return entry.getEntryFieldValue(FIELD_LOGOUT_DESTINATION);}
         public String getName() {return entry.getEntryFieldValue(FIELD_NAME);}
         public String getStatus() {return entry.getEntryFieldValue(FIELD_STATUS);}
 

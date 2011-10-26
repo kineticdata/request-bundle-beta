@@ -9,7 +9,8 @@
         public static final String FIELD_NAME = "700001000";
         public static final String FIELD_DISPLAY_NAME = "700002298";
         public static final String[] FIELD_IDS = new String[]{
-            FIELD_ID, FIELD_DESCRIPTION, FIELD_NAME, FIELD_ANONYMOUS_URL};
+            FIELD_ID, FIELD_DESCRIPTION, FIELD_NAME, FIELD_ANONYMOUS_URL,
+            FIELD_DISPLAY_NAME};
 
         private SimpleEntry entry = null;
         private List<Category> categories = new ArrayList();
@@ -44,6 +45,21 @@
             }
             
             return results;
+        }
+
+        public static Template findById(HelperContext context, String catalogName, String id) {
+            Template result = null;
+
+            String qualification =
+                "'"+FIELD_CATELOG+"' = \""+catalogName+"\" AND "+
+                "'"+FIELD_ID+"' = \""+id+"\"";
+
+            SimpleEntry entry = ArsBase.findSingle(context, FORM_NAME, qualification, FIELD_IDS);
+            if (entry != null) {
+                result = new Template(entry);
+            }
+
+            return result;
         }
 
         public Template(SimpleEntry entry) {
@@ -98,9 +114,20 @@
             return results;
         }
 
-        public String getAnonymousUrl() {return entry.getEntryFieldValue(FIELD_ANONYMOUS_URL);}
+        public String getAnonymousUrl() {
+            String anonymousUrl = entry.getEntryFieldValue(FIELD_ANONYMOUS_URL);
+            
+            // If there is a display name
+            if (getDisplayName() != null && !"".equals(getDisplayName())) {
+                // Replace the srv={ID} with name={DISPLAY_NAME}
+                anonymousUrl = anonymousUrl.replaceFirst("srv=.*$", "name="+getDisplayName());
+            }
+
+            return anonymousUrl;
+        }
         public String getCatelog() {return entry.getEntryFieldValue(FIELD_CATELOG);}
         public String getDescription() {return entry.getEntryFieldValue(FIELD_DESCRIPTION);}
+        public String getDisplayName() {return entry.getEntryFieldValue(FIELD_DISPLAY_NAME);}
         public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
         public String getName() {return entry.getEntryFieldValue(FIELD_NAME);}
 

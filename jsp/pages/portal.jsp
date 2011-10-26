@@ -190,6 +190,9 @@
                     <% for (SubmissionList list : group.getSubmissionLists()) { %>
                     <div class="submissionList <%=hiddenCycle.cycle()%>" data-group="<%= group.getName()%>" data-list="<%= list.getName() %>">
                         <div class="title"><%= list.getName() %>&nbsp;<%= group.getName() %></div>
+                        <div class="">
+                            <a href="javascript:void(0)" onclick="PAGE.loadListData('<%= group.getName() %>', '<%= list.getName() %>')">Refresh</a>
+                        </div>
                         <div class="dataTable"></div>
                         <div class="paginator submissionPaginator"></div>
                     </div>

@@ -6,6 +6,13 @@
 --%>
 <%@include file="../includes/themeInitialization.jspf"%>
 
+<%--
+    If the user is already logged in, redirect them to the appropriate location
+    and return (this prevents the JSP content from being evaluated and
+    rendered).
+--%>
+<%@include file="login/redirectIfLoggedIn.jspf"%>
+
 <%-- Set the HTML DOCTYPE. --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -141,8 +148,10 @@
                     <!-- Log In Button (manipulated on DOMReady; see header) -->
                     <input id="logInButton" name="logInButton" type="submit" value="Log In">
 
+                    <% if (ThemeConfig.get("forgotPasswordAction") != null) { %>
                     <!-- Forgot Password -->
-                    <a class="primaryColor" href="#" id="forgotPasswordLink">Forgot Password</a>
+                    <a class="primaryColor" href="<%= ThemeConfig.get("forgotPasswordAction") %>" id="forgotPasswordLink">Forgot Password</a>
+                    <% } %>
 
                     <!-- Logging In Spinner -->
                     <div class="hidden" id="loader">Authenticating... <img alt="Loading Indicator" src="resources/loading.gif"></div>

@@ -1,0 +1,32 @@
+<%
+    if (context != null) {
+        // If there is a default login action configured for the theme
+        if (ThemeConfig.get("defaultLoginAction") != null) {
+            // Retrieve the configured default login action
+            String defaultLoginAction = (String)ThemeConfig.get("defaultLoginAction");
+            // Redirect to the default login action
+            response.sendRedirect(defaultLoginAction);
+        }
+        // If there is not a default login action configured for the theme
+        else {
+            String catalogName = (String) ThemeConfig.get("catalogName");
+            // Look up the default logout action
+            Catalog catalog = Catalog.findByName(context, catalogName);
+            // If the catalog was not found
+            if (catalog == null) {
+                // Throw an error
+                throw new RuntimeException("The \""+catalogName+"\" catalog "+
+                    "was not found.  Unable to retrieve the default logout "+
+                    "action.");
+            }
+            // If the catalog was found
+            else {
+                // Redirect to the appropriate action
+                response.sendRedirect(catalog.getDefaultLogoutUrl(context));
+            }
+        }
+
+        // Return so the proceeding JSP content is not evaluated or rendered
+        return;
+    }
+%>
