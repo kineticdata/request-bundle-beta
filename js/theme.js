@@ -263,5 +263,42 @@ if (typeof THEME == "undefined") {
                     '\n\n'+response.responseText);
             }
         }
+
+
+        THEME.activateInputHelptext = function(elementReference) {
+            /* Upon activation retrieve the specified input element.  Set the value
+             * of the input element to the data-default attribute of the element
+             * and set the data-defaulted attribute to 'true' to indicated that
+             * it is currently defaulted and add the inactiveInput class to the
+             * element.
+             */
+            var element = document.getElementById(elementReference);
+            element.value = element.getAttribute('data-default');
+            element.setAttribute('data-defaulted', 'true');
+            THEME.addClass(element, 'inactiveInput');
+            /* Bind a function to the input element that triggers on focus in. When
+             * triggered, if the value of the element is set to the default value
+             * we clear the value and remove the inactiveInput class from the element.
+             */
+            YAHOO.util.Event.on(element, 'focusin', function() {
+                if (this.getAttribute('data-defaulted')=='true') {
+                    this.value = '';
+                    THEME.removeClass(this, 'inactiveInput');
+                }
+            });
+            /* Bind a function to the input element that triggers on focus out(blur).
+             * When triggered, if the value of the element is blank we set the value
+             * to the default value and add the inactiveInput class to the element.
+             */
+            YAHOO.util.Event.on(element, 'focusout', function() {
+                if (this.value == '') {
+                    this.value = this.getAttribute('data-default');
+                    this.setAttribute('data-defaulted', 'true');
+                    THEME.addClass(this, 'inactiveInput');
+                } else {
+                    this.setAttribute('data-defaulted', 'false');
+                }
+            });
+        }
     }
 }
