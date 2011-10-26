@@ -49,6 +49,8 @@ THEME.onPageLoad(function() {
             THEME.addClass(element, 'hidden');
         }
     });
+
+    THEME.activateInputHelptext('catalogSearchBox');
 });
 
 

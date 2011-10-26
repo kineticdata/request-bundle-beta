@@ -119,3 +119,8 @@ ul.horizontalNavigation li {
 .invisible {
     visibility: hidden;
 }
+
+.inactiveInput {
+    background-color: #F6F6F6;
+    border: 1px solid #7F9DB9;
+}

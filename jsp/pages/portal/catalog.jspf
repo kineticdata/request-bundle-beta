@@ -12,7 +12,7 @@
             <div id="catalogSearchButton" class="searchButton">
                 <img src="<%= ThemeConfig.get("root")%>/images/search16x16-FFFFFF.png" alt="Search">
             </div>
-            <input id="catalogSearchBox" type="text" name="searchBox" />
+            <input id="catalogSearchBox" type="text" name="searchBox" data-default="Your Search String"/>
             <div class="clear"></div>
         </div>
         <div id="catalogBreadcrumbs">
