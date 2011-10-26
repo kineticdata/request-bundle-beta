@@ -1,19 +1,29 @@
 <%--
-    TODO: Document
+    TODO: Description
 --%>
+
+<%-- TODO: Document --%>
+<%@page contentType="application/json; charset=UTF-8"%>
+<%-- TODO: Document --%>
 <%@include file="../../../includes/themeInitialization.jspf"%>
+
 <%
+    // If there is not a HelperContext that is attached to the session, send an
+    // unauthorized response.
     if (context == null) {
         UnauthorizedHelper.sendUnauthorizedResponse(response);
-    } else {
+    }
+    // If there is a HelperContext that is attached to the session,
+    else {
+        ThemeConfig.put("catalogName", request.getParameter("catalog"));
 %>
     <%--
         Include the ?
     --%>
-    <%@include file="../configuration/submissionGroups.jspf"%>
+    <%@include file="../configuration/submissionLists.jspf"%>
     <%
         String groupName = request.getParameter("group");
-        String subgroupName = request.getParameter("subgroup");
+        String listName = request.getParameter("list");
 
         String pageSize = request.getParameter("pageSize");
         if (pageSize == null) {pageSize = "10";}
@@ -43,45 +53,19 @@
         Integer pageSizeInteger = Integer.valueOf(pageSize);
         Integer startIndexInteger = Integer.valueOf(startIndex);
 
-        SubmissionList submissionList = SubmissionGroupManager.getSubmissionList(groupName, subgroupName);
-        //Thread.sleep(10000);
+        SubmissionList submissionList = submissionManager.getSubmissionList(groupName, listName);
+        System.out.println(groupName+" "+listName);
+        System.out.println(submissionList);
+
         Submission[] submissions = submissionList.getSubmissions(context, sortFields, pageSizeInteger, startIndexInteger, sortOrder);
     %>
-    <%!
-        private String formatSubmissions(Submission[] submissions) {
-            java.lang.StringBuilder builder = new java.lang.StringBuilder();
-            for(Submission submission : submissions) {
-                String status = submission.getValiationStatus();
-                if (status == null || status.length() == 0) {
-                    if ("Completed".equals(submission.getStatus())) {
-                        status = "Processing";
-                    } else {
-                        status = submission.getStatus();
-                    }
-                }
-
-                if (submission != submissions[0]) {
-                    builder.append(",");
-                    builder.append("\n");
-                }
-                builder.append("    {");
-                builder.append("\"date\": \"").append(submission.getCreateDate()).append("\",");
-                builder.append("\"name\": \"").append(submission.getTemplateName()).append("\",");
-                builder.append("\"status\": \"").append(status).append("\",");
-                builder.append("\"requestId\": \"").append(submission.getRequestId()).append("\"");
-                builder.append("}");
-            }
-            return builder.toString();
-        }
-    %>{
+{
   "recordsReturned": <%= submissions.length %>,
   "totalRecords": <%= submissionList.getCount(context) %>,
   "startIndex": <%= startIndex %>,
   "sort": "<%= sort %>",
   "order": "<%= order %>",
   "pageSize": <%= pageSize %>,
-  "records": [
-<%= formatSubmissions(submissions) %>
-  ]
+  "records": [<%= SubmissionList.formatSubmissionsJson(submissions)%>]
 }
 <% } %>

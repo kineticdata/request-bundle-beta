@@ -1,0 +1,35 @@
+<%!
+    public static class SubmissionGroup {
+        private Integer totalSubmissionCount = null;
+        private String name;
+        private Map<String,SubmissionList> submissionListMap = new LinkedHashMap();
+
+        public SubmissionGroup(String name) {
+            this.name = name;
+        }
+
+        public void setList(String listName, String qualification) {
+            SubmissionList list = new SubmissionList(listName, qualification);
+            submissionListMap.put(listName, list);
+        }
+
+        public Integer getTotalSubmissionCount(HelperContext context) {
+            if (totalSubmissionCount == null) {
+                totalSubmissionCount = 0;
+                for (SubmissionList list : submissionListMap.values()) {
+                    totalSubmissionCount = totalSubmissionCount + list.getCount(context);
+                }
+            }
+            return totalSubmissionCount;
+        }
+
+        public SubmissionList getList(String listName) {
+            return submissionListMap.get(listName);
+        }
+
+        public String getName() {return name;}
+        public SubmissionList[] getSubmissionLists() {
+            return submissionListMap.values().toArray(new SubmissionList[submissionListMap.size()]);
+        }
+    }
+%>

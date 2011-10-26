@@ -40,7 +40,6 @@
     catalog = "Klean";
     String templateDisplayName = routeItems[1];
 
-    HelperContext context = new HelperContext("Demo", "", "matrix.kineticmatrix.com", 0, 0);
     // Locate the Template
     Template template = Template.findByDisplayName(context, catalog, templateDisplayName);
     

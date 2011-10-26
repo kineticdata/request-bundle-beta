@@ -78,4 +78,6 @@
 <%@include file="../models/kineticSample/User.jspf" %>
 <%@include file="../models/kineticTask/Task.jspf" %>
 <%@include file="../models/kineticTask/TaskMessage.jspf" %>
+<%@include file="../models/theme/SubmissionGroup.jspf" %>
 <%@include file="../models/theme/SubmissionList.jspf" %>
+<%@include file="../models/theme/SubmissionManager.jspf" %>

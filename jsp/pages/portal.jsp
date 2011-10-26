@@ -8,12 +8,11 @@
 
 <%-- Retrieve the Catalog --%>
 <%
-    String catalogName = (String) ThemeConfig.get("catalogName");
+    String catalogName = (String)ThemeConfig.get("catalogName");
     Catalog catalog = Catalog.findByName(context, catalogName);
     catalog.preload(context);
 %>
-<%@include file="portal/configuration/submissionGroups.jspf"%>
-<% String[] submissionGroups = SubmissionGroupManager.getGroups();%>
+<%@include file="portal/configuration/submissionLists.jspf"%>
 
 <%-- Set the HTML DOCTYPE. --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -57,9 +56,9 @@
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/tabview/tabview-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/selector/selector-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/connection/connection-min.js"></script>
-        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/paginator/paginator-min.js"></script>
-        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/datasource/datasource-min.js"></script>
-        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/datatable/datatable-min.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/paginator/paginator.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/datasource/datasource.js"></script>
+        <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/datatable/datatable.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/json/json-min.js"></script> 
 
         <!-- Include the Theme javascript file. -->
@@ -86,11 +85,13 @@
                 <div id="portalTab" class="navigationItem">
                     <a href="javascript:void(0)">Catalog</a>
                 </div>
-                <% for (String submissionGroup : submissionGroups) {%>
+                <% for (SubmissionGroup group : submissionManager.getSubmissionGroups()) {%>
+                <% if (group.getTotalSubmissionCount(context) > 0) { %>
                 <div class="divider"></div>
-                <div class="navigationItem">
-                    <a href="javascript:void(0)"><%= submissionGroup%></a>
+                <div class="navigationItem submissionGroupNavigationItem" data-group="<%= group.getName() %>">
+                    <a href="javascript:void(0)"><%= group.getName() %></a>
                 </div>
+                <% }%>
                 <% }%>
                 <div class="divider"></div>
             </div>
@@ -113,7 +114,7 @@
                 <%-- Render the site logo, company name, and portal name. --%>
                 <%@include file="../shared/siteReference.jspf" %>
 
-                <div><%= catalog.getDescription()%></div>
+                <div class="catalogDescription"><%= catalog.getDescription()%></div>
             </div>
 
             <div id="quickLinks" class="contentSection auxiliaryTitleColor">
@@ -141,20 +142,29 @@
         <%-- Define the portal main content. --%>
         <div id="portalBody">
             <%-- Home Screen --%>
-            <div class="content">
+            <div id="portalHomeContent" class="content">
                 <%@include file="portal/home.jspf"%>
             </div>
             <%-- Catalog Screen --%>
-            <div class="content hidden">
+            <div id="portalCatalogContent" class="content hidden">
                 <%@include file="portal/catalog.jspf"%>
             </div>
-            <%
-                for (int i = 0; i < submissionGroups.length; i++) {
-                    SubmissionList[] subgroups = SubmissionGroupManager.getSubmissionLists(submissionGroups[i]);
-            %>
-            <div class="content hidden">
+
+            <%--
+                Build and display the Submission Group screens.  A Submission
+                Group screen corresponds to a grouping of submissions (such as
+                "Requests", "Approvals", or "Work Orders").  Each Submission
+                Group has one or more Submission Lists (such as "Parked",
+                "Active", and "Closed" for a Requests group).  Submission Groups
+                and their Lists are defined in the
+                jsp/pages/portal/configuration/submissionLists.jspf file.
+            --%>
+            <% for (SubmissionGroup group : submissionManager.getSubmissionGroups()) { %>
+            <% if (group.getTotalSubmissionCount(context) > 0) { %>
+            <div class="submissionGroup content hidden" data-group="<%= group.getName() %>">
+                <%-- Render the Submission Group Navigation/Search box --%>
                 <%@include file="../shared/shadowBoxBegin.jspf"%>
-                <div>
+                <div class="submissionGroupNavigationBox">
                     <div class="searchBoxContainer">
                         <div class="searchButton">
                             <img src="<%= ThemeConfig.get("root") %>/images/search16x16-FFFFFF.png" alt="Search">
@@ -162,22 +172,33 @@
                         <input id="submissionSearchBox" type="text" name="searchBox" />
                         <div class="clear"></div>
                     </div>
-                    <div id="catalogBreadcrumbs">
-                        <span><a class="breadcrumbLink secondaryColor" data-id="rootCategories" href="javascript:void(0)">Catalog Home</a></span>
+
+                    <% for (SubmissionList list : group.getSubmissionLists()) { %>
+                    <div class="submissionListNavigation">
+                        <%= list.getName() %> (<%= list.getCount(context) %>)
                     </div>
+                    <% } %>
+
                     <div class="clear"></div>
                 </div>
                 <%@include file="../shared/shadowBoxEnd.jspf"%>
 
+                <%-- Render the Submission Group content box --%>
                 <%@include file="../shared/shadowBoxBegin.jspf"%>
-                <div class="primaryColor title"><%= submissionGroups[i]%></div>
-                <%@include file="portal/pageFragments/submissionGroup.jspf"%>
+                <div class="submissionGroupContentBox">
+                    <% CycleHelper hiddenCycle = new CycleHelper("hidden", CycleHelper.SKIP_FIRST_CYCLE); %>
+                    <% for (SubmissionList list : group.getSubmissionLists()) { %>
+                    <div class="submissionList <%=hiddenCycle.cycle()%>" data-group="<%= group.getName()%>" data-list="<%= list.getName() %>">
+                        <div class="title"><%= list.getName() %>&nbsp;<%= group.getName() %></div>
+                        <div class="dataTable"></div>
+                        <div class="paginator submissionPaginator"></div>
+                    </div>
+                    <% } %>
+                </div>
                 <%@include file="../shared/shadowBoxEnd.jspf"%>
             </div>
-            <% }%>
-        </div>
-        <div id="portalFooter">
-
+            <% } %>
+            <% } %>
         </div>
     </body>
 </html>

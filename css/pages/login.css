@@ -74,3 +74,9 @@
     clear: both;
     height: 4em;
 }
+
+.siteReference {
+    padding-bottom: 1em;
+    padding-top: 8em;
+    width: 400px;
+}

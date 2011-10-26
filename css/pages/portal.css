@@ -243,6 +243,10 @@ body {min-width: 900px;}
     margin: 0px 5px;
 }
 
+#portalRightColumn .portalSection .catalogDescription {
+    padding-top: 1em;
+}
+
 /** TODO: Reuse? */
 #catalog .category .categoryHeader, #catalog #rootCategories .categoryHeader {
     background-image: url('../../images/secondaryHeader.png');
