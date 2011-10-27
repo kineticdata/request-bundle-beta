@@ -45,6 +45,7 @@
                 }
                 builder.append("    {");
                 builder.append("\"date\": \"").append(submission.getCreateDate()).append("\",");
+                builder.append("\"id\": \"").append(submission.getId()).append("\",");
                 builder.append("\"name\": \"").append(submission.getTemplateName()).append("\",");
                 builder.append("\"status\": \"").append(status).append("\",");
                 builder.append("\"requestId\": \"").append(submission.getRequestId()).append("\"");

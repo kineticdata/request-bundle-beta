@@ -1,6 +1,56 @@
 html {overflow-y: scroll;}
 body {min-width: 900px;}
 
+.submissionList .processingSpinner {
+    display: none;
+}
+.submissionList.processing .processingSpinner {
+    display: inline;
+}
+.pageReport {
+    min-width: 75px;
+    text-align: center;
+}
+
+.submissionGroupNavigationBox {
+    line-height: 30px;
+}
+
+.submissionGroupNavigationBox .navigationButton.active,
+.submissionGroupNavigationBox .navigationButton.active:hover {
+    background: #88A7C3 url("../../images/background_blue_3B6E9C_88A7C3.png") repeat-x center;
+    border: 1px solid #3B6E9C;
+}
+
+.submissionGroupNavigationBox .navigationButton {
+    background: #C6C6C6 url("../../images/background_grey_A1A1A1_C6C6C6.png") repeat-x center;
+    border: 1px solid #999;
+    cursor: pointer;
+    float: left;
+    font-weight: bold;
+
+    padding: 0 6px;
+    margin-right: 0.5em;
+
+    text-align: center;
+    color: white;
+}
+
+
+.listControls .controlButton {
+    background: #C6C6C6 url("../../images/background_grey_A1A1A1_C6C6C6.png") repeat-x center;
+    border: 1px solid #999;
+    cursor: pointer;
+    float: right;
+    font-size: 1px;
+    padding: 4px 6px;
+}
+
+.submissionGroupNavigationBox .navigationButton:hover,
+.listControls .controlButton:hover {
+    background: #D2D2D2 url('../../images/background_light_grey_B4B4B4_D2D2D2.png') repeat-x center;
+}
+
 .noSelect {
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -30,6 +80,26 @@ body {min-width: 900px;}
     margin-left: 0.5em;
 }
 
+#portalRightColumn .title {
+    background: #88A7C3 url('../../images/background_blue_3B6E9C_88A7C3.png') repeat-x;
+    color: white;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 4px;
+    text-align: center;
+}
+#portalRightColumn .subtitle {
+    background: #C6C6C6 url('../../images/background_grey_A1A1A1_C6C6C6.png') repeat-x;
+    color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 1px;
+    text-align: center;
+}
+
+
 #portalBody .title {
     background: #88A7C3 url('../../images/background_blue_3B6E9C_88A7C3.png') repeat-x;
     color: white;
@@ -51,6 +121,7 @@ body {min-width: 900px;}
 }
 
 .submissionPaginator {
+    margin-right: 1em;
     text-align: right;
 }
 
@@ -64,7 +135,7 @@ body {min-width: 900px;}
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;
-    height: 26px;
+    height: 30px;
     width: 12em;
     float: right;
     margin-right: 4px;
@@ -77,7 +148,7 @@ body {min-width: 900px;}
     cursor: pointer;
     float: right;
     font-size: 1px;
-    padding: 4px 12px;
+    padding: 6px 12px;
 }
 
 .searchBoxContainer .searchButton:hover {
@@ -115,8 +186,11 @@ body {min-width: 900px;}
 #portalRightColumn {
     float: right;
     margin-right: 1em;
-    padding:0.5em;
-    width: 22em;
+    width: 23em;
+}
+
+#portalRightColumn #portalRightColumnDefaultContent {
+    padding: 0.5em;
 }
 
 #portalRightColumn .portalSection {

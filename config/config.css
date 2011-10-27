@@ -16,6 +16,8 @@
 
 .auxiliaryTitleColor {color: #777;}
 
+.defaultBackgroundColor {background: white;}
+
 .logo {
     background: url('../images/logo.png');
     border: none;

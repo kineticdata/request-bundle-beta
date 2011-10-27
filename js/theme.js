@@ -186,6 +186,9 @@ if (typeof THEME == "undefined") {
             YAHOO.util.Dom.removeClass(element, 'hidden');
         }
         THEME.toggle = function(element) {
+            YAHOO.util.Dom.batch(element, THEME._toggle);
+        }
+        THEME._toggle = function(element) {
             if (YAHOO.util.Dom.hasClass(element, 'hidden')) {
                 THEME.show(element);
             } else {

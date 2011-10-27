@@ -1,6 +1,84 @@
 // Decloare a page variable to hold our special page functions
 var PAGE = {};
 
+PAGE.refreshSubmissionList = function(groupName, listName) {
+    PAGE.submissionGroups[groupName].lists[listName].dataTable.load();
+}
+
+PAGE.goToSubmissionListFirstPage = function(groupName, listName) {
+    var paginator = PAGE.submissionGroups[groupName].lists[listName].paginator;
+    if (paginator.getTotalPages() > 0) {paginator.setPage(1);}
+}
+PAGE.goToSubmissionListPreviousPage = function(groupName, listName) {
+    var paginator = PAGE.submissionGroups[groupName].lists[listName].paginator;
+    if (paginator.hasPreviousPage()) {paginator.setPage(paginator.getPreviousPage());}
+}
+PAGE.goToSubmissionListNextPage = function(groupName, listName) {
+    var paginator = PAGE.submissionGroups[groupName].lists[listName].paginator;
+    if (paginator.hasNextPage()) {paginator.setPage(paginator.getNextPage());}
+}
+PAGE.goToSubmissionListLastPage = function(groupName, listName) {
+    var paginator = PAGE.submissionGroups[groupName].lists[listName].paginator;
+    if (paginator.getTotalPages() > 0) {paginator.setPage(paginator.getTotalPages());}
+}
+PAGE.goToSubmissionListPageNumber = function(groupName, listName) {
+    var list = PAGE.submissionGroups[groupName].lists[listName];
+    var pageNumber = THEME.retrieve('.pageNumberInput', list.contentElement).value;
+    var paginator = list.paginator;
+
+    if (!YAHOO.widget.Paginator.isNumeric(pageNumber)) {
+        THEME.displayError("Page number '"+pageNumber+"' is not a number.");
+    }
+    pageNumber = YAHOO.widget.Paginator.toNumber(pageNumber);
+    if (pageNumber < 1) {
+        THEME.displayError("Page number '"+pageNumber+"' is not valid.");
+    } else if (pageNumber > paginator.getTotalPages()) {
+        THEME.displayError("Page number '"+pageNumber+"' is not valid.  Please select a number between 1 and "+paginator.getTotalPages());
+    } else if (pageNumber != paginator.getCurrentPage()) {
+        paginator.setPage(pageNumber);
+    }
+}
+
+PAGE.showSubmissionListSpinner = function(groupName, listName) {
+    // Retrieve the content element
+    var contentElement = PAGE.submissionGroups[groupName].lists[listName].contentElement;
+    // Display the activity spinner
+    THEME.addClass(contentElement, 'processing');
+}
+PAGE.hideSubmissionListSpinner = function(groupName, listName) {
+    // Retrieve the content element
+    var contentElement = PAGE.submissionGroups[groupName].lists[listName].contentElement;
+    // Display the activity spinner
+    THEME.removeClass(contentElement, 'processing');
+}
+
+PAGE.showSubmissionSummary = function(groupName, listName, requestId) {
+    // Retrieve the content element
+    var contentElement = PAGE.submissionGroups[groupName].lists[listName].contentElement;
+
+    // Display the activity spinner
+    THEME.addClass(contentElement, 'processing');
+
+    // Make the ajax request
+    THEME.replace(
+        'portalRightColumnDynamicContentResultsDisplay',
+        "/jsp/pages/portal/callbacks/submissionSummary.html.jsp?csrv="+requestId,
+        {
+            callback: function() {
+                THEME.hide('portalRightColumnDefaultContent');
+                THEME.show('portalRightColumnDynamicContent');
+                // Hide the spinner
+                THEME.removeClass(contentElement, 'processing');
+            }
+        }
+    );
+}
+
+PAGE.buildRequestLink = function(elLiner, oRecord, oColumn, oData) {
+    elLiner.innerHTML = '<a class="primaryColor" target="_blank" href="' +
+        'DisplayPage?csrv='+oRecord.getData('id')+'">'+oData+'</a>';
+}
+
 PAGE.config = {
     // Confgure the behavior of the submission lists
     settings: {
@@ -14,13 +92,13 @@ PAGE.config = {
         {key:"date", label:"Date", sortable:true},
         {key:"name", label:"Name", sortable:true},
         {key:"status", label:"Status", sortable:true},
-        {key:"requestId", label:"Request Id", sortable:true}
+        {key:"requestId", label:"Request Id", sortable:true, formatter: PAGE.buildRequestLink}
     ],
     // Response Schema
     responseSchema: {
         resultsList: "records",
         fields: [
-            {key:"date"},{key:"name"},{key:"status"},{key:"requestId"}
+            {key:"date"},{key:"name"},{key:"status"},{key:"requestId"},{key:"id"}
         ],
         // Access to values in the server response
         metaFields: {
@@ -179,13 +257,17 @@ PAGE.initializeSubmissionList = function(groupName, listName) {
         // If this list is already the active list
         if (listName == groupObject.activeList) {
             // Refresh the data table
-            PAGE.loadListData(groupName, listName);
+            listObject.dataTable.load();
         }
         // If this list is not the active list
         else {
-            // Hide the active list
-            THEME.hide(groupObject.lists[groupObject.activeList].contentElement);
-            // Show this list
+            //
+            var activeList = groupObject.lists[groupObject.activeList];
+            // De-activeate and hide the active list
+            THEME.removeClass(activeList.navigationElement, 'active');
+            THEME.hide(activeList.contentElement);
+            // Active and show the selected list
+            THEME.addClass(listObject.navigationElement, 'active');
             THEME.show(listObject.contentElement);
             // Set the name of the active list
             groupObject.activeList = listName;
@@ -204,7 +286,7 @@ PAGE.initializeListData = function(groupName, listName) {
     var listObject = groupObject.lists[listName];
 
     var dataTableElement = THEME.retrieve('.dataTable', listObject.contentElement);
-    var paginatorElement = THEME.retrieve('.paginator', listObject.contentElement);
+    var paginatorElement = THEME.retrieve('.pageReport', listObject.contentElement);
 
     // Initialize the data source (which will be used for future XHR calls).
     listObject.dataSource = new YAHOO.util.DataSource(PAGE.config.settings.path);
@@ -214,12 +296,11 @@ PAGE.initializeListData = function(groupName, listName) {
     // Initialize the paginator
     listObject.paginator = new YAHOO.widget.Paginator({
         containers: [paginatorElement],
+        containerClass: 'paginator',
         rowsPerPage: PAGE.config.settings.pageSize,
-        firstPageLinkLabel: '<<',
-        previousPageLinkLabel: 'Previous',
-        nextPageLinkLabel: 'Next',
-        lastPageLinkLabel: '>>',
-        template: '{PreviousPageLink} {CurrentPageReport} {NextPageLink}'
+        pageReportClass: 'pageReport',
+        pageReportTemplate: '{currentPage} of {totalPages}',
+        template: '{CurrentPageReport}'
     });
     // Add a custom function to the paginator
     listObject.paginator.goTo = function(pageNumber) {
@@ -239,8 +320,13 @@ PAGE.initializeListData = function(groupName, listName) {
     var generateRequest = function(oState) {
         oState = oState || {pagination: null, sortedBy: {
             key: PAGE.config.settings.defaultSortColumn,
-            dir: PAGE.config.settings.defaultSortOrder}
+            dir: PAGE.config.settings.defaultSortOrder == "desc" ?
+                YAHOO.widget.DataTable.CLASS_DESC :
+                YAHOO.widget.DataTable.CLASS_ASC
+            }
         };
+
+        var order = oState.sortedBy.dir == YAHOO.widget.DataTable.CLASS_ASC ? 'asc' : 'desc';
         var recordOffset = (oState.pagination) ? oState.pagination.recordOffset : 0;
 
         // Build custom request
@@ -248,7 +334,7 @@ PAGE.initializeListData = function(groupName, listName) {
             "&group=" + groupName +
             "&list=" + listName +
             "&sort=" + oState.sortedBy.key +
-            "&order=" + oState.sortedBy.dir +
+            "&order=" + order +
             "&startIndex=" + recordOffset +
             "&pageSize=" + PAGE.config.settings.pageSize;
         return params;
@@ -282,17 +368,34 @@ PAGE.initializeListData = function(groupName, listName) {
         listObject.dataSource,
         dataTableConfiguration);
 
-    listObject.dataTable.doBeforePaginatorChange = function() {
-        alert("Chaingin!");
+    var showSpinner = function() {
+        PAGE.showSubmissionListSpinner(groupName, listName);
         return true;
     }
+    var hideSpinner = function() {
+        PAGE.hideSubmissionListSpinner(groupName, listName);
+        return true;
+    }
+
+    // Overwrite the load function
+    listObject.dataTable._load = listObject.dataTable.load;
+    listObject.dataTable.load = function(oConfig) {
+        // Show the spinner
+        showSpinner();
+        // Call the original method
+        listObject.dataTable._load(oConfig);
+    }
+
+    listObject.dataTable.doBeforeSortColumn = showSpinner;
+    listObject.dataTable.doBeforePaginatorChange = showSpinner;
 
     listObject.dataTable.doBeforeLoadData = function(oRequest, oResponse, oPayload) {
         if (oResponse.status == 401) {
             THEME.requestLogin();
-            listObject.dataTable.load({datasource: listObject.dataSource});
+            listObject.dataTable.load();
             return false;
         }
+        PAGE.hideSubmissionListSpinner(groupName, listName);
         oPayload.totalRecords = oResponse.meta.totalRecords;
         oPayload.pagination.recordOffset = oResponse.meta.startIndex;
         return oPayload;
@@ -301,36 +404,14 @@ PAGE.initializeListData = function(groupName, listName) {
     // Subscribe to events for row selection
     listObject.dataTable.subscribe("rowMouseoverEvent", listObject.dataTable.onEventHighlightRow);
     listObject.dataTable.subscribe("rowMouseoutEvent", listObject.dataTable.onEventUnhighlightRow);
+
     listObject.dataTable.subscribe("rowClickEvent", function(event) {
         var data = this.getRecord(event.target).getData();
-        alert(data.requestId);
+        PAGE.showSubmissionSummary(groupName, listName, data);
+    });
+    listObject.dataTable.subscribe("linkClickEvent", function(event) {
+       event.stopPropagation();
     });
 
-    PAGE.loadListData(groupName, listName);
+    listObject.dataTable.load();
 }
-
-PAGE.loadListData = function(groupName, listName) {
-    // Retrieve the group and list objects
-    var groupObject = PAGE.submissionGroups[groupName];
-    var listObject = groupObject.lists[listName];
-
-    listObject.dataTable.load({datasource: listObject.dataSource});
-}
-
-
-
-//
-//        dataTable.doBeforePaginatorChange = THEME.bind(subgroupNameDigest,
-//            function(subgroupNameDigest) {
-//                return function(oPaginatorState) {
-//                    console.log(subgroupNameDigest);
-//                    return true;
-//                };
-//            });
-//
-//        // Update totalRecords on the fly with values from server
-        
-//
-//        // Manually load the data table with the initial data
-//        dataTable.load({datasource: initialDataSource});
-//    }

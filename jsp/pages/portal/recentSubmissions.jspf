@@ -12,6 +12,9 @@
     <h2>Recent Submissions</h2>
     <div>
         <ul>
+            <% if (submissions.length == 0) { %>
+            <li>You have no recent submissions.</li>
+            <% } %>
             <% for (Submission submission : submissions) { %>
             <li>
                 <div class="name">

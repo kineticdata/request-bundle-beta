@@ -109,34 +109,31 @@
             </div>
         </div>
 
-        <div class="" id="portalRightColumn">
-            <div class="portalSection">
-                <%-- Render the site logo, company name, and portal name. --%>
-                <%@include file="../shared/siteReference.jspf" %>
-
-                <div class="catalogDescription"><%= catalog.getDescription()%></div>
-            </div>
-
-            <div id="quickLinks" class="contentSection auxiliaryTitleColor">
-                <hr>
-                <h2>Quick Links</h2>
+        <div id="portalRightColumn">
+            <div id="portalRightColumnDefaultContent">
                 <div>
-                    <ul>
-                        <li>
-                            <div class="name">Kinetic Data Homepage</div>
-                            <div class="link"><a href="http://www.kineticdata.com" class="primaryColor">http://www.kineticdata.com</a></div>
-                        </li>
-                        <li>
-                            <div class="name">Kinetic Community Homepage</div>
-                            <div class="link"><a href="http://community.kineticdata.com" class="primaryColor">http://community.kineticdata.com</a></div>
-                        </li>
-                    </ul>
+                    <!-- Display the portal information section. -->
+                    <div class="portalSection">
+                        <%-- Render the site logo, company name, and portal name. --%>
+                        <%@include file="../shared/siteReference.jspf" %>
+                        <div class="catalogDescription"><%= catalog.getDescription()%></div>
+                    </div>
+
+                    <%-- Include the quick links section. --%>
+                    <%@include file="portal/quickLinks.jspf" %>
+
+                    <%-- Include the recent submissions section. --%>
+                    <%@include file="portal/recentSubmissions.jspf" %>
+
+                    <div class="clear"></div>
                 </div>
             </div>
 
-            <%@include file="portal/recentSubmissions.jspf" %>
-
-            <div class="clear"></div>
+            <div class="hidden" id="portalRightColumnDynamicContent" >
+                <%@include file="../shared/shadowBoxBegin.jspf"%>
+                <div id="portalRightColumnDynamicContentResultsDisplay"></div>
+                <%@include file="../shared/shadowBoxEnd.jspf"%>
+            </div>
         </div>
 
         <%-- Define the portal main content. --%>
@@ -173,8 +170,9 @@
                         <div class="clear"></div>
                     </div>
 
+                    <% CycleHelper activeCycle = new CycleHelper("active", CycleHelper.ONLY_FIRST_CYCLE); %>
                     <% for (SubmissionList list : group.getSubmissionLists()) { %>
-                    <div class="submissionListNavigation">
+                    <div class="submissionListNavigation navigationButton noSelect <%=activeCycle.cycle()%>">
                         <%= list.getName() %> (<%= list.getCount(context) %>)
                     </div>
                     <% } %>
@@ -190,11 +188,53 @@
                     <% for (SubmissionList list : group.getSubmissionLists()) { %>
                     <div class="submissionList <%=hiddenCycle.cycle()%>" data-group="<%= group.getName()%>" data-list="<%= list.getName() %>">
                         <div class="title"><%= list.getName() %>&nbsp;<%= group.getName() %></div>
-                        <div class="">
-                            <a href="javascript:void(0)" onclick="PAGE.loadListData('<%= group.getName() %>', '<%= list.getName() %>')">Refresh</a>
+                        <div class="listControls">
+                            <div class="" style="float:left;width:45%;margin-bottom:10px;">
+                                <div class="controlButton noSelect" title="First" style="float:left;margin-right:2px;" onclick="PAGE.goToSubmissionListFirstPage('<%=group.getName()%>', '<%=list.getName()%>')">
+                                    <img src="/ksr/themes/klean/images/control_first_FFFFFF.png" alt="Refresh">
+                                </div>
+                                <div class="controlButton noSelect" title="Previous" style="float:left;" onclick="PAGE.goToSubmissionListPreviousPage('<%=group.getName()%>', '<%=list.getName()%>')">
+                                    <img src="/ksr/themes/klean/images/control_previous_FFFFFF.png" alt="Refresh">
+                                </div>
+                                <div class="auxiliaryTitleColor" style="float:left;margin: 0 0.5em;line-height: 26px;">
+                                    <div class="pageReport">Loading...</div>
+                                </div>
+                                <div class="controlButton noSelect" title="Next" style="float:left;margin-right:2px;" onclick="PAGE.goToSubmissionListNextPage('<%=group.getName()%>', '<%=list.getName()%>')">
+                                    <img src="/ksr/themes/klean/images/control_next_FFFFFF.png" alt="Refresh">
+                                </div>
+                                <div class="controlButton noSelect" title="Last" style="float:left;" onclick="PAGE.goToSubmissionListLastPage('<%=group.getName()%>', '<%=list.getName()%>')">
+                                    <img src="/ksr/themes/klean/images/control_last_FFFFFF.png" alt="Refresh">
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+
+                            <div style="float:left;text-align:center;width:10%;margin-bottom:10px;">
+                                <img class="processingSpinner" src="/ksr/themes/klean/images/spinner_00427E_FFFFFF.gif">
+                            </div>
+
+                            <div class="" style="float:left;width:45%;margin-bottom:10px;">
+                                <div class="controlButton noSelect" title="Refresh" style="float:right;margin-left: 15px;" onclick="PAGE.refreshSubmissionList('<%=group.getName()%>', '<%=list.getName()%>')">
+                                    <img src="/ksr/themes/klean/images/refresh16x16_FFFFFF.png" alt="Refresh">
+                                </div>
+                                <div style="float:right; padding-left: 1em;">
+                                    <div class="auxiliaryTitleColor" style="float:left;line-height:26px;margin-right: 0.5em;">
+                                        Go to Page
+                                    </div>
+                                    <div style="float:left;margin-right: 0.5em;">
+                                        <input class="pageNumberInput" type="text" style="width: 2.5em;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;height: 26px;" onclick="this.select();">
+                                    </div>
+                                    <div class="controlButton noSelect" title="Go to Page" style="float:left;font-size: 16px;font-weight:bold;color:white;" onclick="PAGE.goToSubmissionListPageNumber('<%=group.getName()%>', '<%=list.getName()%>')">
+                                        <img src="/ksr/themes/klean/images/control_go_FFFFFF.png" alt="Refresh">
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+
+                            <div class="clear"></div>
                         </div>
+
                         <div class="dataTable"></div>
-                        <div class="paginator submissionPaginator"></div>
                     </div>
                     <% } %>
                 </div>

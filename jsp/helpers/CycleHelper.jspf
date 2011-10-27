@@ -1,8 +1,11 @@
 <%!
     public static class CycleHelper {
         private static int SKIP_FIRST_CYCLE = 1;
+        private static int ONLY_FIRST_CYCLE = 2;
 
         private String[] cycles = null;
+        private int options = 0;
+        private int cycle = 0;
         private int index = 0;
 
         public CycleHelper(String value, int options) {
@@ -11,7 +14,7 @@
 
         public CycleHelper(String[] cycles, int options) {
             this.cycles = cycles;
-            this.index = -1;
+            this.options = options;
         }
 
         public CycleHelper(String[] cycles) {
@@ -20,10 +23,15 @@
 
         public String cycle() {
             String result = "";
-            if (index >= 0) {
+            if (options == SKIP_FIRST_CYCLE && cycle == 0) {
+                // SKIP
+            } else if (options == ONLY_FIRST_CYCLE && cycle > 0) {
+                // SKIP
+            } else {
                 result = cycles[index];
+                index = (index+1) % cycles.length;
             }
-            index = (index+1) % cycles.length;
+            cycle = cycle+1;
             return result;
         }
 

@@ -1,0 +1,22 @@
+<%--
+    TODO: Document
+--%>
+
+<!-- BEGIN {themeRoot}/jsp/pages/portal/partials/quickLinks.jsp -->
+<div id="quickLinks" class="contentSection auxiliaryTitleColor">
+    <hr>
+    <h2>Quick Links</h2>
+    <div>
+        <ul>
+            <li>
+                <div class="name">Kinetic Data Homepage</div>
+                <div class="link"><a href="http://www.kineticdata.com" class="primaryColor">http://www.kineticdata.com</a></div>
+            </li>
+            <li>
+                <div class="name">Kinetic Community Homepage</div>
+                <div class="link"><a href="http://community.kineticdata.com" class="primaryColor">http://community.kineticdata.com</a></div>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- END {themeRoot}/jsp/pages/portal/partials/quickLinks.jsp -->

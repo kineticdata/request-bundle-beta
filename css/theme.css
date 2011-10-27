@@ -55,6 +55,10 @@ ul.horizontalNavigation li {
     background: #FFF url('../images/4x1000Fade-e6e6e6-ffffff.jpg') 0 0 repeat-x;
 }
 
+.shadowBox {
+    width: 100%;
+}
+
 .shadowBox td.topLeft {
     background-image: url('../images/shadows/shadow_corner_tl.png');
     background-repeat: no-repeat;
