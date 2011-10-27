@@ -1,0 +1,41 @@
+<%!
+    public static class TaskMessage {
+        public static final String FORM_NAME = "KS_TSK_Instance_Messages";
+        public static final String FIELD_ACTION = "700000301";
+        public static final String FIELD_CREATE_DATE = "3";
+        public static final String FIELD_ID = "179";
+        public static final String FIELD_MESSAGE = "700066400";
+        public static final String FIELD_TASK_ID = "700000300";
+        public static final String FIELD_TYPE = "700000302";
+        public static final String[] FIELD_IDS = new String[] {
+            FIELD_CREATE_DATE, FIELD_ID, FIELD_TASK_ID, FIELD_MESSAGE};
+
+        public static TaskMessage[] findByTaskId(HelperContext context, String taskId) {
+            TaskMessage[] results = new TaskMessage[0];
+
+            String qualification = 
+                "'"+FIELD_TASK_ID+"' = \""+taskId+"\" AND "+
+                "'"+FIELD_TYPE+"' = \"Node\"";
+
+            SimpleEntry[] entries = ArsBase.find(context, FORM_NAME, qualification, FIELD_IDS, new String[] {FIELD_CREATE_DATE}, 0, 0, 1);
+            if (entries != null && entries.length > 0) {
+                results = new TaskMessage[entries.length];
+                for(int i=0;i<results.length;i++) {
+                    results[i] = new TaskMessage(entries[i]);
+                }
+            }
+
+            return results;
+        }
+
+        private SimpleEntry entry;
+        public TaskMessage(SimpleEntry entry) {
+            this.entry = entry;
+        }
+
+        public String getDate() {return entry.getEntryFieldValue(FIELD_CREATE_DATE);}
+        public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
+        public String getTaskId() {return entry.getEntryFieldValue(FIELD_TASK_ID);}
+        public String getMessage() {return entry.getEntryFieldValue(FIELD_MESSAGE);}
+    }
+%>

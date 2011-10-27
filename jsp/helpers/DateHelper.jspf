@@ -1,5 +1,29 @@
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.util.Locale"%>
 <%!
     public static class DateHelper {
+        public static final String DATE_FORMAT_SIMPLE = "MM/dd/yyyy HH:mm:ss";
+
+        public static final String[] MONTH_ABBREVIATIONS = new String[] {
+            "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"
+        };
+
+        public static String formatDate(String dateString, Locale locale) {
+            String result = null;
+            try {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT_SIMPLE);
+                Date date = simpleDateFormat.parse(dateString);
+                DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, locale);
+                result = dateFormat.format(date);
+            } catch (Exception e) {
+                throw new RuntimeException("Unable to format date: "+dateString, e);
+            }
+            return result;
+        }
+
         public static String getCurrentYear() {
             java.util.Calendar calendar = java.util.Calendar.getInstance();
             int year = calendar.get(java.util.Calendar.YEAR);

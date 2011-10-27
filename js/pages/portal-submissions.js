@@ -52,17 +52,19 @@ PAGE.hideSubmissionListSpinner = function(groupName, listName) {
     THEME.removeClass(contentElement, 'processing');
 }
 
-PAGE.showSubmissionSummary = function(groupName, listName, requestId) {
+PAGE.showSubmissionSummary = function(groupName, listName, oData) {
     // Retrieve the content element
     var contentElement = PAGE.submissionGroups[groupName].lists[listName].contentElement;
 
     // Display the activity spinner
     THEME.addClass(contentElement, 'processing');
 
+    console.log("/jsp/pages/portal/callbacks/submissionSummary.html.jsp?csrv="+oData.id+"&id="+oData.requestId);
+
     // Make the ajax request
     THEME.replace(
         'portalRightColumnDynamicContentResultsDisplay',
-        "/jsp/pages/portal/callbacks/submissionSummary.html.jsp?csrv="+requestId,
+        "/jsp/pages/portal/callbacks/submissionSummary.html.jsp?csrv="+oData.id+"&id="+oData.requestId,
         {
             callback: function() {
                 THEME.hide('portalRightColumnDefaultContent');
@@ -370,10 +372,6 @@ PAGE.initializeListData = function(groupName, listName) {
 
     var showSpinner = function() {
         PAGE.showSubmissionListSpinner(groupName, listName);
-        return true;
-    }
-    var hideSpinner = function() {
-        PAGE.hideSubmissionListSpinner(groupName, listName);
         return true;
     }
 

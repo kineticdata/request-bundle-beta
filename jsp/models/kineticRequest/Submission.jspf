@@ -4,6 +4,7 @@
         public static final String FIELD_CATALOG_NAME = "600000500";
         public static final String FIELD_CREATE_DATE = "3";
         public static final String FIELD_ID = "179";
+        public static final String FIELD_NOTES = "600003021";
         public static final String FIELD_REQUEST_ID = "536870913";
         public static final String FIELD_SUBMIT_TYPE = "700088475";
         public static final String FIELD_SUBMITTER = "2";
@@ -24,8 +25,11 @@
 
         public static final String[] FIELD_IDS = new String[] {
             FIELD_CATALOG_NAME, FIELD_CREATE_DATE, FIELD_ID, FIELD_REQUEST_ID,
-            FIELD_SUBMIT_TYPE, FIELD_SUBMITTER, FIELD_TEMPLATE_ID, FIELD_TEMPLATE_NAME,
-            FIELD_STATUS, FIELD_REQUEST_STATUS, FIELD_VALIDATION_STATUS};
+            FIELD_NOTES, FIELD_SUBMIT_TYPE, FIELD_SUBMITTER, FIELD_TEMPLATE_ID,
+            FIELD_TEMPLATE_NAME, FIELD_STATUS, FIELD_REQUEST_STATUS, FIELD_VALIDATION_STATUS};
+
+        private Task[] tasks;
+        private Map<String,List<Task>> taskTreeExecutions;
 
         public static Submission[] find(HelperContext context, String qualification) {
             Submission[] results = new Submission[0];
@@ -55,6 +59,17 @@
             return results;
         }
 
+        public static Submission findByInstanceId(HelperContext context, String id) {
+            Submission result = null;
+
+            SimpleEntry entry = ArsBase.findByInstanceId(context, FORM_NAME, id, FIELD_IDS);
+            if (entry != null) {
+                result = new Submission(entry);
+            }
+
+            return result;
+        }
+
         public static Submission[] findRecentByCatalogName(HelperContext context, String catalogName, Integer number) {
             Submission[] results = new Submission[0];
 
@@ -73,6 +88,30 @@
             return results;
         }
 
+        public Task[] getTasks(HelperContext context) {
+            if (tasks == null) {
+                // Retrieve the associated tasks
+                tasks = Task.findBySource(context, "Kinetic Request", getId());
+            }
+            return tasks;
+        }
+
+        public Map<String,List<Task>> getTaskTreeExecutions(HelperContext context) {
+            if (taskTreeExecutions == null) {
+                taskTreeExecutions = new LinkedHashMap();
+                Task[] tasks = getTasks(context);
+                for (Task task : tasks) {
+                    List<Task> treeExecutions = taskTreeExecutions.get(task.getTreeName());
+                    if (treeExecutions == null) {
+                        treeExecutions = new ArrayList();
+                        taskTreeExecutions.put(task.getTreeName(), treeExecutions);
+                    }
+                    treeExecutions.add(task);
+                }
+            }
+            return taskTreeExecutions;
+        }
+
         private SimpleEntry entry = null;
 
         public Submission(SimpleEntry entry) {
@@ -82,6 +121,7 @@
         public String getCatalogName() {return entry.getEntryFieldValue(FIELD_CATALOG_NAME);}
         public String getCreateDate() {return entry.getEntryFieldValue(FIELD_CREATE_DATE);}
         public String getId() {return entry.getEntryFieldValue(FIELD_ID);}
+        public String getNotes() {return entry.getEntryFieldValue(FIELD_NOTES);}
         public String getRequestId() {return entry.getEntryFieldValue(FIELD_REQUEST_ID);}
         public String getSubmitType() {return entry.getEntryFieldValue(FIELD_SUBMIT_TYPE);}
         public String getTemplateId() {return entry.getEntryFieldValue(FIELD_TEMPLATE_ID);}
@@ -89,9 +129,5 @@
         public String getStatus() {return entry.getEntryFieldValue(FIELD_STATUS);}
         public String getRequestStatus() {return entry.getEntryFieldValue(FIELD_REQUEST_STATUS);}
         public String getValiationStatus() {return entry.getEntryFieldValue(FIELD_VALIDATION_STATUS);}
-
-        public String getDisplayUrl() {
-            return "DisplayPage?csrv="+getId();
-        }
     }
 %>

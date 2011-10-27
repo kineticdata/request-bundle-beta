@@ -235,7 +235,7 @@ if (typeof THEME == "undefined") {
                         failure: THEME.buildHandleReplaceFailure(elementReference)
                     };
 
-                    path = THEME.config.rootPath+'/'+path;
+                    path = THEME.config.rootPath+path;
 
                     YAHOO.util.Connect.asyncRequest('GET', path, callback);
                 }

@@ -66,6 +66,14 @@
             return result;
         }
 
+        public static SimpleEntry findByRequestId(HelperContext context, String formName, String id, String[] fieldIds) {
+            return findSingle(context, formName, "'1'=\""+id+"\"", fieldIds);
+        }
+
+        public static SimpleEntry findByInstanceId(HelperContext context, String formName, String id, String[] fieldIds) {
+            return findSingle(context, formName, "'179'=\""+id+"\"", fieldIds);
+        }
+
         public static Integer count(HelperContext context, String formName, String qualification) {
             // Declare the result
             Integer result = new Integer(0);

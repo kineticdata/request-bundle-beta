@@ -23,7 +23,6 @@
         }
 
         public Submission[] getSubmissions(HelperContext context, String[] sortFields, Integer chunkSize, Integer recordOffset, Integer sortOrder) {
-            System.out.println(qualification);
             return Submission.find(context, qualification, sortFields, chunkSize, recordOffset, sortOrder);
         }
 

@@ -1,6 +1,91 @@
 html {overflow-y: scroll;}
 body {min-width: 900px;}
 
+.submissionDetails {
+    color: #555;
+}
+.submissionDetails .info.missing {
+    text-align: center;
+}
+
+.submissionDetails .info {
+}
+.submissionDetails .info .submissionInfo {
+    padding-left: 1em;
+}
+.submissionDetails .info .submissionInfo .id {
+    float: left;
+}
+.submissionDetails .info .submissionInfo .status {
+    float: right;
+}
+.submissionDetails .info .templateName {
+    font-weight:bold;
+}
+
+.submissionDetails .summary {
+    margin-top: 1em;
+}
+.submissionDetails .summary .label {
+    float:left;
+    font-weight: bold;
+    width:100px
+}
+.submissionDetails .summary .notes {
+    margin-top:0.5em;
+}
+.submissionDetails .summary .value {
+    float:left;
+}
+
+.submissionDetails .tasks {
+    margin-top: 1em;
+}
+.submissionDetails .tasks .separator {
+    padding-top: 0.5em;
+    margin: 0 1em 0.5em 1em;
+    border-bottom: 1px dotted #A1A1A1;
+}
+
+.submissionDetails .tasks .tree {
+    padding-top: 1.5em;
+}
+.submissionDetails .tasks .tree.first {
+    padding-top: 0;
+}
+.submissionDetails .tasks .tree .name {
+    font-weight: bold;
+    border-top: 4px solid #A1A1A1;
+    border-bottom: 1px dotted #A1A1A1;
+    margin-bottom: 0.5em;
+    padding: 2px 0;
+}
+
+.submissionDetails .tasks .task {
+}
+
+.submissionDetails .tasks .task .name {
+    font-weight:bold;
+}
+.submissionDetails .tasks .task .status {
+    float:left;
+}
+.submissionDetails .tasks .task .date {
+    float:right;
+}
+.submissionDetails .tasks .task .messages {
+    clear: both;
+    font-style: italic;
+    margin-top: 0.1em;
+    padding-left: 2em;
+    list-style-type: square;
+}
+
+.submissionDetails .title .control {
+    cursor:pointer;
+    float:right;
+}
+
 .submissionList .processingSpinner {
     display: none;
 }
@@ -215,7 +300,7 @@ body {min-width: 900px;}
     color: #A1A1A1;
 }
 
-#portalRightColumn ul {
+#portalRightColumnDefaultContent ul {
     list-style: none;
 }
 

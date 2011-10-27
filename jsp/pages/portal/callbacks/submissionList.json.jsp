@@ -54,8 +54,6 @@
         Integer startIndexInteger = Integer.valueOf(startIndex);
 
         SubmissionList submissionList = submissionManager.getSubmissionList(groupName, listName);
-        System.out.println(groupName+" "+listName);
-        System.out.println(submissionList);
 
         Submission[] submissions = submissionList.getSubmissions(context, sortFields, pageSizeInteger, startIndexInteger, sortOrder);
     %>

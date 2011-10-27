@@ -10,72 +10,104 @@
 --%>
 <%@include file="../../../includes/themeInitialization.jspf"%>
 
-<div class="title">
-    Submission Details
-    <a href="javascript:void(0)" onclick="THEME.toggle(['portalRightColumnDefaultContent', 'portalRightColumnDynamicContent'])">
-        <img src="<%=ThemeConfig.get("root")%>/images/close12x12-FFFFFF.png" alt="Close" style="cursor:pointer;float:right;"/>
-    </a>
-    <div class="clear"></div>
-</div>
-<div style="color: #555;">
-    <!-- Submission Reference -->
-    <div style="">
-        <div style="font-weight:bold;">Employee Onboarding</div>
-        <div style="padding-left: 1em;">
-            <a class="primaryColor" href="#" style="float: left;">KSR000000005556</a>
-            <div class="auxiliaryColor submissionStatus" style="float: right;">Completed</div>
-            <div class="clear"></div>
-        </div>
-        <div class="clear"></div>
-    </div>
+<%
+    if (context == null) {
+        UnauthorizedHelper.sendUnauthorizedResponse(response);
+    } else {
+        String id = request.getParameter("id");
+        String csrv = request.getParameter("csrv");
+        Submission submission = Submission.findByInstanceId(context, csrv);
 
-    <!-- Submission Summary -->
-    <div class="subtitle" style="margin-top:1em;">Summary</div>
-    <div class="primaryBorderColor">
-        <div>
-            <div style="float:left; font-weight: bold;width:100px">Requested At</div>
-            <div style="float:left;">Oct 18, 2011 9:50:45 AM</div>
+        if (submission == null) {
+%>
+    <div class="submissionDetails">
+        <!-- Submission Title -->
+        <div class="title">
+            Submission Details
+            <a href="javascript:void(0)" onclick="THEME.toggle(['portalRightColumnDefaultContent', 'portalRightColumnDynamicContent'])">
+                <img class="control" src="<%=ThemeConfig.get("root")%>/images/close12x12-FFFFFF.png" alt="Close"/>
+            </a>
             <div class="clear"></div>
         </div>
-        <div>
-            <div style="float:left; font-weight: bold;width:100px">Status</div>
-            <div style="float:left;">In progress for Joe Blow</div>
-            <div class="clear"></div>
-        </div>
-        <div style="margin-top:0.5em;">
-            The service center is presently observing Christmas holiday. Please allow an extra 2-3 days for processing due to backlog.
-        </div>
-        <div class="clear"></div>
-    </div>
 
-    <!-- Task List -->
-    <div class="subtitle" style="margin-top:1em;">Tasks</div>
-    <div class="task">
-        <div style="font-weight:bold;">Register New Employee</div>
-        <div style="float:left;">Status</div>
-        <div style="float:right;">Modified Date</div>
-        <div class="clear"></div>
-        <ul class="messages" style="font-style: italic;margin-top:0.1em;padding-left:2em;list-style-type: square;">
-            <li>Assigned to Mark Zeffer</li>
-            <li>Re-assigned to Shayne Zeffer</li>
-            <li>Approved by Shayne Zeffer</li>
-        </ul>
+        <div class="info missing">
+            Unable to locate the record <%=id%>.
+        </div>
     </div>
-    <div style="padding-top: 0.5em;margin-bottom:0.5em;border-bottom: 1px dotted #A1A1A1;"></div>
-    <div class="task">
-        <div style="font-weight:bold;">Procure Laptop</div>
-        <div style="float:left;">Status</div>
-        <div style="float:right;">Modified Date</div>
-        <div class="clear"></div>
+    <%
+        } else {
+    %>
+    <div class="submissionDetails">
+        <!-- Submission Title -->
+        <div class="title">
+            Submission Details
+            <a href="javascript:void(0)" onclick="THEME.toggle(['portalRightColumnDefaultContent', 'portalRightColumnDynamicContent'])">
+                <img class="control" src="<%=ThemeConfig.get("root")%>/images/close12x12-FFFFFF.png" alt="Close"/>
+            </a>
+            <div class="clear"></div>
+        </div>
+
+        <!-- Submission Reference -->
+        <div class="info">
+            <div class="templateName"><%= submission.getTemplateName() %></div>
+            <div class="submissionInfo">
+                <div class="id">
+                    <a class="primaryColor" href="<%= bundle.detailsUrl(submission.getId()) %>">
+                        <%= submission.getRequestId() %>
+                    </a>
+                </div>
+                <div class="auxiliaryColor status">
+                    <%= submission.getStatus() %>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <!-- Submission Summary -->
+        <div class="summary">
+            <div class="subtitle">Summary</div>
+            <div>
+                <div class="label">Requested At</div>
+                <div class="value"><%= DateHelper.formatDate(submission.getCreateDate(), request.getLocale()) %></div>
+                <div class="clear"></div>
+            </div>
+            <div>
+                <div class="label">Status</div>
+                <div class="value"><%= submission.getValiationStatus() %></div>
+                <div class="clear"></div>
+            </div>
+            <div class="notes"><%= submission.getNotes() %></div>
+            <div class="clear"></div>
+        </div>
+
+        <!-- Task List -->
+        <div class="tasks">
+            <div class="subtitle">Tasks</div>
+            <% CycleHelper cycle = new CycleHelper("first", CycleHelper.ONLY_FIRST_CYCLE); %>
+            <% for(String treeName : submission.getTaskTreeExecutions(context).keySet()) { %>
+                <div class="tree <%= cycle.cycle() %>">
+                    <div class="name"><%= treeName %></div>
+                </div>
+
+                <% CycleHelper separator = new CycleHelper("<div class=\"separator\"></div>", CycleHelper.SKIP_FIRST_CYCLE); %>
+                <% for(Task task : submission.getTaskTreeExecutions(context).get(treeName)) { %>
+                <div class="task">
+                    <%= separator.cycle() %>
+                    <div class="name"><%= task.getName() %></div>
+                    <div class="status"><%= task.getStatus() %></div>
+                    <div class="date"><%= DateHelper.formatDate(task.getCreateDate(), request.getLocale()) %></div>
+                    <ul class="messages">
+                        <% for(TaskMessage message : task.getMessages(context)) { %>
+                        <li><%= message.getMessage() %></li>
+                        <% } %>
+                    </ul>
+                </div>
+                <% } %>
+            <% } %>
+        </div>
     </div>
-    <div style="padding-top: 0.5em;margin-bottom:0.5em;border-bottom: 1px dotted #A1A1A1;"></div>
-    <div class="task">
-        <div style="font-weight:bold;">Register Active Directory Account</div>
-        <div style="float:left;">Status</div>
-        <div style="float:right;">Modified Date</div>
-        <div class="clear"></div>
-        <ul class="messages" style="font-style: italic;margin-top:0.1em;padding-left:2em;list-style-type: square;">
-            <li>Account name fubar.</li>
-        </ul>
-    </div>
-</div>
+    <%
+        }
+    %>
+<% } %>

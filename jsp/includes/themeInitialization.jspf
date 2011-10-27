@@ -16,6 +16,8 @@
 --%>
 <%@include file="../../config/config.jsp" %>
 
+<%@include file="Bundle.jspf" %>
+
 <%-- Include the beans that will be referenced by this page. --%>
 <jsp:useBean id="customerSurvey" scope="request" class="com.kd.kineticSurvey.beans.CustomerSurvey"/>
 <jsp:useBean id="UserContext" scope="session" class="com.kd.kineticSurvey.beans.UserContext"/>
@@ -26,19 +28,9 @@
     session attributes.
 --%>
 <%
-    /**
-     * Define the root attribute.
-     *
-     * Note that the path string does not end with a '/'.  Paths that
-     * concatenate values with this attribute should ensure the appended path
-     * starts with a '/'.
-     *
-     * Example (assuming a default installation):
-     *   /kinetic/themes/THEME_NAME
-     * Example (assuming Kinetic SR was installed to an alternate location):
-     *   /services/portfolio/themes/THEME_NAME
-     */
-    ThemeConfig.put("root", PathHelper.getThemeRoot(request));
+    Bundle bundle = new Bundle(request);
+
+    ThemeConfig.put("root", bundle.root());
 
     /** Set the name of the catalog that this page is using. */
     ThemeConfig.put("catalogName", customerSurvey.getCategory());
@@ -62,7 +54,6 @@
 --%>
 <%@include file="../helpers/CycleHelper.jspf" %>
 <%@include file="../helpers/DateHelper.jspf" %>
-<%@include file="../helpers/PathHelper.jspf" %>
 <%@include file="../helpers/ThemeHelper.jspf" %>
 <%@include file="../helpers/UnauthorizedHelper.jspf" %>
 

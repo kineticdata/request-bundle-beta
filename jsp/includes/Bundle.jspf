@@ -1,0 +1,84 @@
+<%!
+    public static class Bundle {
+        private static final String BUNDLE_DIR = "themes";
+
+        private String appRoot;
+        private String appPath;
+        private String root;
+
+        public Bundle(HttpServletRequest request) {
+            String requestUri = request.getRequestURI();
+            int endOfRootPath = requestUri.indexOf("/"+BUNDLE_DIR);
+            int startOfThemeName = requestUri.indexOf("/"+BUNDLE_DIR+"/")+("/"+BUNDLE_DIR+"/").length();
+            int endOfThemeName = requestUri.indexOf("/", startOfThemeName);
+
+            this.appRoot = requestUri.substring(0, endOfRootPath);
+            this.root = requestUri.substring(0, endOfThemeName);
+            this.appPath = requestUri.substring(endOfRootPath, endOfThemeName);
+        }
+
+        /**
+         * Returns the path to the root of the application.
+         *
+         * Note that the path string does not end with a '/'.  Paths that
+         * concatenate values with this value should ensure the appended path
+         * starts with a '/'.
+         *
+         * Example (assuming a default installation):
+         *   /kinetic
+         * Example (assuming Kinetic SR was installed to an alternate location):
+         *   /services/portfolio
+         */
+        public String appRoot() {
+            return appRoot;
+        }
+
+        public String appPath() {
+            return appPath;
+        }
+
+        /**
+         * Returns the path to the root of the bundle.
+         *
+         * Note that the path string does not end with a '/'.  Paths that
+         * concatenate values with this value should ensure the appended path
+         * starts with a '/'.
+         *
+         * Example (assuming a default installation):
+         *   /kinetic/themes/THEME_NAME
+         * Example (assuming Kinetic SR was installed to an alternate location):
+         *   /services/portfolio/themes/THEME_NAME
+         */
+        public String root() {
+            return root;
+        }
+
+        public String detailsUrl(String csrv) {
+            return appRoot+"/ReviewRequest?csrv="+csrv+"&reviewPage="+appPath+"/jsp/pages/details";
+        }
+
+        public String formUrl(String id) {
+            return appRoot+"/DisplayPage?srv="+id;
+        }
+
+        public String formNameUrl(String name) {
+            return appRoot+"/DisplayPage?name="+name;
+        }
+
+        public String loginUrl() {
+            return "";
+        }
+
+        public String portalUrl() {
+            return "";
+        }
+
+        public String reviewUrl(String csrv) {
+            return appRoot+"/ReviewRequest?csrv="+csrv+"&reviewPage="+appPath+"/jsp/pages/review";
+        }
+
+        public String submissionUrl(String csrv) {
+            return appRoot+"/DisplayPage?csrv="+csrv;
+        }
+    }
+%>
