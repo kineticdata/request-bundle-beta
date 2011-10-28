@@ -180,7 +180,7 @@
 
         <!-- Render the template contents and request information. -->
         <div id="request">
-            <jsp:include page="../includes/application/templateContent.jsp"/>
+            <jsp:include page="../includes/application/formContent.jsp"/>
         </div>
     </body>
 </html>

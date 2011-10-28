@@ -2,6 +2,11 @@
     public static class Bundle {
         private static final String BUNDLE_DIR = "themes";
 
+        // TODO: Refactor
+        //  * Context should be the fully qualified path to the application: /kinetic
+        //  * Path should be the fully qualified path: /kinetic/themes/klean
+        //  * RelativePath should be the context path relative to root
+
         private String appRoot;
         private String appPath;
         private String root;
@@ -16,6 +21,10 @@
             this.root = requestUri.substring(0, endOfThemeName);
             this.appPath = requestUri.substring(endOfRootPath, endOfThemeName);
         }
+
+        public String context() { return appRoot; }
+        public String path() { return root; }
+        public String relativePath() { return appPath; }
 
         /**
          * Returns the path to the root of the application.

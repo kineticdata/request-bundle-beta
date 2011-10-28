@@ -57,8 +57,8 @@ multiple subdirectories used to organize the theme.
     Kinetic Request to function properly.  The "headerContent.jsp" should be
     included in the HTML head element of all JSP pages that are used to render
     Kinetic Request forms.    This file includes the Javascript and CSS files
-    used by the Kinetic Request application.  The "templateContent.jsp" should
-    be included somewhere in the HTML body element of all JSP pages.  This file
+    used by the Kinetic Request application.  The "formContent.jsp" should be
+    included somewhere in the HTML body element of all JSP pages.  This file
     renders the actual Form question content that is defined in the Kinetic
     Request Catalog Console.
 

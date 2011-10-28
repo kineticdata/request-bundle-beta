@@ -1,3 +1,7 @@
+.submitButton {
+    float: right;
+}
+
 #display {
     margin: 15px auto;
     width: 750px;
@@ -75,8 +79,14 @@
 
 #display .displayFooter {
     border-top: 1px solid #3B6E9C;
-    margin-top: 50px;
+    margin-top: 25px;
     padding-top: 10px;
+}
+
+#display .displayHeader {
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #EE8114;
 }
 
 #display .displayHeader .headerLinks {

@@ -36,7 +36,7 @@
 
 
         <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/theme.css" type="text/css">
-        <link rel="stylesheet" href="<%=ThemeConfig.get("root") + "/config/config.css"%>" type="text/css">
+        <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/config/config.css" type="text/css">
         <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/pages/display.css" type="text/css">
 
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
@@ -73,7 +73,7 @@
                 <%@include file="../shared/header.jspf"%>
             </div>
             <div class="displayContent">
-                <jsp:include page="../includes/application/templateContent.jsp"/>
+                <jsp:include page="../includes/application/formContent.jsp"/>
             </div>
             <div class="displayFooter">
                 <%@include file="../shared/footer.jspf"%>

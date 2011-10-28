@@ -165,7 +165,8 @@ body {min-width: 900px;}
     margin-left: 0.5em;
 }
 
-#portalRightColumn .title {
+#portalRightColumn .title,
+#details .title {
     background: #88A7C3 url('../../images/background_blue_3B6E9C_88A7C3.png') repeat-x;
     color: white;
     font-size: 1.4em;
@@ -174,7 +175,8 @@ body {min-width: 900px;}
     padding: 4px;
     text-align: center;
 }
-#portalRightColumn .subtitle {
+#portalRightColumn .subtitle,
+#details .subtitle {
     background: #C6C6C6 url('../../images/background_grey_A1A1A1_C6C6C6.png') repeat-x;
     color: white;
     font-size: 1.1em;

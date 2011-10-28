@@ -12,7 +12,7 @@
 
 <html>
     <head>
-<%-- Document the HTTP Content-Type header value within the HTML. --%>
+        <%-- Document the HTTP Content-Type header value within the HTML. --%>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <%-- Specify that modern IE versions should render the page with their
              own rendering engine (as opposed to falling back to compatibility
@@ -32,10 +32,8 @@
 
 
         <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/theme.css" type="text/css">
-        <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/pages/portal.css" type="text/css">
-        <link rel="stylesheet" type="text/css" href="<%=ThemeConfig.get("root") + "/config/config.css"%>" >
-
-        <link rel="stylesheet" type="text/css" href="<%=ThemeConfig.get("root") + "/js/pages/portal.js"%>">
+        <link rel="stylesheet" href="<%= ThemeConfig.get("root") + "/config/config.css"%>" type="text/css">
+        <link rel="stylesheet" href="<%= ThemeConfig.get("root")%>/css/pages/display.css" type="text/css">
 
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/dom/dom-min.js"></script>
@@ -64,11 +62,11 @@
             THEME.config.catalogName = '<%=ThemeConfig.get("catalogName")%>';
         </script>
     </head>
-    <body class="yui-skin-sam">
-        <div id="contentPageSection" class="contentPageSection ">
-            <%@include file="../shared/header.jspf" %>
-            <jsp:include page="../includes/application/templateContent.jsp"/>
-            <%@include file="../shared/footer.jspf" %>
+    <body class="yui-skin-sam reviewRequest">
+        <div id="display">
+            <div class="displayContent">
+                <jsp:include page="../includes/application/formContent.jsp"/>
+            </div>
         </div>
     </body>
 </html>
