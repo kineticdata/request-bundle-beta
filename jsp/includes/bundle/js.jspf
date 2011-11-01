@@ -1,0 +1,9 @@
+<!-- Include the Theme javascript file. -->
+<script src="<%= bundle.path() %>/js/theme.js" type="text/javascript"></script>
+<!-- Configure the Theme javascript. -->
+<script type="text/javascript">
+    // Configure the rootPath of the THEME's configuration.  This value
+    // is used to reference callbacks for methods such as THEME.replace.
+    THEME.config.rootPath = '<%= bundle.path() %>';
+    THEME.config.catalogName = '<%= ThemeConfig.get("catalogName") %>';
+</script>
