@@ -43,9 +43,9 @@
 
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/dom/dom-min.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/utilities/utilities.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/container/container-min.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/button/button-min.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/utilities/utilities.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/container/container-min.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/button/button-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/event/event.js" ></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/element/element.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/tabview/tabview-min.js"></script>

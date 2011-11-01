@@ -55,20 +55,20 @@
                 values.
         --%>
 
-        <link rel="stylesheet" type="text/css" href="/ksr/resources/js/yui/build/calendar/assets/calendar.css">
-        <link rel="stylesheet" type="text/css" href="/ksr/resources/js/yui/build/container/assets/container.css">
-        <link rel="stylesheet" type="text/css" href="/ksr/resources/js/yui/build/container/assets/skins/sam/container.css">
+        <link rel="stylesheet" type="text/css" href="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/calendar/assets/calendar.css">
+        <link rel="stylesheet" type="text/css" href="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/container/assets/container.css">
+        <link rel="stylesheet" type="text/css" href="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/container/assets/skins/sam/container.css">
 
 
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/utilities/utilities.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/container/container-min.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/button/button-min.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/event-simulate/event-simulate-min.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/datasource/datasource-min.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/datatable/datatable-min.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/paginator/paginator-min.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/json/json-min.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/calendar/calendar-min.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/utilities/utilities.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/container/container-min.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/button/button-min.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/event-simulate/event-simulate-min.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/datasource/datasource-min.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/datatable/datatable-min.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/paginator/paginator-min.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/json/json-min.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/calendar/calendar-min.js"></script>
 
 
         <jsp:include page="../includes/application/headerContent.jsp"/>

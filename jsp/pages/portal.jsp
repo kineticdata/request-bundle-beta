@@ -48,9 +48,9 @@
 
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/yahoo/yahoo-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/dom/dom-min.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/utilities/utilities.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/container/container-min.js"></script>
-        <script type="text/javascript" src="/ksr/resources/js/yui/build/button/button-min.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/utilities/utilities.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/container/container-min.js"></script>
+        <script type="text/javascript" src="<%= ThemeConfig.get("root") %>/../../resources/js/yui/build/button/button-min.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/event/event.js" ></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/element/element.js"></script>
         <script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/tabview/tabview-min.js"></script>
@@ -191,30 +191,30 @@
                         <div class="listControls">
                             <div class="" style="float:left;width:45%;margin-bottom:10px;">
                                 <div class="controlButton noSelect" title="First" style="float:left;margin-right:2px;" onclick="PAGE.goToSubmissionListFirstPage('<%=group.getName()%>', '<%=list.getName()%>')">
-                                    <img src="/ksr/themes/klean/images/control_first_FFFFFF.png" alt="Refresh">
+                                    <img src="<%= ThemeConfig.get("root") %>/images/control_first_FFFFFF.png" alt="Refresh">
                                 </div>
                                 <div class="controlButton noSelect" title="Previous" style="float:left;" onclick="PAGE.goToSubmissionListPreviousPage('<%=group.getName()%>', '<%=list.getName()%>')">
-                                    <img src="/ksr/themes/klean/images/control_previous_FFFFFF.png" alt="Refresh">
+                                    <img src="<%= ThemeConfig.get("root") %>/images/control_previous_FFFFFF.png" alt="Refresh">
                                 </div>
                                 <div class="auxiliaryTitleColor" style="float:left;margin: 0 0.5em;line-height: 26px;">
                                     <div class="pageReport">Loading...</div>
                                 </div>
                                 <div class="controlButton noSelect" title="Next" style="float:left;margin-right:2px;" onclick="PAGE.goToSubmissionListNextPage('<%=group.getName()%>', '<%=list.getName()%>')">
-                                    <img src="/ksr/themes/klean/images/control_next_FFFFFF.png" alt="Refresh">
+                                    <img src="<%= ThemeConfig.get("root") %>/images/control_next_FFFFFF.png" alt="Refresh">
                                 </div>
                                 <div class="controlButton noSelect" title="Last" style="float:left;" onclick="PAGE.goToSubmissionListLastPage('<%=group.getName()%>', '<%=list.getName()%>')">
-                                    <img src="/ksr/themes/klean/images/control_last_FFFFFF.png" alt="Refresh">
+                                    <img src="<%= ThemeConfig.get("root") %>/images/control_last_FFFFFF.png" alt="Refresh">
                                 </div>
                                 <div class="clear"></div>
                             </div>
 
                             <div style="float:left;text-align:center;width:10%;margin-bottom:10px;">
-                                <img class="processingSpinner" src="/ksr/themes/klean/images/spinner_00427E_FFFFFF.gif">
+                                <img class="processingSpinner" src="<%= ThemeConfig.get("root") %>/images/spinner_00427E_FFFFFF.gif">
                             </div>
 
                             <div class="" style="float:left;width:45%;margin-bottom:10px;">
                                 <div class="controlButton noSelect" title="Refresh" style="float:right;margin-left: 15px;" onclick="PAGE.refreshSubmissionList('<%=group.getName()%>', '<%=list.getName()%>')">
-                                    <img src="/ksr/themes/klean/images/refresh16x16_FFFFFF.png" alt="Refresh">
+                                    <img src="<%= ThemeConfig.get("root") %>/images/refresh16x16_FFFFFF.png" alt="Refresh">
                                 </div>
                                 <div style="float:right; padding-left: 1em;">
                                     <div class="auxiliaryTitleColor" style="float:left;line-height:26px;margin-right: 0.5em;">
@@ -224,7 +224,7 @@
                                         <input class="pageNumberInput" type="text" style="width: 2.5em;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;height: 26px;" onclick="this.select();">
                                     </div>
                                     <div class="controlButton noSelect" title="Go to Page" style="float:left;font-size: 16px;font-weight:bold;color:white;" onclick="PAGE.goToSubmissionListPageNumber('<%=group.getName()%>', '<%=list.getName()%>')">
-                                        <img src="/ksr/themes/klean/images/control_go_FFFFFF.png" alt="Refresh">
+                                        <img src="<%= ThemeConfig.get("root") %>/images/control_go_FFFFFF.png" alt="Refresh">
                                     </div>
                                     <div class="clear"></div>
                                 </div>
